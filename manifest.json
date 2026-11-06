@@ -1,0 +1,9 @@
+{
+  "name": "RGCE SparkDesk",
+  "short_name": "SparkDesk",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#14181f",
+  "theme_color": "#1f4e79",
+  "icons": []
+}
