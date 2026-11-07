@@ -1946,7 +1946,7 @@
       <button type="button" data-l="bn">বাংলা</button>
       <button type="button" data-l="en">English</button>
     </div>
-    <a class="admin-link" id="adminPanelLink" href="#" target="_blank" rel="noopener" style="display:block;text-decoration:none">Admin Panel</a>
+    <a class="admin-link" id="adminPanelLink" href="#" style="display:block;text-decoration:none">Admin Panel</a>
   </footer>
 
   <div class="toast-container" id="toastContainer"></div>
@@ -3220,7 +3220,7 @@
               if (window.indexedDB && typeof indexedDB.databases === 'function') {
                 const dbs = await indexedDB.databases();
                 await Promise.all(dbs.map(d => {
-                  if (d.name && (d.name.includes('firestore') || d.name.includes('firebase'))) {
+                  if (d.name && d.name.includes('firestore')) {   /* only the customer-data cache; firebase auth/heartbeat DBs are shared with the Admin site and must not be deleted */
                     return new Promise(resolve => {
                       const req = indexedDB.deleteDatabase(d.name);
                       req.onsuccess = req.onerror = req.onblocked = () => resolve();
