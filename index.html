@@ -20,7 +20,7 @@
     }
     // 2) base path of the app, used for assets, QR links and the service worker
     window.__APP_BASE = !http ? '' : (gh ? APP_BASE_GH : '/');
-    window.__RGCE_BUILD = 'auto-base-2026-10-10-fastboot';
+    window.__RGCE_BUILD = 'admin-split-2026-11-07';
     try { console.info('[RGCE] build', window.__RGCE_BUILD, '| base =', window.__APP_BASE); } catch (e) {}
     var m = document.createElement('link');
     m.rel = 'manifest'; m.href = window.__APP_BASE + 'manifest.json';
@@ -1485,7 +1485,7 @@
     </div>
     <div class="dx-foot">
       <span>Type your number and press Enter.</span>
-      <button type="button" class="dx-cta" id="rhDxGo" data-dcu-act="view:customers" style="border:0;cursor:pointer;font:inherit;font-weight:800">Customer register <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <a class="dx-cta" id="rhDxGo" href="https://farhanshiyam.github.io/due-checker/" rel="noopener" style="cursor:pointer;font:inherit;font-weight:800">Due Checker <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </section>
   <div class="facts rv" style="--d:5">
@@ -1946,7 +1946,7 @@
       <button type="button" data-l="bn">বাংলা</button>
       <button type="button" data-l="en">English</button>
     </div>
-    <div class="admin-link" id="adminPanelLink">Admin Panel</div>
+    <a class="admin-link" id="adminPanelLink" href="#" target="_blank" rel="noopener" style="display:block;text-decoration:none">Admin Panel</a>
   </footer>
 
   <div class="toast-container" id="toastContainer"></div>
@@ -2067,7 +2067,8 @@
       clearNotes: "admin", clearAmounts: "admin", clearData: "danger",
       summaryAccess: "admin", deleteCustomer: "admin"
     };
-    const MASTER_PASSWORD = "master";
+    /* Address of the separate Admin site (same domain, different folder/repo). Change here only. */
+    const RGCE_ADMIN_URL = "https://farhanshiyam.github.io/rgce-admin/";
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_7U4RMPHBxJIDxayIjzSwDT5tIJbFRVW1Uzx8qmkbKTxEOfu39Mptw1c-FFqhrUkAPg/exec";
     const SPREADSHEET_ID = "1LA-AbQ24BmmTqOk9We4zTC_RdsgX4oZCct-_nu8b1j8";
     const SHEET_PREVIEW_URL = "https://docs.google.com/spreadsheets/d/1LA-AbQ24BmmTqOk9We4zTC_RdsgX4oZCct-_nu8b1j8/preview?rm=minimal&widget=true&headers=false&single=true";
@@ -2234,7 +2235,7 @@
         try {
           let exists = false;
           try { const _s = await window.FB.getDocFromServer(rgcePwRef()); const _d = _s.exists() ? (_s.data() || {}) : {}; exists = Object.keys(_d).some(function (k) { return _d[k] && typeof _d[k] === 'object' && _d[k].salt; }); } catch (e) { if (e && e.code === 'permission-denied') throw e; throw new Error('Internet required for first-time setup.'); }
-          if (exists) { show('Passwords are already set up. Use the Admin Panel to change them.'); btn.disabled = false; return; }
+          if (exists) { show('Passwords are already set up. Use the separate Admin site to change them.'); btn.disabled = false; return; }
           const data = { updatedAt: window.FB.serverTimestamp() };
           for (const [role, a] of pairs) data[role] = await rgceMakeEntry(v(a));
           await window.FB.setDoc(rgcePwRef(), data, { merge: true });
@@ -6471,7 +6472,7 @@
       renderTxnStats, renderTxnTable, printTransactionStatement,
       syncToGoogleSheets, pullFromGoogleSheets, sendTelegramBackup,
       updateTelegramStatus, openBackupRestoreModal, openTelegramSetup,
-      openClearBySourceModal, openAdminPanel, promptPassword,
+      openClearBySourceModal, promptPassword,
       getCurrentUser: () => currentUser,
       cloudPush, getCustomers: () => customers,
       setCustomers: (arr) => { customers = arr; },
@@ -6937,48 +6938,6 @@
       document.getElementById('fullscreenSheetBtn').addEventListener('click', () => { window.open(SHEET_EDIT_URL, '_blank', 'width=1200,height=800'); });
     }
 
-    function openAdminPanel() {
-      rgceSetModal('admin');
-      const user = currentUser;
-      const body = `
-        <div class="info-box" style="margin-bottom:14px;">
-          <strong>Logged in as:</strong> ${user ? user.email : 'Unknown'}<br>
-          <strong>UID:</strong> <code style="font-size:11px;">${user ? user.uid : '—'}</code><br>
-          <strong>Cloud sync:</strong> <span style="color:var(--success);font-weight:700;">Active (internet required)</span><br>
-          <strong>Offline sync protection:</strong> <span style="color:var(--success);font-weight:700;">Pending changes saved on this device until cloud sync is confirmed</span><br>
-          <strong>Session persistence:</strong> <span style="color:var(--success);font-weight:700;">Remembered until logout</span><br>
-          <strong>Logout cache purge:</strong> <span style="color:var(--success);font-weight:700;">Enabled</span><br>
-          <strong>App version:</strong> v1.10.6 (Live Reports)
-        </div>
-        <h3 style="font-size:14px;font-weight:700;margin-bottom:8px;">Change Password</h3>
-        <div class="form-group" style="margin-bottom:10px;"><label>Which password</label>
-          <select id="chgRole">
-            <option value="unlock">Access password (footer unlock – all features)</option>
-            <option value="danger">Clear ALL Data</option>
-          </select></div>
-        <div class="form-group" style="margin-bottom:10px;"><label>New password (min 6 characters)</label><input type="text" class="rgce-secret" id="chgPw" name="rgce_f_chg1" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other"></div>
-        <div class="form-group" style="margin-bottom:10px;"><label>Repeat new password</label><input type="text" class="rgce-secret" id="chgPw2" name="rgce_f_chg2" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other"></div>
-        <div class="password-error" id="chgErr"></div>
-        <button class="btn btn-primary" id="chgSaveBtn" style="margin-top:6px;">Save New Password</button>
-      `;
-      openModal('Admin Panel', body, '<button class="btn" id="closeAdminBtn">Close</button>');
-      document.getElementById('closeAdminBtn').addEventListener('click', closeModal);
-      document.getElementById('chgSaveBtn').addEventListener('click', async () => {
-        const err = document.getElementById('chgErr');
-        const show = (m, ok) => { err.textContent = m; err.style.color = ok ? 'var(--success)' : ''; err.classList.add('visible'); };
-        const pw = document.getElementById('chgPw').value, pw2 = document.getElementById('chgPw2').value;
-        if (pw.length < 6) { show('At least 6 characters.'); return; }
-        if (pw !== pw2) { show('Repeat password does not match.'); return; }
-        try {
-          const _role = document.getElementById('chgRole').value;
-          await rgceChangePassword(_role, pw);
-          if (_role === 'unlock' && rgceUnlocked) await rgceRememberUnlock();
-          document.getElementById('chgPw').value = ''; document.getElementById('chgPw2').value = '';
-          show('Password updated.', true);
-        } catch (e) { show('Failed: ' + (e.message || e)); }
-      });
-    }
-
     /* ===== Extra password for confidential Tools & Settings actions =====
        Asked EVERY time (never remembered), even when logged in with the master password and unlocked.
        Only a salted PBKDF2 hash is kept here, not the password itself. To protect more actions, add them to RGCE_TOOLS_LOCKED. */
@@ -7260,7 +7219,6 @@
         if (!p) { /* dashboard */ }
         else if (p === 'add-customer') showAddForm();
         else if (p === 'filter') { if (af) af.classList.add('visible'); }
-        else if (p === 'admin') promptPassword('Enter master password', MASTER_PASSWORD, openAdminPanel);
         else if (a === 'invoice' && seg[1] === 'edit' && seg[2]) { var ie = inv(seg[2]); if (ie) openInvoiceForm(ie); else ok = false; }
         else if (a === 'invoice' && seg.length === 2) { var ip = inv(seg[1]); if (ip) openInvoicePreviewModal(ip.id); else ok = false; }
         else if (a === 'delete-invoice' && seg[1]) { var idl = inv(seg[1]); if (idl) deleteInvoice(idl.id); else ok = false; }
@@ -7659,13 +7617,7 @@
       });
 
       const adminLink = document.getElementById('adminPanelLink');
-      if (adminLink) {
-        adminLink.addEventListener('click', () => {
-          if (!rgceRequireLogin()) return;
-          rgceSetModal('admin');
-          promptPassword('Enter master password', MASTER_PASSWORD, openAdminPanel);
-        });
-      }
+      if (adminLink) adminLink.setAttribute('href', RGCE_ADMIN_URL);
 
       setInterval(() => {
         const el = document.getElementById('liveTimeBadge');
@@ -9748,6 +9700,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     var A=window.__app; if(!A||!A.getCustomers||!A.getCustomers().length){ if(msgFn) msgFn(tt('dueNoData')); return 0; }
     var fs=await fsmod(), db=window.FB.db, groups=buildDueGroups(), phones=Object.keys(groups);
     var pr=await getFresh(window.FB.doc(db,'private_config',u)), prev=((pr&&pr.exists&&pr.exists()&&pr.data().dcuDueIds)||[]);
+    if(pr&&pr.exists&&pr.exists()&&pr.data().dcuDueOff===true) return 0;   // switched OFF from the Admin site
     var hashes=loadHashes(), nextHashes={}, ops=[], ids=[];
     for(var i=0;i<phones.length;i++){
       var id='p'+await sha('rgce-due-v1:'+phones[i]), x=groups[phones[i]], h='v2|'+Math.round(x.due)+'|'+x.names.join(',')+'|'+x.addrs.join(',')+'|'+x.n+'|'+JSON.stringify(x.list);
@@ -9771,7 +9724,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       all.slice(k,k+400).forEach(function(a){ var ref=window.FB.doc(db,'public_dues',a.t==='set'?a.o.id:a.id); if(a.t==='set') b.set(ref,a.o.data); else b.delete(ref); });
       await b.commit();
     }
-    await window.FB.setDoc(window.FB.doc(db,'private_config',u),{dcuDueIds:ids},{merge:true});
+    await window.FB.setDoc(window.FB.doc(db,'private_config',u),{dcuDueIds:ids,dcuDueAt:Date.now()},{merge:true});
     try{ localStorage.setItem(dueKey(),JSON.stringify(nextHashes)); }catch(e){}
     return ids.length;
   }
@@ -9940,81 +9893,8 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     }catch(e){ console.warn(e); toast(tt('dlFail'),'error'); }
   }
 
-  /* ================= Admin panel: "Publish notices" section ================= */
-  var editing='';
-  function admMsg(m,ok){ var e=$('#dcuNMsg'); if(e){ e.textContent=m||''; e.className=ok?'ok':''; } }
-  function renderAdminList(){
-    var box=$('#dcuNList'); if(!box) return;
-    if(!N.list.length){ box.innerHTML='<div class="dcu-an-row"><span>'+esc(tt('admNone'))+'</span></div>'; return; }
-    box.innerHTML=N.list.map(function(n){
-      return '<div class="dcu-an-row"><div class="t"><b>'+esc(n.title)+'<span class="dcu-an-chip '+(n.active?'on':'')+'">'+esc(n.active?tt('stPub'):tt('stHid'))+'</span></b><small>'+esc(fmtDate(n.date))+'</small></div>'
-        +'<div class="acts"><button type="button" class="btn btn-sm" data-an="toggle" data-nid="'+esc(n.id)+'">'+esc(n.active?tt('hide'):tt('show'))+'</button>'
-        +'<button type="button" class="btn btn-sm" data-an="edit" data-nid="'+esc(n.id)+'">'+esc(tt('edit'))+'</button>'
-        +'<button type="button" class="btn btn-sm" data-an="pdf" data-nid="'+esc(n.id)+'"><i class="fas fa-file-pdf" aria-hidden="true"></i></button>'
-        +'<button type="button" class="btn btn-sm btn-danger" data-an="del" data-nid="'+esc(n.id)+'">'+esc(tt('del'))+'</button></div></div>';
-    }).join('');
-  }
-  function resetForm(){ editing=''; var a=$('#dcuNTitle'),b=$('#dcuNBody'),d=$('#dcuNDate'),s=$('#dcuNSave'),c=$('#dcuNCancel'); if(a)a.value=''; if(b)b.value=''; if(d)d.value=today(); if(s)s.textContent=tt('admPub'); if(c)c.hidden=true; }
-  function injectAdmin(){
-    var body=$('#modalBody'); if(!body||!$('#chgSaveBtn',body)||$('#dcuAdmNotices',body)) return;
-    var sec=D.createElement('div'); sec.id='dcuAdmNotices'; sec.setAttribute('data-no-bn','');
-    sec.innerHTML='<h3>'+esc(tt('admH'))+'</h3>'
-      +'<label style="display:flex;gap:8px;align-items:flex-start;margin:0 0 12px;font-size:13.5px"><input type="checkbox" id="dcuTkOn" style="margin-top:3px"> <span>'+esc(tt('tkOn'))+'</span></label>'
-      +'<div class="form-group"><label for="dcuNTitle">'+esc(tt('admTitle'))+'</label><input type="text" id="dcuNTitle" maxlength="140" autocomplete="off"></div>'
-      +'<div class="form-group"><label for="dcuNBody">'+esc(tt('admBody'))+'</label><textarea id="dcuNBody" rows="4"></textarea></div>'
-      +'<div class="form-group"><label for="dcuNDate">'+esc(tt('admDate'))+'</label><input type="date" id="dcuNDate"></div>'
-      +'<button type="button" class="btn btn-primary" id="dcuNSave">'+esc(tt('admPub'))+'</button> <button type="button" class="btn" id="dcuNCancel" hidden>'+esc(tt('admCancel'))+'</button>'
-      +'<div id="dcuNMsg" role="status"></div><div id="dcuNList"></div>';
-    body.appendChild(sec); resetForm(); renderAdminList();
-    var sec2=D.createElement('div'); sec2.id='dcuAdmDue'; sec2.setAttribute('data-no-bn','');
-    sec2.innerHTML='<h3>'+esc(tt('dueAdmH'))+'</h3><p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">'+esc(tt('dueAdmNote'))+'</p>'
-      +'<div id="dcuDueMsg" role="status" style="min-height:20px;margin:8px 0;font-size:13px"></div>'
-      +'<details><summary style="cursor:pointer;font-size:13px">'+esc(tt('dueRules'))+'</summary><textarea readonly id="dcuRules" rows="12" style="width:100%;font:12px/1.4 monospace;margin-top:6px;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--input-bg);color:var(--text)"></textarea></details>';
-    body.appendChild(sec2); $('#dcuRules').value=RULES_TEXT;
-    var dm=function(m,ok){ var e=$('#dcuDueMsg'); if(e){ e.textContent=m||''; e.style.color=ok?'var(--success)':'var(--danger)'; } };
-    var dueStat=function(){
-      if(!$('#dcuDueMsg')) return;
-      var L=window.__dueLast;
-      if(!uid()){ dm(tt('admLogin')); return; }
-      if(!L){ dm('Auto-sync ON \u2014 starting\u2026',true); return; }
-      if(L.err==='rules'){ dm(tt('dueRulesFail')); return; }
-      if(L.err){ dm(tt('dueErr')); return; }
-      var d=new Date(L.t); dm('Auto-sync ON \u2014 last checked '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)+' \u00b7 '+L.n+' records live',true);
-    };
-    dueStat(); var dueSt=setInterval(function(){ if(!$('#dcuDueMsg')){ clearInterval(dueSt); return; } dueStat(); },2000);
-    try{ autoDue(); }catch(e){}
-    if(!uid()) admMsg(tt('admLogin'));
-    var tkb=$('#dcuTkOn'); tkb.checked=!!N.on;
-    tkb.addEventListener('change',async function(){
-      if(!uid()){ tkb.checked=!!N.on; admMsg(tt('admLogin')); return; }
-      N.on=tkb.checked; N.uid=uid();
-      try{ await saveNotices(); if(N.pubErr) admMsg(tt('pubNoRule')); else admMsg(tt('saved'),true); }
-      catch(e){ console.warn(e); admMsg(tt('saveFail')); }
-      renderTicker(true);
-    });
-    $('#dcuNSave').addEventListener('click',async function(){
-      var title=$('#dcuNTitle').value.trim(), text=$('#dcuNBody').value.trim(), date=$('#dcuNDate').value||today();
-      if(!uid()){ admMsg(tt('admLogin')); return; }
-      if(!title){ admMsg(tt('needTitle')); return; }
-      if(editing){ var n=N.list.filter(function(x){return x.id===editing;})[0]; if(n){ n.title=title; n.body=text; n.date=date; } }
-      else N.list.push({id:'n'+Date.now().toString(36),title:title,body:text,date:date,active:true});
-      sortN(); N.uid=uid();
-      try{ await saveNotices(); if(N.pubErr) admMsg(tt('pubNoRule')); else admMsg(tt('saved'),true); }
-      catch(e){ console.warn(e); admMsg(tt('saveFail')); }
-      resetForm(); renderAdminList(); renderTicker(true);
-    });
-    $('#dcuNCancel').addEventListener('click',function(){ resetForm(); admMsg(''); });
-    $('#dcuNList').addEventListener('click',async function(e){
-      var b=e.target.closest&&e.target.closest('[data-an]'); if(!b) return;
-      var id=b.getAttribute('data-nid'), act=b.getAttribute('data-an'), n=N.list.filter(function(x){return x.id===id;})[0]; if(!n) return;
-      if(act==='pdf'){ downloadNotice(id,'pdf'); return; }
-      if(act==='edit'){ editing=id; $('#dcuNTitle').value=n.title; $('#dcuNBody').value=n.body; $('#dcuNDate').value=n.date||today(); $('#dcuNSave').textContent=tt('admUpd'); $('#dcuNCancel').hidden=false; $('#dcuNTitle').focus(); return; }
-      if(act==='toggle') n.active=!n.active;
-      if(act==='del'){ if(!confirm(tt('confirmDel'))) return; N.list=N.list.filter(function(x){return x.id!==id;}); }
-      try{ await saveNotices(); if(N.pubErr) admMsg(tt('pubNoRule')); else admMsg(tt('saved'),true); }catch(err){ console.warn(err); admMsg(tt('saveFail')); }
-      renderAdminList(); renderTicker(true);
-    });
-  }
+  /* Notice publishing / due-status admin UI now lives in the separate Admin site. */
+  function renderAdminList(){}
 
   function onLang(){ applyText(); buildNav(); renderTicker(true); }
 
@@ -10061,7 +9941,6 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     var fd=$('#dcuFootDark'); if(fd) fd.addEventListener('click',function(){ var c=$('#darkModeToggle'); if(c) c.click(); });
     $$('.dcu-foot-toggles [data-l]').forEach(function(b){ b.addEventListener('click',function(){ if(window.rgceSetLang) window.rgceSetLang(b.getAttribute('data-l')); }); });
     new MutationObserver(function(){ setTimeout(onLang,40); }).observe(D.documentElement,{attributes:true,attributeFilter:['lang']});
-    var mbody=$('#modalBody'); if(mbody) new MutationObserver(injectAdmin).observe(mbody,{childList:true});
     if(window.FB) loadPublicNotices(); else window.addEventListener('firebase-ready',loadPublicNotices,{once:true});
     setInterval(loadPublicNotices,300000); setInterval(autoDue,20000); setTimeout(autoDue,6000);
     setInterval(function(){
