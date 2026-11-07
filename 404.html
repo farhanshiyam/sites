@@ -1992,13 +1992,12 @@
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyAqsPu8YK5xFHEoWTmZLzJl6z9NmchdrEg",
-      authDomain: "rgce-sparkdesk.firebaseapp.com",
-      projectId: "rgce-sparkdesk",
-      storageBucket: "rgce-sparkdesk.firebasestorage.app",
-      messagingSenderId: "514973995259",
-      appId: "1:514973995259:web:af37a75e2cca5898a7605e",
-      measurementId: "G-YC3Q6CB871"
+      apiKey: "AIzaSyCZOUCY2_19d6g5pnuVmEi1prfc-wBeN9w",
+      authDomain: "rgce-sparkdesk-2.firebaseapp.com",
+      projectId: "rgce-sparkdesk-2",
+      storageBucket: "rgce-sparkdesk-2.firebasestorage.app",
+      messagingSenderId: "1057222039031",
+      appId: "1:1057222039031:web:f82f411076a579b905caf2"
     };
 
     const fbApp = initializeApp(firebaseConfig);
@@ -8021,7 +8020,7 @@
 
     /* ---------- configuration ---------- */
     var CFG = {
-      projectId: 'rgce-sparkdesk',
+      projectId: 'rgce-sparkdesk-2',
       docLimit: 1048576,                                  // Firestore max document size (1 MiB)
       quota: { reads: 50000, writes: 20000, deletes: 20000 }, // Firebase free (Spark) daily quota
       kLog: 'rgce_fbm_log_v1', kPend: 'rgce_fbm_pending_v1', kOps: 'rgce_fbm_ops_v1',
@@ -10196,7 +10195,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   }
 
   /* ---- real due lookup (reads the public due record the main system publishes) ---- */
-  var FB_PROJECT='rgce-sparkdesk', FB_KEY='AIzaSyAqsPu8YK5xFHEoWTmZLzJl6z9NmchdrEg', SHOP_PHONE='+8801715986646';
+  var FB_PROJECT='rgce-sparkdesk-2', FB_KEY='AIzaSyCZOUCY2_19d6g5pnuVmEi1prfc-wBeN9w', SHOP_PHONE='+8801715986646';
   function normPhone(p){ var d=String(p||'').replace(/[\u09E6-\u09EF]/g,function(c){return String(c.charCodeAt(0)-0x09E6);}).replace(/\D/g,''); if(d.indexOf('00880')===0) d=d.slice(4); else if(d.indexOf('880')===0) d=d.slice(2); if(d.length===10&&d.charAt(0)==='1') d='0'+d; return /^01\d{9}$/.test(d)?d:''; }
   async function sha(t){ var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)); return Array.prototype.map.call(new Uint8Array(b),function(x){return ('0'+x.toString(16)).slice(-2);}).join(''); }
   function esc(t){ return String(t==null?'':t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
