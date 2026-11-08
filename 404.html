@@ -20,7 +20,7 @@
     }
     // 2) base path of the app, used for assets, QR links and the service worker
     window.__APP_BASE = !http ? '' : (gh ? APP_BASE_GH : '/');
-    window.__RGCE_BUILD = 'admin-split-2026-11-07';
+    window.__RGCE_BUILD = 'admin-split-2026-11-07-font';
     try { console.info('[RGCE] build', window.__RGCE_BUILD, '| base =', window.__APP_BASE); } catch (e) {}
     var m = document.createElement('link');
     m.rel = 'manifest'; m.href = window.__APP_BASE + 'manifest.json';
@@ -38,6 +38,14 @@
         face('noto-sans-bengali-latin-ext-wght-normal.woff2', 'U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF') +
         face('noto-sans-bengali-bengali-wght-normal.woff2', 'U+0951-0952,U+0964-0965,U+0980-09FE,U+200C-200D,U+20B9,U+25CC');
       document.head.appendChild(fs);
+      var pl0 = document.createElement('link');               // Latin letters and digits are used on every screen: download them first
+      pl0.rel = 'preload'; pl0.as = 'font'; pl0.type = 'font/woff2'; pl0.crossOrigin = 'anonymous';
+      pl0.href = fb + 'noto-sans-bengali-latin-wght-normal.woff2';
+      document.head.appendChild(pl0);
+      window.addEventListener('load', function () {           // warm the font up so canvas drawings (share letterpad, slips) never fall back to another font
+        var warm = function () { try { ['400', '600', '700'].forEach(function (w) { document.fonts.load(w + ' 16px NotoBnWeb', 'Aa0\u0985').catch(function () {}); }); } catch (e) {} };
+        (window.requestIdleCallback || function (f) { setTimeout(f, 800); })(warm);
+      });
       if (localStorage.getItem('rgce_lang') === 'bn') {      // Bangla was used last time: start downloading early
         var pl = document.createElement('link');
         pl.rel = 'preload'; pl.as = 'font'; pl.type = 'font/woff2'; pl.crossOrigin = 'anonymous';
@@ -173,7 +181,7 @@
     img, i, .fa, .fab, .fas { -webkit-user-drag: none; pointer-events: none; }
     html { -webkit-touch-callout: none; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      font-family: 'NotoBnWeb', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
                    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
       font-size: 15px; background: var(--bg); color: var(--text); line-height: 1.5;
       min-height: 100vh; display: flex; flex-direction: column;
@@ -984,7 +992,7 @@
     .inv-prev-frame {
       border: 1px solid var(--border); border-radius: 8px;
       background: #fff; color: #1f2328; padding: 22px 26px;
-      max-height: 62vh; overflow-y: auto; font-family: "Helvetica Neue", Arial, sans-serif;
+      max-height: 62vh; overflow-y: auto; font-family: 'NotoBnWeb', "Helvetica Neue", Arial, sans-serif;
     }
     body.dark-mode .inv-prev-frame { background: #ffffff; color: #1f2328; }
     .inv-prev-actions {
@@ -1027,7 +1035,7 @@
       width: 190mm; height: 275mm;
       display: flex; flex-direction: column;
       overflow: hidden;
-      font-family: 'Segoe UI','Helvetica Neue',Arial,sans-serif;
+      font-family: 'NotoBnWeb','Segoe UI','Helvetica Neue',Arial,sans-serif;
       font-size: 11px; line-height: 1.35; color: #000; background: #fff;
     }
     .auto-page .ap-body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
@@ -5215,7 +5223,7 @@
       const W = 1240, H = 1754, NAVY = '#1f4e79', GOLD = '#d4a72c', MUTED = '#57606a';
       canvas.width = W; canvas.height = H;
       const g = canvas.getContext('2d');
-      const FONT = '"Segoe UI", "Noto Sans Bengali", Arial, sans-serif';
+      const FONT = '"NotoBnWeb", "Segoe UI", "Noto Sans Bengali", Arial, sans-serif';
       g.fillStyle = '#ffffff'; g.fillRect(0, 0, W, H);
       g.textAlign = 'center'; g.textBaseline = 'alphabetic';
       const fitText = (txt, maxW, size, weight) => {         // shrink a single line until it fits
@@ -9370,7 +9378,7 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
 #rgceSv .sv-page{display:block;background:#fff;box-shadow:0 12px 40px rgba(0,0,0,.55);max-width:none;height:auto;-webkit-user-select:none;user-select:none}
 @keyframes rhsp{to{transform:rotate(360deg)}}
 #rgceHub,#rgceSplash,#rgceSv{--rh-navy:#0f2d4a;--rh-navy2:#1f4e79;--rh-gold:#d4a72c;--rh-ink:#142234;--rh-muted:#5b6776;--rh-line:#dde5ee;--rh-sh:0 10px 30px rgba(15,45,74,.10);--rh-ease:cubic-bezier(.22,.8,.26,1)}
-#rgceHub{display:block;margin:20px auto 0;max-width:1320px;width:calc(100% - 40px);font-family:"Segoe UI","Noto Sans Bengali",Arial,sans-serif;line-height:1.55;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#rgceHub{display:block;margin:20px auto 0;max-width:1320px;width:calc(100% - 40px);font-family:"NotoBnWeb","Segoe UI","Noto Sans Bengali",Arial,sans-serif;line-height:1.55;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 html[data-dcu-view="customers"] #rgceHub{display:none}
 #rgceHub *{box-sizing:border-box}
 #rgceHub .in{position:relative;padding:44px 32px 40px}
@@ -9797,7 +9805,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   /* ================= letterpad rendering (same paper as the app's own letterpad) ================= */
   async function renderLetterpad(n){
     var W=1240,H=1754,NAVY='#1f4e79',GOLD='#d4a72c',MUTED='#57606a',INK='#1f2328';
-    var FONT='"Segoe UI","NotoBnWeb","Noto Sans Bengali","Nirmala UI",Arial,sans-serif';
+    var FONT='"NotoBnWeb","Segoe UI","Noto Sans Bengali","Nirmala UI",Arial,sans-serif';
     try{ if(D.fonts&&D.fonts.load){ await D.fonts.load('500 30px NotoBnWeb',n.title+n.body); await D.fonts.ready; } }catch(e){}
     var pages=[];
     function fit(g,txt,maxW,size,weight){ var sz=size; g.font=weight+' '+sz+'px '+FONT; while(g.measureText(txt).width>maxW&&sz>16){ sz-=2; g.font=weight+' '+sz+'px '+FONT; } }
@@ -10140,12 +10148,12 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     if(!slip) return;
     var go=function(){ drawSlip(cb); };
     var bn=!/^[\x20-\x7E]*$/.test(String(slip.nm)+String(slip.ad));
-    if(bn&&document.fonts&&document.fonts.load){ document.fonts.load('600 30px "Noto Sans Bengali"','\u0985').then(go,go); } else go();
+    if(bn&&document.fonts&&document.fonts.load){ document.fonts.load('600 30px NotoBnWeb','\u0985 A0').then(go,go); } else go();
   }
   function drawSlip(cb){
     if(!slip) return;
     var W=1240,H=1754,c=document.createElement('canvas'); c.width=W; c.height=H; var g=c.getContext('2d');
-    var INK='#111827',MUTED='#6b7280',LINE='#d1d5db',NAVY='#1f4e79',F='"Segoe UI","Noto Sans Bengali",Arial,sans-serif';
+    var INK='#111827',MUTED='#6b7280',LINE='#d1d5db',NAVY='#1f4e79',F='"NotoBnWeb","Segoe UI","Noto Sans Bengali",Arial,sans-serif';
     function T(t,x,y,size,col,wt,al){ g.font=(wt||400)+' '+size+'px '+F; g.fillStyle=col; g.textAlign=al||'left'; g.fillText(t,x,y); }
     function R(x,y,w,h,col){ g.fillStyle=col; g.fillRect(x,y,w,h); }
     g.fillStyle='#fff'; g.fillRect(0,0,W,H);
