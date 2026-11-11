@@ -1382,6 +1382,21 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
 @media(max-width:700px){.official-header .rz-hero{height:52px}}
 @media print{.rz-img{box-shadow:none}}
 </style>
+<style id="rz-livechat-css">
+/* Home page: Live Chat card (opens the shop's chat page in the SAME tab, so Back returns here) */
+#rhChat{position:relative;overflow:hidden;border-radius:22px;padding:24px 28px;color:#fff;display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:radial-gradient(120% 140% at 100% 0%,#1f4e79 0%,#0f2d4a 60%,#0a2036 100%);border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 36px rgba(15,45,74,.22)}
+#rhChat .rzc-ic{width:56px;height:56px;border-radius:50%;background:#fff;color:#0f2d4a;display:grid;place-items:center;flex:none;font-size:24px;position:relative}
+#rhChat .rzc-ic::after{content:"";position:absolute;right:2px;top:2px;width:13px;height:13px;border-radius:50%;background:#2fb344;border:2px solid #fff}
+#rhChat .rzc-tx{flex:1;min-width:220px}
+#rhChat .rzc-chip{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#d4a72c;margin-bottom:4px}
+#rhChat h2{margin:0 0 4px;font-size:clamp(19px,3.2vw,24px);font-weight:800;line-height:1.25;color:#fff}
+#rhChat p{margin:0;font-size:14.5px;line-height:1.5;color:rgba(255,255,255,.82)}
+#rhChat .rzc-go{display:inline-flex;align-items:center;gap:8px;background:#d4a72c;color:#0f2d4a;font-weight:800;font-size:15px;text-decoration:none;padding:12px 22px;border-radius:12px;white-space:nowrap;transition:filter .15s,transform .15s}
+#rhChat .rzc-go:hover{filter:brightness(1.08);transform:translateY(-1px)}
+#rhChat .rzc-go:focus-visible{outline:3px solid #fff;outline-offset:3px}
+#rhChat .rzc-go svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){#rhChat{padding:20px 18px}#rhChat .rzc-go{width:100%;justify-content:center}}
+</style>
 <style id="rgce-outside-close">
 /* blank space around/below an open modal is "outside": give it room so a tap there is possible even on short modals */
 #modalOverlay.open,#fbmOverlay.open,#rgceSafePanel{min-height:calc(100vh - 150px);cursor:default}
@@ -1538,6 +1553,15 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
       <span>Type your number and press Enter.</span>
       <a class="dx-cta" id="rhDxGo" href="https://farhanshiyam.github.io/due-checker/" rel="noopener" style="cursor:pointer;font:inherit;font-weight:800">Due Checker <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
+  </section>
+  <section class="rv" style="--d:5" id="rhChat" aria-labelledby="rzcTitle" data-no-bn>
+    <span class="rzc-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+    <div class="rzc-tx">
+      <span class="rzc-chip" id="rzcChip">Live Chat</span>
+      <h2 id="rzcTitle">Have an inquiry? Chat with us live.</h2>
+      <p id="rzcText">Ask about products, prices, orders or your due. Our shop team will reply right here. No login needed.</p>
+    </div>
+    <a class="rzc-go" id="rzcGo" href="https://farhanshiyam.github.io/due-checker/live-chat"><span id="rzcBtn">Start Live Chat</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
   </section>
   <div class="facts rv" style="--d:5">
     <div class="fact"><small>Address</small><b>Moshjid Market, Naohata Mor, Mohadevpur, Naogaon</b></div>
@@ -1964,6 +1988,7 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
     <div class="footer-contact">
       <span><i class="fas fa-phone"></i> +8801715986646</span>
       <span><i class="fas fa-map-marker-alt"></i> Moshjid Market, Naohata Mor, Mohadevpur, Naogaon</span>
+      <span><i class="fas fa-comments"></i> <a href="https://farhanshiyam.github.io/due-checker/live-chat" id="rzFootChat" style="color:inherit;font-weight:700;text-decoration:underline">Live Chat</a></span>
       <span><i class="fas fa-clock"></i> 8:00 AM – 10:00 PM</span>
     </div>
     <div class="footer-social">
@@ -6041,11 +6066,12 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
 
       const statusColor = inv.status === 'Paid' ? '#1a7f37' : (inv.status === 'Partial' ? '#bf8700' : '#cf222e');
 
-      const STAMP_IMAGE_FILE = "seal-verified.jpg";
+      const STAMP_BASE = window.__APP_BASE || '';
+      const STAMP_IMAGE_FILE = STAMP_BASE + "seal-verified.png";
       const stampImgHTML = `
         <img src="${STAMP_IMAGE_FILE}" alt="Verified Stamp"
              style="width:100%;height:100%;object-fit:contain;display:block;"
-             onerror="this.style.display='none';">
+             onerror="if(!this.dataset.t){this.dataset.t='1';this.src='${STAMP_BASE}seal-verified.jpg';}else{this.style.display='none';}">
       `;
 
       container.innerHTML = `
@@ -6469,7 +6495,7 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
             ${cfg.last ? `<div style="padding:0 24px 20px;">${cfg.last}</div>` : ''}
             <div style="padding:0 24px 18px;display:flex;flex-direction:column;align-items:center;">
               <div class="verified-stamp-box" style="width:120px;height:120px;">
-                <img src="seal-verified.jpg" alt="Verified Stamp" style="width:100%;height:100%;object-fit:contain;display:block;" onerror="this.style.display='none';">
+                <img src="${window.__APP_BASE || ''}seal-verified.png" alt="Verified Stamp" style="width:100%;height:100%;object-fit:contain;display:block;" onerror="if(!this.dataset.t){this.dataset.t='1';this.src='${window.__APP_BASE || ''}seal-verified.jpg';}else{this.style.display='none';}">
               </div>
               <div style="margin-top:6px;font-size:12px;font-weight:800;color:#1a7f37;text-align:center;letter-spacing:0.4px;line-height:1.2;">Farhan Tanzid Shiyam</div>
             </div>
@@ -10506,5 +10532,46 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
 })();
 </script>
 
+<script id="rz-livechat">
+/* Live Chat card: English / Bangla text, and "back persistence".
+   The link opens in the same tab. When the visitor presses Back, the home page comes back to the same place. */
+(function () {
+  'use strict';
+  var TXT = {
+    en: { chip: 'Live Chat', title: 'Have an inquiry? Chat with us live.',
+          text: 'Ask about products, prices, orders or your due. Our shop team will reply right here. No login needed.', btn: 'Start Live Chat', foot: 'Live Chat' },
+    bn: { chip: '\u09B2\u09BE\u0987\u09AD \u099A\u09CD\u09AF\u09BE\u099F', title: '\u0995\u09CB\u09A8\u09CB \u099C\u09BF\u099C\u09CD\u099E\u09BE\u09B8\u09BE \u0986\u099B\u09C7? \u09B8\u09B0\u09BE\u09B8\u09B0\u09BF \u099A\u09CD\u09AF\u09BE\u099F \u0995\u09B0\u09C1\u09A8\u0964',
+          text: '\u09AA\u09A3\u09CD\u09AF, \u09A6\u09BE\u09AE, \u0985\u09B0\u09CD\u09A1\u09BE\u09B0 \u09AC\u09BE \u0986\u09AA\u09A8\u09BE\u09B0 \u09AC\u0995\u09C7\u09AF\u09BC\u09BE \u09B8\u09AE\u09CD\u09AA\u09B0\u09CD\u0995\u09C7 \u099C\u09BF\u099C\u09CD\u099E\u09C7\u09B8 \u0995\u09B0\u09C1\u09A8\u0964 \u0986\u09AE\u09BE\u09A6\u09C7\u09B0 \u09A6\u09CB\u0995\u09BE\u09A8\u09C7\u09B0 \u099F\u09BF\u09AE \u098F\u0996\u09BE\u09A8\u09C7\u0987 \u0989\u09A4\u09CD\u09A4\u09B0 \u09A6\u09C7\u09AC\u09C7\u0964 \u09B2\u0997\u0987\u09A8 \u09B2\u09BE\u0997\u09AC\u09C7 \u09A8\u09BE\u0964',
+          btn: '\u09B2\u09BE\u0987\u09AD \u099A\u09CD\u09AF\u09BE\u099F \u09B6\u09C1\u09B0\u09C1 \u0995\u09B0\u09C1\u09A8', foot: '\u09B2\u09BE\u0987\u09AD \u099A\u09CD\u09AF\u09BE\u099F' }
+  };
+  function cur() { try { return localStorage.getItem('rgce_lang') === 'bn' ? 'bn' : 'en'; } catch (e) { return document.documentElement.lang === 'bn' ? 'bn' : 'en'; } }
+  function set(id, v) { var n = document.getElementById(id); if (n) n.textContent = v; }
+  function paint() { var t = TXT[cur()]; set('rzcChip', t.chip); set('rzcTitle', t.title); set('rzcText', t.text); set('rzcBtn', t.btn); set('rzFootChat', t.foot); }
+  paint();
+  try { new MutationObserver(paint).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] }); } catch (e) {}
+  window.addEventListener('storage', function (e) { if (e.key === 'rgce_lang') paint(); });
+
+  /* remember where the visitor was before leaving for the chat page */
+  var KEY = 'rz_back_v1';
+  function remember() { try { sessionStorage.setItem(KEY, JSON.stringify({ y: Math.round(window.pageYOffset || 0), t: Date.now(), p: location.pathname + location.search })); } catch (e) {} }
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('#rzcGo,#rzFootChat') : null;
+    if (a) remember();
+  }, true);
+
+  /* coming back with the Back button: bfcache normally restores the page by itself; if the page had to reload, put the scroll position back */
+  function restore() {
+    var d = null; try { d = JSON.parse(sessionStorage.getItem(KEY) || 'null'); sessionStorage.removeItem(KEY); } catch (e) {}
+    if (!d || !d.y || Date.now() - d.t > 6 * 3600 * 1000 || d.p !== location.pathname + location.search) return;
+    var nav = (performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {};
+    if (nav.type && nav.type !== 'back_forward') return;
+    var tries = 0, iv = setInterval(function () {
+      tries++; window.scrollTo(0, d.y);
+      if (Math.abs((window.pageYOffset || 0) - d.y) < 4 || tries > 20) clearInterval(iv);
+    }, 150);
+  }
+  if (document.readyState === 'complete') restore(); else window.addEventListener('load', restore);
+})();
+</script>
 </body>
 </html>
