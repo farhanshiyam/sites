@@ -2705,7 +2705,7 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
       triggerPrint(printBuild(cfg), makePrintFileName(cfg.title, refMeta ? refMeta[1] : ''));
     }
 
-    const PRINT_BRAND = `<div style="display:flex;align-items:center;gap:8px"><img src="${window.RZ_LOGO || ''}" alt="" style="height:38px;width:auto;display:block;flex:none" onerror="this.remove()"><div><div class="ap-brand">Roza Gift Corner &amp; Electric</div><div class="ap-brand-meta">${SHOP_INFO.address}<br>Phone: ${SHOP_INFO.phone}</div></div></div>`;
+    const PRINT_BRAND = `<div style="display:flex;align-items:center;gap:9px"><img src="${window.RZ_ICON || ''}" alt="" style="height:42px;width:42px;border-radius:9px;display:block;flex:none;-webkit-print-color-adjust:exact;print-color-adjust:exact" onerror="this.remove()"><div><div class="ap-brand">Roza Gift Corner &amp; Electric</div><div class="ap-brand-meta">${SHOP_INFO.address}<br>Phone: ${SHOP_INFO.phone}</div></div></div>`;
 
     function printPageHTML(cfg, from, n, last, no, total) {
       const cols = cfg.cols;
