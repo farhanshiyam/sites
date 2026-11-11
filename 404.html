@@ -6041,11 +6041,12 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
 
       const statusColor = inv.status === 'Paid' ? '#1a7f37' : (inv.status === 'Partial' ? '#bf8700' : '#cf222e');
 
-      const STAMP_IMAGE_FILE = "seal-verified.jpg";
+      const STAMP_BASE = window.__APP_BASE || '';
+      const STAMP_IMAGE_FILE = STAMP_BASE + "seal-verified.png";
       const stampImgHTML = `
         <img src="${STAMP_IMAGE_FILE}" alt="Verified Stamp"
              style="width:100%;height:100%;object-fit:contain;display:block;"
-             onerror="this.style.display='none';">
+             onerror="if(!this.dataset.t){this.dataset.t='1';this.src='${STAMP_BASE}seal-verified.jpg';}else{this.style.display='none';}">
       `;
 
       container.innerHTML = `
@@ -6469,7 +6470,7 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
             ${cfg.last ? `<div style="padding:0 24px 20px;">${cfg.last}</div>` : ''}
             <div style="padding:0 24px 18px;display:flex;flex-direction:column;align-items:center;">
               <div class="verified-stamp-box" style="width:120px;height:120px;">
-                <img src="seal-verified.jpg" alt="Verified Stamp" style="width:100%;height:100%;object-fit:contain;display:block;" onerror="this.style.display='none';">
+                <img src="${window.__APP_BASE || ''}seal-verified.png" alt="Verified Stamp" style="width:100%;height:100%;object-fit:contain;display:block;" onerror="if(!this.dataset.t){this.dataset.t='1';this.src='${window.__APP_BASE || ''}seal-verified.jpg';}else{this.style.display='none';}">
               </div>
               <div style="margin-top:6px;font-size:12px;font-weight:800;color:#1a7f37;text-align:center;letter-spacing:0.4px;line-height:1.2;">Farhan Tanzid Shiyam</div>
             </div>
