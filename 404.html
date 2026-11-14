@@ -1396,6 +1396,30 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
 #rhChat .rzc-go:focus-visible{outline:3px solid #fff;outline-offset:3px}
 #rhChat .rzc-go svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:600px){#rhChat{padding:20px 18px}#rhChat .rzc-go{width:100%;justify-content:center}}
+
+/* ===== Online Shop card + one-time announcement (opens the shop in the SAME tab) ===== */
+#rhShop{position:relative;overflow:hidden;border-radius:22px;padding:24px 28px;color:#fff;display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:radial-gradient(120% 140% at 0% 0%,#1d6b57 0%,#0f3d36 60%,#0a2a26 100%);border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 36px rgba(15,61,54,.22)}
+#rhShop .rzs-ic{width:56px;height:56px;border-radius:50%;background:#fff;color:#0f3d36;display:grid;place-items:center;flex:none}
+#rhShop .rzs-tx{flex:1;min-width:220px}
+#rhShop .rzs-chip{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#d4a72c;margin-bottom:4px}
+#rhShop h2{margin:0 0 4px;font-size:clamp(19px,3.2vw,24px);font-weight:800;line-height:1.25;color:#fff}
+#rhShop p{margin:0;font-size:14.5px;line-height:1.5;color:rgba(255,255,255,.82)}
+#rhShop .rzs-go{display:inline-flex;align-items:center;gap:8px;background:#d4a72c;color:#0f3d36;font-weight:800;font-size:15px;text-decoration:none;padding:12px 22px;border-radius:12px;white-space:nowrap;transition:filter .15s,transform .15s}
+#rhShop .rzs-go:hover{filter:brightness(1.08);transform:translateY(-1px)}
+#rhShop .rzs-go:focus-visible{outline:3px solid #fff;outline-offset:3px}
+#rhShop .rzs-go svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){#rhShop{padding:20px 18px}#rhShop .rzs-go{width:100%;justify-content:center}}
+.rz-ann{position:fixed;left:50%;bottom:18px;transform:translate(-50%,24px);opacity:0;z-index:2147483000;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 24px);padding:10px 12px 10px 16px;border-radius:999px;background:#0f3d36;color:#fff;font:600 14px/1.3 "NotoBnWeb","Segoe UI","Noto Sans Bengali",Arial,sans-serif;box-shadow:0 12px 32px rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.16);transition:opacity .35s,transform .35s}
+.rz-ann.on{opacity:1;transform:translate(-50%,0)}
+.rz-ann a{background:#d4a72c;color:#0f3d36;font-weight:800;text-decoration:none;padding:7px 14px;border-radius:999px;white-space:nowrap}
+.rz-ann button{appearance:none;border:0;background:transparent;color:rgba(255,255,255,.75);font-size:18px;line-height:1;cursor:pointer;padding:4px 6px}
+#rzTopShop{display:inline-flex;align-items:center;gap:7px;background:#d4a72c!important;color:#0f3d36!important;border:0!important;font-weight:800!important;text-decoration:none;box-shadow:0 0 0 0 rgba(212,167,44,.55);animation:rzTopPulse 2.6s ease-out 3}
+#rzTopShop i{color:#0f3d36!important}
+#rzTopShop:hover{filter:brightness(1.07)}
+@keyframes rzTopPulse{0%{box-shadow:0 0 0 0 rgba(212,167,44,.55)}70%{box-shadow:0 0 0 10px rgba(212,167,44,0)}100%{box-shadow:0 0 0 0 rgba(212,167,44,0)}}
+@media(prefers-reduced-motion:reduce){#rzTopShop{animation:none}}
+@media(max-width:520px){#rzTopShop{padding-left:10px;padding-right:10px}}
+@media print{#rhShop,.rz-ann,#rzTopShop{display:none!important}}
 </style>
 <style id="rgce-outside-close">
 /* blank space around/below an open modal is "outside": give it room so a tap there is possible even on short modals */
@@ -1493,6 +1517,7 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
       </div>
       <div class="hdr2-group hdr2-right">
         <button type="button" class="hdr-link top-lang" id="langToggleTab" style="display:none !important" tabindex="-1" title="Language, contact &amp; backup" aria-label="Language" aria-expanded="false"><i class="fas fa-language hdr-ic" aria-hidden="true"></i><span>EN / বাংলা</span><i class="fas fa-chevron-down hdr-chev" aria-hidden="true"></i></button>
+        <a class="hdr-pill" id="rzTopShop" href="https://farhanshiyam.github.io/shop/" title="Our online shop" data-no-bn><i class="fas fa-store" aria-hidden="true"></i><span data-dcu="shopTop">Online Shop</span></a>
         <button type="button" class="hdr-pill hdr-pill-solid top-add" id="addCustomerTopBtn" title="Add customer" aria-label="Add customer" aria-expanded="false"><i class="fas fa-user-plus" aria-hidden="true"></i><span>Add Customer</span></button>
         <button type="button" class="hdr-pill hdr-pill-solid top-login" id="headerLoginBtn" data-open-login title="Login" aria-label="Login"><i class="fas fa-right-to-bracket" aria-hidden="true"></i><span>Login</span></button>
         <button type="button" class="hdr-pill hdr-pill-outline top-logout" id="logoutBtn" title="Logout" aria-label="Logout"><i class="fas fa-right-from-bracket" aria-hidden="true"></i><span>Logout</span></button>
@@ -1562,6 +1587,15 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
       <p id="rzcText">Ask about products, prices, orders or your due. Our shop team will reply right here. No login needed.</p>
     </div>
     <a class="rzc-go" id="rzcGo" href="https://farhanshiyam.github.io/due-checker/live-chat"><span id="rzcBtn">Start Live Chat</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </section>
+  <section class="rv" style="--d:5" id="rhShop" aria-labelledby="rzsTitle" data-no-bn>
+    <span class="rzs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+    <div class="rzs-tx">
+      <span class="rzs-chip" data-dcu="shopChip">New &middot; Online Shop</span>
+      <h2 id="rzsTitle" data-dcu="shopT">Shop Online with Roza</h2>
+      <p data-dcu="shopP">Browse gifts, electrical items and more right from your phone. Your records here stay saved, so you can come back any time.</p>
+    </div>
+    <a class="rzs-go" id="rzsGo" href="https://farhanshiyam.github.io/shop/"><span data-dcu="shopBtn">Visit Our Shop</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
   </section>
   <div class="facts rv" style="--d:5">
     <div class="fact"><small>Address</small><b>Moshjid Market, Naohata Mor, Mohadevpur, Naogaon</b></div>
@@ -3571,6 +3605,19 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
       clearTimeout(cloudPushTimer);
       cloudPushTimer = setTimeout(() => cloudPush(true), 500);
     }
+
+    /* Before the app opens another page in the same tab: push any unsynced changes to the cloud.
+       The local recovery snapshot (made by cloudSchedule on every save) stays on this device either way. */
+    window.__rgceLeaveSafe = function () {
+      try {
+        const p = readPendingSync();
+        if (currentUser && p && !p.invalid) {
+          clearTimeout(cloudPushTimer);
+          return Promise.resolve(cloudPush(true)).catch(function () {});
+        }
+      } catch (e) {}
+      return Promise.resolve();
+    };
 
     function cloudStartAutoSync() {
       if (cloudPullTimer) clearInterval(cloudPullTimer);
@@ -9514,7 +9561,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   var MON={en:['January','February','March','April','May','June','July','August','September','October','November','December'],
            bn:['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর']};
   var T={
-    en:{notices:'Notices',welcome:'Welcome to Roza Gift Corner & Electric',menu:'Menu',custNav:'Customers',noticeNav:'Notices',custBtn:'Customer register',
+    en:{notices:'Notices',welcome:'Welcome to Roza Gift Corner & Electric',menu:'Menu',custNav:'Customers',noticeNav:'Notices',shopNav:'Online Shop',shopTop:'Online Shop',shopChip:'New \u00b7 Online Shop',shopT:'Shop Online with Roza',shopP:'Browse gifts, electrical items and more right from your phone. Your records here stay saved, so you can come back any time.',shopBtn:'Visit Our Shop',annT:'Our online shop is now open',annGo:'Visit',custBtn:'Customer register',
         tAll:'All',tDue:'Due',tPartial:'Partial paid',tPaid:'Paid',tHidden:'Hidden due',
         ctaT:'Everything for the shop, in one place',ctaP:'Add customers, create invoices and keep backups from this page. The customer register has its own page.',
         addC:'Add customer',newInv:'Create invoice',backup:'Backup / Restore',allInv:'All invoices',dark:'Dark',sysTools:'System tools',
@@ -9525,7 +9572,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
         hide:'Hide',show:'Show',edit:'Edit',del:'Delete',stPub:'Published',stHid:'Hidden',saved:'Notice saved and published.',needTitle:'Enter a notice title.',
         saveFail:'Could not save to the cloud. It is kept on this device only.',admLogin:'Log in first to publish notices.',confirmDel:'Delete this notice?',admNone:'No notices yet.',
         pNotice:'NOTICE',pDate:'Date',pSign:'Authorized Signature',pPage:'Page',pvTitle:'Latest notices',pvAll:'All notices',dueTitle:'Check your due balance',dueHelp:'Enter the mobile number you gave to the shop.',dueBtn:'Check',duePh:'01XXXXXXXXX',dueBad:'Enter a valid mobile number (01XXXXXXXXX).',dueNone:'No due record found for this number. Please contact the shop.',dueClear:'No due. Thank you!',dueAmt:'Current due',dueName:'Name',dueAddr:'Address',dueUpd:'Updated',dueWait:'Too many tries. Please wait a minute.',dueErr:'Could not check right now. Please try again later.',dueCall:'Shop phone',fabAdd:'New customer',fabInv:'New invoice',fabPay:'Receive payment',payTitle:'Receive payment: choose a customer',paySearch:'Search by name or phone',payNone:'No customers found.',dueAdmH:'Public due lookup',dueAdmNote:'Fully automatic: every change to a customer (due, payment, source, address) is published within seconds while a staff device is open. Customers can check their due by phone number on the home page. They see the customer\'s full name, address and the due amount. Anyone who knows a phone number can look it up.',dueAuto:'Auto-update while I am logged in (this device)',duePub:'Publish / update now',dueRem:'Remove all public due data',dueDone:'Done. Published records:',dueRemoved:'All public due records removed.',dueRules:'Firestore rules to add (once)',dueRulesFail:'Permission denied. Add the Firestore rules shown below, then try again.',dueNoData:'No customer data is loaded yet.',pubNoRule:'Saved. The public copy needs the Firestore rules shown in the due section below.'},
-    bn:{notices:'নোটিশ',welcome:'রোজা গিফট কর্নার অ্যান্ড ইলেকট্রিকে স্বাগতম',menu:'মেনু',custNav:'কাস্টমার',noticeNav:'নোটিশ',custBtn:'কাস্টমার রেজিস্টার',
+    bn:{notices:'নোটিশ',welcome:'রোজা গিফট কর্নার অ্যান্ড ইলেকট্রিকে স্বাগতম',menu:'মেনু',custNav:'কাস্টমার',noticeNav:'নোটিশ',shopNav:'অনলাইন শপ',shopTop:'অনলাইন শপ',shopChip:'নতুন · অনলাইন শপ',shopT:'রোজার সাথে অনলাইনে কিনুন',shopP:'গিফট, ইলেকট্রিক ও আরও অনেক পণ্য এখন মোবাইলেই দেখুন। এখানকার রেকর্ড সংরক্ষিত থাকবে, যেকোনো সময় ফিরে আসতে পারবেন।',shopBtn:'শপ দেখুন',annT:'আমাদের অনলাইন শপ এখন চালু',annGo:'দেখুন',custBtn:'কাস্টমার রেজিস্টার',
         tAll:'সব',tDue:'বাকি',tPartial:'আংশিক পরিশোধ',tPaid:'পরিশোধিত',tHidden:'গোপন বাকি',
         ctaT:'দোকানের সব হিসাব, এক জায়গায়',ctaP:'এই পেজ থেকে কাস্টমার যোগ, ইনভয়েস তৈরি ও ব্যাকআপ করুন। কাস্টমার রেজিস্টারের আলাদা পেজ আছে।',
         addC:'কাস্টমার যোগ',newInv:'ইনভয়েস তৈরি',backup:'ব্যাকআপ / রিস্টোর',allInv:'সব ইনভয়েস',dark:'ডার্ক',sysTools:'সিস্টেম টুলস',
@@ -9575,6 +9622,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     var open=nav.classList.contains('open'); nav.innerHTML='';
     nav.appendChild(plainItem('custNav',function(){ go('customers'); }));
     nav.appendChild(plainItem('noticeNav',function(){ openBoard(); }));
+    nav.appendChild(plainItem('shopNav',function(){ if(window.__rzGoShop) window.__rzGoShop(); }));
     $$('.sidebar-group').forEach(function(g){
       var tEl=$('.sidebar-section-title',g), dash=$('.sidebar-item[data-action="dashboard"] .sidebar-label');
       var label=tEl?tEl.textContent.trim():(dash?dash.textContent.trim():'Dashboard');
@@ -10571,6 +10619,50 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     }, 150);
   }
   if (document.readyState === 'complete') restore(); else window.addEventListener('load', restore);
+})();
+</script>
+<script id="rz-shop-link">
+/* Our Shop: opens in the SAME tab. Before leaving, unsynced changes are pushed to the cloud and the
+   current page position is remembered; coming back (Back button or the shop's return link) restores it. */
+(function(){
+  var SHOP='https://farhanshiyam.github.io/shop/', KEY='rgce_shop_return_v1', ANN='rgce_shop_ann_v1';
+  var here=function(){ return location.pathname+location.search+location.hash; };
+  function mark(){ try{ sessionStorage.setItem(KEY,JSON.stringify({u:here(),y:window.scrollY||0,t:Date.now()})); }catch(e){} }
+  function goShop(e){
+    if(e){ if(e.defaultPrevented||e.button>0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return; e.preventDefault(); }
+    mark();
+    var done=false;
+    function to(){ if(done) return; done=true; location.assign(SHOP+'?from=app&return='+encodeURIComponent(location.href)); }
+    try{
+      var p=window.__rgceLeaveSafe?window.__rgceLeaveSafe():null;
+      if(p&&p.then){ p.then(to,to); setTimeout(to,1800); } else to();
+    }catch(x){ to(); }
+  }
+  window.__rzGoShop=function(){ goShop(null); };
+  document.addEventListener('click',function(ev){
+    var a=ev.target&&ev.target.closest?ev.target.closest('#rzsGo,#rzTopShop,.rz-ann a'):null;
+    if(a) goShop(ev);
+  });
+  /* coming back */
+  function restore(){
+    var r=null; try{ r=JSON.parse(sessionStorage.getItem(KEY)||'null'); sessionStorage.removeItem(KEY); }catch(e){}
+    if(!r||Date.now()-r.t>6*3600*1000||r.u!==here()||!(r.y>0)) return;
+    var n=0; (function t(){ window.scrollTo(0,r.y); if(Math.abs((window.scrollY||0)-r.y)>4&&++n<12) setTimeout(t,350); })();
+  }
+  if(document.readyState==='complete') setTimeout(restore,400); else window.addEventListener('load',function(){ setTimeout(restore,400); });
+  window.addEventListener('pageshow',function(e){ if(e.persisted){ try{ sessionStorage.removeItem(KEY); }catch(x){} } });
+  /* one-time announcement pill */
+  function announce(){
+    try{ if(localStorage.getItem(ANN)) return; }catch(e){}
+    if(document.documentElement.getAttribute('data-dcu-view')==='customers') return;
+    var bn=false; try{ bn=localStorage.getItem('rgce_lang')==='bn'; }catch(e){}
+    var d=document.createElement('div'); d.className='rz-ann'; d.setAttribute('role','status'); d.setAttribute('data-no-bn','');
+    d.innerHTML='<span data-dcu="annT">Our online shop is now open</span><a href="'+SHOP+'"><span data-dcu="annGo">Visit</span></a><button type="button" aria-label="Close">&times;</button>';
+    d.querySelector('button').addEventListener('click',function(){ try{ localStorage.setItem(ANN,'1'); }catch(e){} d.classList.remove('on'); setTimeout(function(){ d.remove(); },400); });
+    if(bn){ d.querySelector('[data-dcu="annT"]').textContent='আমাদের অনলাইন শপ এখন চালু'; d.querySelector('[data-dcu="annGo"]').textContent='দেখুন'; }
+    document.body.appendChild(d); requestAnimationFrame(function(){ requestAnimationFrame(function(){ d.classList.add('on'); }); });
+  }
+  setTimeout(announce,3500);
 })();
 </script>
 </body>
