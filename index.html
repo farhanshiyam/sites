@@ -1511,7 +1511,10 @@ body.dark-mode #rgceHub #rhDx .dxs{color:#a9b4c0}
 #rgceHub #rhDx .rbox .big{font-size:clamp(24px,5.4vw,34px)}
 
 #rgceHub #rhDx table.wt>thead>tr>th{font-size:clamp(16px,3.4vw,19px);padding:clamp(10px,2.2vw,14px)}
-#rgceHub #rhDx table.rt th,#rgceHub #rhDx table.rt td{font-size:clamp(15.5px,3.2vw,18px);padding:clamp(9px,2vw,14px) clamp(10px,2vw,16px)}
+#rgceHub #rhDx table.rt th,#rgceHub #rhDx table.rt td{font-size:clamp(17px,3.8vw,21px);line-height:1.35;padding:clamp(12px,2.6vw,18px) clamp(12px,2.6vw,20px)}
+#rgceHub #rhDx table.rt td b{font-size:clamp(18px,4vw,23px)}
+#rgceHub #rhDx table.rt .amt{font-size:clamp(26px,6vw,34px);font-weight:800;line-height:1.1}
+#rgceHub #rhDx table.rt .tk{font-size:clamp(13px,2.8vw,16px);font-weight:600;opacity:.8}
 #rgceHub #rhDx .slipbtn,body.dark-mode #rgceHub #rhDx .slipbtn{font-size:clamp(15px,3vw,17px);padding:8px 18px}
 #rgceHub #rhDx td.lk{font-size:clamp(15px,3vw,17px)}
 #rgceHub #rhDx .sm{font-size:clamp(13.5px,2.8vw,15px)!important}
@@ -10199,7 +10202,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       if(!list){ say('',(byName?'No due record found for this name. Enter your full name exactly as registered, or use your mobile number.':'No due record found for this number. Please contact the shop.')+'<div class="sm">Shop phone: '+esc(SHOP_PHONE)+'</div>'); beep(330,0.14,0.035,'sine'); return; }
       slips=list.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',src:x.src||'',due:Number(x.due)||0,upd:upd,ph:p}; });
       var rows=slips.map(function(x,i){
-        return '<tr><td data-l="No.">'+(i+1)+'</td><td data-l="Name"><b>'+esc(x.nm)+'</b></td><td data-l="Address">'+esc(x.ad||'-')+'</td><td data-l="Source">'+esc(x.src||'-')+'</td><td data-l="Due" class="am">'+(x.due>0?esc(Math.round(x.due).toLocaleString('en-US'))+' Taka':'No due')+'</td><td data-l="Slip"><button class="slipbtn" data-i="'+i+'" type="button">View slip</button></td></tr>';
+        return '<tr><td data-l="No.">'+(i+1)+'</td><td data-l="Name"><b>'+esc(x.nm)+'</b></td><td data-l="Address">'+esc(x.ad||'-')+'</td><td data-l="Source">'+esc(x.src||'-')+'</td><td data-l="Due" class="am">'+(x.due>0?'<span class="amt">'+esc(Math.round(x.due).toLocaleString('en-US'))+'</span> <span class="tk">Taka</span>':'No due')+'</td><td data-l="Slip"><button class="slipbtn" data-i="'+i+'" type="button">View slip</button></td></tr>';
       }).join('');
       var r2=$('rhRes'); r2.className='res on';
       r2.innerHTML='<table class="rt"><thead><tr><th>No.</th><th>Name</th><th>Address</th><th>Source</th><th class="am">Due</th><th>Slip</th></tr></thead><tbody>'+rows+'</tbody>'
