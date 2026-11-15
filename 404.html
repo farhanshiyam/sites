@@ -1517,7 +1517,9 @@ body.dark-mode #rgceHub #rhDx .dxs{color:#a9b4c0}
 #rgceHub #rhDx table.rt .tk{font-size:clamp(13px,2.8vw,16px);font-weight:600;opacity:.8}
 #rgceHub #rhDx .slipbtn,body.dark-mode #rgceHub #rhDx .slipbtn{font-size:clamp(15px,3vw,17px);padding:8px 18px}
 #rgceHub #rhDx td.lk{font-size:clamp(15px,3vw,17px)}
-#rgceHub #rhDx .sm{font-size:clamp(13.5px,2.8vw,15px)!important}
+#rgceHub #rhDx .sm{font-size:clamp(14.5px,3vw,16.5px)!important}
+#rgceHub #rhDx .dxnote{line-height:1.5}
+#rgceHub #rhDx .dxnote a{font-weight:700;text-decoration:underline;color:inherit}
 @media(max-width:640px){
 #rgceHub #rhDx table.rt thead{display:none}
 #rgceHub #rhDx table.rt,#rgceHub #rhDx table.rt tbody,#rgceHub #rhDx table.rt tr{display:block}
@@ -10207,7 +10209,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       var r2=$('rhRes'); r2.className='res on';
       r2.innerHTML='<table class="rt"><thead><tr><th>No.</th><th>Name</th><th>Address</th><th>Source</th><th class="am">Due</th><th>Slip</th></tr></thead><tbody>'+rows+'</tbody>'
         +'</table>'
-        +'<div class="sm">'+(upd?'Updated: '+esc(upd)+' \u00b7 ':'')+'Shop phone: '+esc(SHOP_PHONE)+'</div>';
+        +'<div class="sm dxnote">Data may not be updated. For accurate due, contact: <a href="tel:+8801319362189">01319362189</a> \u00b7 <a href="https://wa.me/8801319362189" target="_blank" rel="noopener">WhatsApp</a></div>';
       closeViewer();
       beep(988,0.12,0.04,'sine'); setTimeout(function(){ beep(1318,0.16,0.04,'sine'); },110);
     }catch(e){ console.warn('due lookup',e); say('warn','Could not check right now. Please try again later.'); }
@@ -10301,11 +10303,13 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     slip=slips[i]; if(!slip) return;
     makeSlip(function(o){
       cur=o; svImg.src=o.url; $('rhSvT').textContent='Due Slip \u2014 '+slip.nm;
-      sv.classList.add('on'); document.body.style.overflow='hidden';
+      var sbw=window.innerWidth-document.documentElement.clientWidth;
+    if(sbw>0){ if(window.CSS&&CSS.supports&&CSS.supports('scrollbar-gutter','stable')) document.documentElement.style.scrollbarGutter='stable'; else document.body.style.paddingRight=sbw+'px'; }
+    sv.classList.add('on'); document.body.style.overflow='hidden';
       try{ $('rhSvClose').focus(); }catch(e){}
     });
   }
-  function closeViewer(){ sv.classList.remove('on'); svImg.removeAttribute('src'); cur=null; document.body.style.overflow=''; }
+  function closeViewer(){ sv.classList.remove('on'); svImg.removeAttribute('src'); cur=null; document.body.style.overflow=''; document.body.style.paddingRight=''; document.documentElement.style.scrollbarGutter=''; }
   $('rhSvDl').addEventListener('click',function(){ if(cur) downloadPdf(cur); });
   $('rhSvPr').addEventListener('click',function(){ if(cur) printSlip(cur); });
   $('rhSvClose').addEventListener('click',closeViewer);
