@@ -1485,13 +1485,12 @@ body.dark-mode .rz-ann{background:#26323f;border-color:rgba(212,167,44,.55)}
 #rgceHub #rhDx table.wt>thead>tr>th{border:1px solid #000;padding:9px 10px;background:#f2f2f2;color:#000;text-align:left;font-weight:700;font-size:16px}
 
 #rgceHub #rhDx table.rt{width:100%;border-collapse:collapse;margin:0}
-#rgceHub #rhDx table.rt th,#rgceHub #rhDx table.rt td{border:1px solid #000;padding:6px 10px;text-align:left;vertical-align:middle;font-size:14.5px;background:#fff;color:#000}
+#rgceHub #rhDx table.rt th,#rgceHub #rhDx table.rt td{border:1px solid #000;padding:6px 10px;text-align:center;vertical-align:middle;font-size:14.5px;background:#fff;color:#000}
 #rgceHub #rhDx table.rt th{background:#f2f2f2;font-weight:700}
-#rgceHub #rhDx table.rt .am{text-align:right;font-weight:700;white-space:nowrap}
-#rgceHub #rhDx table.rt tfoot td{background:#f2f2f2;font-weight:700}
+#rgceHub #rhDx table.rt .am{text-align:center;font-weight:700;white-space:nowrap}
 #rgceHub #rhDx table.rt .slipbtn{margin:0;white-space:nowrap}
 #rgceHub #rhDx .res>.sm{margin-top:8px}
-body.dark-mode #rgceHub #rhDx table.wt>thead>tr>th,body.dark-mode #rgceHub #rhDx table.rt th,body.dark-mode #rgceHub #rhDx table.rt tfoot td{background:#232a33;color:#e6edf3;border-color:#aeb8c4}
+body.dark-mode #rgceHub #rhDx table.wt>thead>tr>th,body.dark-mode #rgceHub #rhDx table.rt th{background:#232a33;color:#e6edf3;border-color:#aeb8c4}
 
 body.dark-mode #rgceHub #rhDx table.rt td{background:#1a1e26;color:#e6edf3;border-color:#aeb8c4}
 /* due checker headline: plain text, no box or decoration */
@@ -1518,7 +1517,7 @@ body.dark-mode #rgceHub #rhDx .dxs{color:#a9b4c0}
 #rgceHub #rhDx .sm{font-size:clamp(13.5px,2.8vw,15px)!important}
 @media(max-width:640px){
 #rgceHub #rhDx table.rt thead{display:none}
-#rgceHub #rhDx table.rt,#rgceHub #rhDx table.rt tbody,#rgceHub #rhDx table.rt tfoot,#rgceHub #rhDx table.rt tr{display:block}
+#rgceHub #rhDx table.rt,#rgceHub #rhDx table.rt tbody,#rgceHub #rhDx table.rt tr{display:block}
 #rgceHub #rhDx table.rt tr{border:1px solid #000;margin-bottom:8px}
 #rgceHub #rhDx table.rt td{display:flex;justify-content:space-between;gap:14px;text-align:right;border:0;border-bottom:1px solid #000}
 #rgceHub #rhDx table.rt td::before{content:attr(data-l);font-weight:700;text-align:left}
@@ -10199,13 +10198,12 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       }
       if(!list){ say('',(byName?'No due record found for this name. Enter your full name exactly as registered, or use your mobile number.':'No due record found for this number. Please contact the shop.')+'<div class="sm">Shop phone: '+esc(SHOP_PHONE)+'</div>'); beep(330,0.14,0.035,'sine'); return; }
       slips=list.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',src:x.src||'',due:Number(x.due)||0,upd:upd,ph:p}; });
-      var total=0, rows=slips.map(function(x,i){
-        total+=x.due;
-        return '<tr><td data-l="No.">'+(i+1)+'</td><td data-l="Name"><b>'+esc(x.nm)+'</b></td><td data-l="Address">'+esc(x.ad||'-')+'</td><td data-l="Source">'+esc(x.src||'-')+'</td><td data-l="Due" class="am">'+(x.due>0?esc(money(x.due)):'No due')+'</td><td data-l="Slip"><button class="slipbtn" data-i="'+i+'" type="button">View slip</button></td></tr>';
+      var rows=slips.map(function(x,i){
+        return '<tr><td data-l="No.">'+(i+1)+'</td><td data-l="Name"><b>'+esc(x.nm)+'</b></td><td data-l="Address">'+esc(x.ad||'-')+'</td><td data-l="Source">'+esc(x.src||'-')+'</td><td data-l="Due" class="am">'+(x.due>0?esc(Math.round(x.due).toLocaleString('en-US'))+' Taka':'No due')+'</td><td data-l="Slip"><button class="slipbtn" data-i="'+i+'" type="button">View slip</button></td></tr>';
       }).join('');
       var r2=$('rhRes'); r2.className='res on';
       r2.innerHTML='<table class="rt"><thead><tr><th>No.</th><th>Name</th><th>Address</th><th>Source</th><th class="am">Due</th><th>Slip</th></tr></thead><tbody>'+rows+'</tbody>'
-        +(slips.length>1?'<tfoot><tr><td colspan="4" data-l="">Total due ('+slips.length+' customers)</td><td class="am" data-l="Total">'+esc(money(total))+'</td><td></td></tr></tfoot>':'')+'</table>'
+        +'</table>'
         +'<div class="sm">'+(upd?'Updated: '+esc(upd)+' \u00b7 ':'')+'Shop phone: '+esc(SHOP_PHONE)+'</div>';
       closeViewer();
       beep(988,0.12,0.04,'sine'); setTimeout(function(){ beep(1318,0.16,0.04,'sine'); },110);
