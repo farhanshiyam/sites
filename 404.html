@@ -1519,6 +1519,25 @@ body.dark-mode #rgceHub #rhDx .dxs{color:#a9b4c0}
 #rgceHub #rhDx td.lk{font-size:clamp(15px,3vw,17px)}
 #rgceHub #rhDx .sm{font-size:clamp(14.5px,3vw,16.5px)!important}
 #rgceHub #rhDx .dxnote{line-height:1.5}
+#rgceHub #rhDx table.dxnt{margin-top:8px}
+#rgceHub #rhDx table.dxnt td{padding:7px 10px;font-size:14px;line-height:1.45;text-align:left;display:table-cell}
+#rgceHub #rhDx table.dxnt .dxn-bn{margin-top:3px;font-family:"Noto Sans Bengali","Segoe UI",Arial,sans-serif}
+#rgceHub #rhDx table.dxnt .dxn-ct{margin-top:5px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14.5px;font-weight:700}
+#rgceHub #rhDx table.dxnt .dxn-ct a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+#rgceHub #rhDx table.dxnt .dxn-ct a:hover{text-decoration:underline}
+#rgceHub #rhDx table.dxnt .dxn-ct .fa-whatsapp{color:#25d366;font-size:18px}
+#rgceHub #rhDx table.dxnt .dxn-ct .fa-phone{color:#1f4e79}
+body.dark-mode #rgceHub #rhDx table.dxnt td{background:#1a1e26;color:#e6edf3;border-color:#aeb8c4}
+body.dark-mode #rgceHub #rhDx table.dxnt .dxn-ct .fa-phone{color:#7cb8e8}
+#rgceHub #rhDx input{font-size:clamp(22px,5.4vw,30px);line-height:1.5;padding:10px 0;caret-color:#e8590c;font-weight:600}
+#rgceHub #rhDx input::placeholder{font-size:clamp(15px,3.6vw,19px);font-weight:400;line-height:1.5;opacity:1}
+#rgceHub #rhDx #rhDueIn{--ec:#d00000;color:var(--ec);caret-color:var(--ec);-webkit-text-fill-color:var(--ec)}
+#rgceHub #rhDx #rhDueIn[data-c="1"]{--ec:#0b5cd5}
+#rgceHub #rhDx #rhDueIn[data-c="2"]{--ec:#1a8f3c}
+body.dark-mode #rgceHub #rhDx #rhDueIn{--ec:#ff6b6b}
+body.dark-mode #rgceHub #rhDx #rhDueIn[data-c="1"]{--ec:#6ab0ff}
+body.dark-mode #rgceHub #rhDx #rhDueIn[data-c="2"]{--ec:#4ade80}
+#rgceHub #rhDx #rhDueIn::placeholder{-webkit-text-fill-color:initial}
 #rgceHub #rhDx .dxnote a{font-weight:700;text-decoration:underline;color:inherit}
 @media(max-width:640px){
 #rgceHub #rhDx table.rt thead{display:none}
@@ -1685,7 +1704,7 @@ body:not(.dark-mode) #rgceHub .hero .eyebrow{color:#8a6a0a}
     <p class="dxs">No login. No waiting. Just type your mobile number or full name.</p>
     <table class="wt">
       <tbody>
-        <tr><td><input id="rhDueIn" type="text" inputmode="text" autocomplete="off" maxlength="60" enterkeyhint="search" placeholder="Mobile number or full name" aria-label="Mobile number or full name"></td><td class="bt"><button class="nbtn" id="rhDueGo" type="button"><span>Check Due</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></td></tr>
+        <tr><td><input id="rhDueIn" type="text" inputmode="text" autocomplete="off" maxlength="60" enterkeyhint="search" placeholder="Enter mobile number or full name… / মোবাইল নম্বর বা পুরো নাম লিখুন…" aria-label="Enter mobile number or full name / মোবাইল নম্বর বা পুরো নাম লিখুন"></td><td class="bt"><button class="nbtn" id="rhDueGo" type="button"><span>Check Due</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></td></tr>
         <tr><td colspan="2"><div class="res on" id="rhRes" aria-live="polite">Results will appear here.</div></td></tr>
         <tr><td colspan="2" class="lk"><a id="rhDxGo" href="https://farhanshiyam.github.io/due-checker/" rel="noopener">Open full Due Checker</a></td></tr>
       </tbody>
@@ -1751,9 +1770,6 @@ body:not(.dark-mode) #rgceHub .hero .eyebrow{color:#8a6a0a}
   <div class="app-body">
     <section class="dcu-home-grid" data-no-bn>
       <div class="dcu-pv" id="dcuPvWrap"><h2 data-dcu="pvTitle">Latest notices</h2><div id="dcuPv"></div></div>
-      <div class="dcu-due" id="dcuDue"><h2 data-dcu="dueTitle">Check your due balance</h2><p class="help" data-dcu="dueHelp">Enter the mobile number you gave to the shop.</p>
-        <div class="dcu-due-row"><input type="tel" id="dcuDuePhone" inputmode="tel" autocomplete="tel" data-dcu-ph="duePh" placeholder="01XXXXXXXXX" aria-label="Mobile number"><button type="button" class="btn btn-primary" id="dcuDueBtn" data-dcu="dueBtn">Check</button></div>
-        <div id="dcuDueOut" class="dcu-due-res" role="status" aria-live="polite"></div></div>
     </section>
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
@@ -3891,6 +3907,7 @@ body:not(.dark-mode) #rgceHub .hero .eyebrow{color:#8a6a0a}
       customer.transactionHistory = customer.transactionHistory || [];
       customer.transactionHistory.unshift({
         date: new Date().toLocaleString(),
+        ts: Date.now(),
         type: txn.type || '',
         amount: Number(txn.amount) || 0,
         note: txn.note || ''
@@ -9240,24 +9257,13 @@ body:not(.is-authed) .dcu-systools{display:none}
 
 /* ---------- home: notices preview + due lookup ---------- */
 .dcu-home-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;align-items:start}
-.dcu-pv,.dcu-due{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px}
-.dcu-pv h2,.dcu-due h2{margin:0 0 4px;font-size:18px;font-weight:700;color:var(--text)}
+.dcu-pv{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px}
+.dcu-pv h2{margin:0 0 4px;font-size:18px;font-weight:700;color:var(--text)}
 .dcu-pv-card{border-top:1px solid var(--border);padding:12px 0}
 .dcu-pv-card:first-of-type{border-top:0;padding-top:8px}
 .dcu-pv-card h3{margin:0 0 4px;font-size:16px;font-weight:700;color:var(--text);overflow-wrap:anywhere}
 .dcu-pv-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.55;overflow-wrap:anywhere}
 .dcu-pv-empty{color:var(--muted);margin:8px 0 0}
-.dcu-due p.help{margin:0 0 12px;color:var(--muted);font-size:14px}
-.dcu-due-row{display:flex;gap:8px}
-.dcu-due-row input{flex:1;min-width:0;min-height:42px;padding:0 12px;border:1px solid var(--border-strong);border-radius:8px;background:var(--input-bg);color:var(--text);font:inherit;font-size:16px}
-.dcu-due-row .btn{min-height:42px}
-.dcu-due-res{margin-top:12px;padding:0;border-radius:8px;font-size:14.5px;line-height:1.6}
-.dcu-due-res:not(:empty){padding:12px 14px;border:1px solid var(--border);background:var(--panel-alt)}
-.dcu-due-res .big{font-size:26px;font-weight:700;line-height:1.3}
-.dcu-due-res .sm{font-size:12.5px;color:var(--muted)}
-.dcu-due-res.bad .big{color:var(--danger)}
-.dcu-due-res.good .big{color:var(--success)}
-.dcu-due-res.warn{border-color:var(--danger);color:var(--danger)}
 html[data-dcu-view="customers"] .dcu-home-grid{display:none}
 @media(max-width:820px){.dcu-home-grid{grid-template-columns:1fr}}
 
@@ -9413,19 +9419,13 @@ html[data-dcu-view="customers"] #rgceHub{display:none}
 #rgceHub.ready .rv{animation:rhrv .7s var(--rh-ease) forwards;animation-delay:calc(var(--d,0)*120ms)}
 
 #rgceHub button{font-family:inherit}
-html:not([data-dcu-view="customers"]) .official-header,
-html:not([data-dcu-view="customers"]) #dcuDue{display:none!important}
+html:not([data-dcu-view="customers"]) .official-header{display:none!important}
 html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
 #rgceSplash{display:none;position:fixed;inset:0;z-index:2147483000;background:radial-gradient(circle at 50% 38%,#1f4e79 0%,#0f2d4a 62%,#0a2036 100%);color:#fff;flex-direction:column;align-items:center;justify-content:center;font-family:"Segoe UI","Noto Sans Bengali",Arial,sans-serif}
 #rgceSplash.show{display:flex}
 
 
 
-.dcu-due-card{padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--panel)}
-.dcu-due-card+.dcu-due-card{margin-top:10px}
-.dcu-due-card.bad .big{color:var(--danger)}
-.dcu-due-card.good .big{color:var(--success)}
-.dcu-due-count{font-size:12.5px;color:var(--muted);margin-bottom:8px;font-weight:600}
 @media (prefers-reduced-motion:reduce){#rgceHub *,#rgceHub *::before,#rgceHub *::after,#rgceSplash *{animation-duration:.01ms!important;animation-delay:0ms!important;transition-duration:.01ms!important}#rgceHub .rv{opacity:1;transform:none}}
 @media (max-width:600px){#rgceHub{width:calc(100% - 24px);margin-top:12px}#rgceHub .in{padding:30px 20px 28px}}
 @media print{#rgceHub,#rgceSplash,#rgceSv{display:none!important}}
@@ -9660,49 +9660,31 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   function normName(n){ return String(n||'').normalize('NFC').toLowerCase().replace(/[.,]/g,' ').replace(/\s+/g,' ').trim(); }
   async function sha(s){ var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)); return Array.prototype.map.call(new Uint8Array(b),function(x){return ('0'+x.toString(16)).slice(-2);}).join(''); }
   function money(n){ return '\u09F3'+Math.round(n).toLocaleString('en-US'); }
-  var lookups=[];
-  async function lookupDue(){
-    var out=$('#dcuDueOut'), inp=$('#dcuDuePhone'); if(!out||!inp) return;
-    var p=normPhone(inp.value);
-    if(!p){ out.className='dcu-due-res warn'; out.textContent=tt('dueBad'); return; }
-    var now=Date.now(); lookups=lookups.filter(function(t){return now-t<60000;});
-    if(lookups.length>=5){ out.className='dcu-due-res warn'; out.textContent=tt('dueWait'); return; }
-    lookups.push(now);
-    function listOf(d){
-      var arr=null; try{ if(typeof d.cs==='string') arr=JSON.parse(d.cs); else if(Array.isArray(d.cs)) arr=d.cs; }catch(e){}
-      if(!arr||!arr.length) arr=[{nm:d.nm,ad:d.ad,due:+d.due||0}];
-      return arr;
-    }
-    function show(d,upd){
-      var arr=listOf(d);
-      var head=arr.length>1?'<div class="dcu-due-count">'+arr.length+' customers use this number</div>':'';
-      out.className='dcu-due-res';
-      out.innerHTML=head+arr.map(function(x){
-        var due=+x.due||0;
-        return '<div class="dcu-due-card '+(due>0?'bad':'good')+'"><div>'+esc(tt('dueName'))+': <b>'+esc(x.nm||'-')+'</b></div>'
-          +(x.ad?'<div>'+esc(tt('dueAddr'))+': '+esc(x.ad)+'</div>':'')
-          +(x.src?'<div>Source: '+esc(x.src)+'</div>':'')
-          +(due>0?'<div>'+esc(tt('dueAmt'))+'</div><div class="big">'+esc(money(due))+'</div>':'<div class="big">'+esc(tt('dueClear'))+'</div>')
-          +(upd?'<div class="sm">'+esc(tt('dueUpd'))+': '+esc(upd)+'</div>':'')+'</div>';
-      }).join('')+'<div class="sm" style="margin-top:8px">'+esc(tt('dueCall'))+': '+esc(SHOP.phone)+'</div>';
-    }
-    out.className='dcu-due-res'; out.textContent='\u2026';
-    try{
-      /* signed-in staff already hold the data: answer from it directly (works even before anything is published) */
-      if(uid()){ var lg=buildDueGroups()[p]; if(lg){ show({due:lg.due,nm:lg.names.join(', '),ad:lg.addrs.join(' | '),cs:JSON.stringify(lg.list)},''); return; } }
-      if(!window.FB||!(window.crypto&&crypto.subtle)) throw new Error('n/a');
-      var id='p'+await sha('rgce-due-v1:'+p);
-      var snap=await getFresh(window.FB.doc(window.FB.db,'public_dues',id));
-      if(!(snap&&snap.exists&&snap.exists())){ out.className='dcu-due-res'; out.textContent=tt('dueNone'); return; }
-      var d=snap.data()||{}, due=+d.due||0, upd='';
-      try{ var t=d.upd&&d.upd.toDate?d.upd.toDate():null; if(t) upd=fmtDate(t.getFullYear()+'-'+('0'+(t.getMonth()+1)).slice(-2)+'-'+('0'+t.getDate()).slice(-2)); }catch(e){}
-      show(d,upd);
-    }catch(e){ console.warn('due lookup',e); out.className='dcu-due-res warn'; out.textContent=(e&&e.code==='permission-denied'&&uid())?tt('dueRulesFail'):tt('dueErr'); }
-  }
-
   /* ---- staff side: publish masked due records (one small document per phone number) ---- */
   function dueKey(){ return 'dcu_due_hash_'+uid(); }
   function loadHashes(){ try{ return JSON.parse(localStorage.getItem(dueKey())||'{}')||{}; }catch(e){ return {}; } }
+  /* "last updated" for a customer = date of the last payment received; if no payment history, the date the customer was added (never the live date) */
+  function luOf(c){
+    var iso=function(d){ return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); };
+    var dayFirst=(function(){ try{ var t=new Date(2000,10,25).toLocaleDateString(); return t.search(/25/)<t.search(/11/); }catch(e){ return true; } })();
+    function parse(v,dfFixed){
+      if(typeof v==='number'&&v>0) return new Date(v);
+      var t=String(v||'').replace(/[\u09E6-\u09EF]/g,function(ch){return String(ch.charCodeAt(0)-0x09E6);});
+      var m=t.match(/(\d{1,4})[\/.\-](\d{1,2})[\/.\-](\d{1,4})/); if(!m) return null;
+      var a=+m[1], b=+m[2], y=+m[3], d, mo;
+      if(m[1].length===4){ y=a; mo=b; d=+m[3]; }
+      else if(a>12){ d=a; mo=b; } else if(b>12){ mo=a; d=b; } else if(dfFixed||dayFirst){ d=a; mo=b; } else { mo=a; d=b; }
+      if(y<100) y+=2000;
+      var r=new Date(y,mo-1,d); return isNaN(r)||mo<1||mo>12?null:r;
+    }
+    var best=null;
+    (c.transactionHistory||[]).forEach(function(h){
+      if(!h||!/payment/i.test(String(h.type||''))||!(Number(h.amount)>0)) return;
+      var d=parse(h.ts||h.date); if(d&&(!best||d>best)) best=d;
+    });
+    if(!best) best=parse(c.dateAdded,true);   // dateAdded is always DD/MM/YYYY
+    return best?iso(best):'';
+  }
   function buildDueGroups(){
     var A=window.__app, list=(A&&A.getCustomers&&A.getCustomers())||[], g={};
     list.forEach(function(c){
@@ -9711,7 +9693,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       var cd=Math.max(0,due-paid);
       phs.forEach(function(ph){
         var x=g[ph]||(g[ph]={due:0,names:[],addrs:[],n:0,list:[]});
-        x.due+=cd; x.n++; if(x.list.length<25) x.list.push({nm:String(c.name||'').trim()||'-',ad:String(c.address||'').trim(),src:String(c.source==null?'':c.source).trim(),due:Math.round(cd)}); var m=String(c.name||'').trim()||'-'; if(x.names.indexOf(m)<0&&x.names.length<3) x.names.push(m); var ad=String(c.address||'').trim(); if(ad&&x.addrs.indexOf(ad)<0&&x.addrs.length<3) x.addrs.push(ad);
+        x.due+=cd; x.n++; if(x.list.length<25) x.list.push({nm:String(c.name||'').trim()||'-',ad:String(c.address||'').trim(),src:String(c.source==null?'':c.source).trim(),due:Math.round(cd),lu:luOf(c)}); var m=String(c.name||'').trim()||'-'; if(x.names.indexOf(m)<0&&x.names.length<3) x.names.push(m); var ad=String(c.address||'').trim(); if(ad&&x.addrs.indexOf(ad)<0&&x.addrs.length<3) x.addrs.push(ad);
       });
     });
     return g;
@@ -9734,7 +9716,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       var nm=String(c.name||'').trim()||'-', ad=String(c.address||'').trim(), cd=Math.max(0,(+c.due||0)-(+c.paid||0));
       var cid='c'+await sha('rgce-due-cust-v1:'+(c.id||(nm+'|'+ad)));
       if(ids.indexOf(cid)>=0) continue;
-      var sr=String(c.source==null?'':c.source).trim(), item=[{nm:nm,ad:ad,src:sr,due:Math.round(cd)}], ch='v2C|'+Math.round(cd)+'|'+nm+'|'+ad+'|'+sr;
+      var sr=String(c.source==null?'':c.source).trim(), item=[{nm:nm,ad:ad,src:sr,due:Math.round(cd),lu:luOf(c)}], ch='v3C|'+Math.round(cd)+'|'+nm+'|'+ad+'|'+sr+'|'+luOf(c);
       ids.push(cid); nextHashes[cid]=ch;
       if(force||hashes[cid]!==ch||prev.indexOf(cid)<0) ops.push({id:cid,data:{ownerUid:u,due:Math.round(cd),nm:nm,ad:ad,n:1,cs:JSON.stringify(item),upd:window.FB.serverTimestamp()}});
     }
@@ -9764,7 +9746,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       var k=normName(c.name); if(!k||k.length<3) return;
       var cd=Math.max(0,(+c.due||0)-(+c.paid||0)), g=G[k]||(G[k]={n:0,due:0,list:[]});
       g.n++; g.due+=cd;
-      if(g.list.length<25) g.list.push({nm:String(c.name||'').trim()||'-',ad:String(c.address||'').trim(),src:String(c.source==null?'':c.source).trim(),due:Math.round(cd)});
+      if(g.list.length<25) g.list.push({nm:String(c.name||'').trim()||'-',ad:String(c.address||'').trim(),src:String(c.source==null?'':c.source).trim(),due:Math.round(cd),lu:luOf(c)});
     });
     var ks=Object.keys(G);
     for(var i=0;i<ks.length;i++){
@@ -9968,7 +9950,6 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       var dl=t.closest('[data-dl]'); if(dl){ downloadNotice(dl.getAttribute('data-nid'),dl.getAttribute('data-dl')); return; }
       var ob=t.closest('[data-open-board]'); if(ob){ openBoard(ob.getAttribute('data-open-board')); return; }
       if(t.closest('#dcuPvAll')){ openBoard(); return; }
-      if(t.closest('#dcuDueBtn')){ lookupDue(); return; }
       var fb=t.closest('[data-fab]');
       if(fb){ var k=fb.getAttribute('data-fab'); closeFab();
         if(k==='add'){ var ab=$('#addCustomerTopBtn'); if(ab) ab.click(); }
@@ -9978,7 +9959,6 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       if(t.closest('#dcuFabBtn')){ var m=$('#dcuFabMenu'),b2=$('#dcuFabBtn'); var willOpen=m.hidden; m.hidden=!willOpen; b2.setAttribute('aria-expanded',willOpen?'true':'false'); b2.classList.toggle('open',willOpen); return; }
       closeFab();
     });
-    var dp=$('#dcuDuePhone'); if(dp) dp.addEventListener('keydown',function(e){ if(e.key==='Enter') lookupDue(); });
     D.addEventListener('keydown',function(e){ if(e.key==='Escape'){ closeFab(); closeMenus(); if(nav){nav.classList.remove('open'); syncMenuBtn();} } });
     $$('#dcuStatusTabs .dcu-tab').forEach(function(b){
       b.addEventListener('click',function(){
@@ -10024,6 +10004,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     splash.classList.add('out');
     HUB.classList.add('ready');
     try{ sessionStorage.setItem(SEEN,'1'); }catch(e){}
+    setTimeout(focusDue,750);
     setTimeout(function(){ splash.style.display='none'; },700);
   }
 
@@ -10107,7 +10088,11 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   }
   var ran=true, taken=false;
   var dueIn=$('rhDueIn');
+  function focusDue(){ try{ if(dueIn && dueIn.offsetParent!==null && !document.activeElement.matches('input,textarea,select')) dueIn.focus({preventScroll:true}); }catch(e){} }
+  window.addEventListener('load',function(){ setTimeout(focusDue,300); });
   dueIn.addEventListener('focus',function(){ taken=true; });
+  /* entered name / number: a random colour (red, blue or green) for each new entry */
+  dueIn.addEventListener('input',function(){ if(dueIn.value.length===1||!dueIn.hasAttribute('data-c')) dueIn.setAttribute('data-c',String(Math.floor(Math.random()*3))); });
   dueIn.addEventListener('input',function(){ beep(700+Math.random()*140,0.035,0.03,'triangle'); });
   async function showcase(){
     if(ran) return; ran=true;
@@ -10135,8 +10120,9 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   function entriesOf(f){
     var arr=null; try{ if(f.cs&&f.cs.stringValue) arr=JSON.parse(f.cs.stringValue); }catch(e){}
     if(!arr||!arr.length) arr=[{nm:(f.nm&&f.nm.stringValue)||'-',ad:(f.ad&&f.ad.stringValue)||'',due:fnum(f.due)}];
-    return arr.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',src:String(x.src==null?'':x.src).trim(),due:Number(x.due)||0}; });
+    return arr.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',src:String(x.src==null?'':x.src).trim(),due:Number(x.due)||0,lu:String(x.lu||'')}; });
   }
+  function luText(v){ var m=String(v||'').match(/^(\d{4})-(\d{2})-(\d{2})$/); if(!m) return ''; return new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }
   function updOf(f){ try{ if(f.upd&&f.upd.timestampValue) return new Date(f.upd.timestampValue).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }catch(e){} return ''; }
   function titleCase(t){ return t.replace(/(^|\s)(\S)/g,function(m,a,b){ return a+b.toUpperCase(); }); }
   /* search by name: 1) exact full-name record  2) names that start with what was typed  3) scan (partial names).  Steps 2-3 only work if the database allows listing. */
@@ -10202,14 +10188,14 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
         }
       }
       if(!list){ say('',(byName?'No due record found for this name. Enter your full name exactly as registered, or use your mobile number.':'No due record found for this number. Please contact the shop.')+'<div class="sm">Shop phone: '+esc(SHOP_PHONE)+'</div>'); beep(330,0.14,0.035,'sine'); return; }
-      slips=list.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',src:x.src||'',due:Number(x.due)||0,upd:upd,ph:p}; });
+      slips=list.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',src:x.src||'',due:Number(x.due)||0,upd:luText(x.lu)||'-',ph:p}; });
       var rows=slips.map(function(x,i){
         return '<tr><td data-l="No.">'+(i+1)+'</td><td data-l="Name"><b>'+esc(x.nm)+'</b></td><td data-l="Address">'+esc(x.ad||'-')+'</td><td data-l="Source">'+esc(x.src||'-')+'</td><td data-l="Due" class="am">'+(x.due>0?'<span class="amt">'+esc(Math.round(x.due).toLocaleString('en-US'))+'</span> <span class="tk">Taka</span>':'No due')+'</td><td data-l="Slip"><button class="slipbtn" data-i="'+i+'" type="button">View slip</button></td></tr>';
       }).join('');
       var r2=$('rhRes'); r2.className='res on';
       r2.innerHTML='<table class="rt"><thead><tr><th>No.</th><th>Name</th><th>Address</th><th>Source</th><th class="am">Due</th><th>Slip</th></tr></thead><tbody>'+rows+'</tbody>'
         +'</table>'
-        +'<div class="sm dxnote">Data may not be updated. For accurate due, contact: <a href="tel:+8801319362189">01319362189</a> \u00b7 <a href="https://wa.me/8801319362189" target="_blank" rel="noopener">WhatsApp</a></div>';
+        +'<table class="wt dxnt"><tbody><tr><td>'+'<div lang="en">Data may not be updated. See the &quot;Last updated&quot; date in your due slip. For accurate due amount, contact:</div>'+'<div lang="bn" class="dxn-bn">\u09A4\u09A5\u09CD\u09AF \u09B8\u09B0\u09CD\u09AC\u09B6\u09C7\u09B7 \u0986\u09AA\u09A1\u09C7\u099F \u09A8\u09BE\u0993 \u09B9\u09A4\u09C7 \u09AA\u09BE\u09B0\u09C7\u0964 \u0995\u09AC\u09C7 \u0986\u09AA\u09A1\u09C7\u099F \u09B9\u09AF\u09BC\u09C7\u099B\u09C7 \u09A4\u09BE \u09A1\u09BF\u0989 \u09B8\u09CD\u09B2\u09BF\u09AA\u09C7 "Last updated" \u09A4\u09BE\u09B0\u09BF\u0996\u09C7 \u09A6\u09C7\u0996\u09C1\u09A8\u0964 \u09B8\u09A0\u09BF\u0995 \u09AC\u0995\u09C7\u09AF\u09BC\u09BE\u09B0 \u09AA\u09B0\u09BF\u09AE\u09BE\u09A3 \u099C\u09BE\u09A8\u09A4\u09C7 \u09AF\u09CB\u0997\u09BE\u09AF\u09CB\u0997 \u0995\u09B0\u09C1\u09A8:</div>'+'<div class="dxn-ct"><a href="tel:+8801319362189"><i class="fas fa-phone" aria-hidden="true"></i> 01319362189</a><a href="https://wa.me/8801319362189" target="_blank" rel="noopener"><i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp</a></div>'+'</td></tr></tbody></table>';
       closeViewer();
       beep(988,0.12,0.04,'sine'); setTimeout(function(){ beep(1318,0.16,0.04,'sine'); },110);
     }catch(e){ console.warn('due lookup',e); say('warn','Could not check right now. Please try again later.'); }
