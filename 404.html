@@ -10126,13 +10126,31 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   function updOf(f){ try{ if(f.upd&&f.upd.timestampValue) return new Date(f.upd.timestampValue).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }catch(e){} return ''; }
   function titleCase(t){ return t.replace(/(^|\s)(\S)/g,function(m,a,b){ return a+b.toUpperCase(); }); }
   /* search by name: 1) exact full-name record  2) names that start with what was typed  3) scan (partial names).  Steps 2-3 only work if the database allows listing. */
+  /* search by name: matches ANY name that contains what was typed (e.g. "mon" -> Monju, Liton Mondal, Sumon ...).
+     1) exact full-name record  2) names that start with it (fast query)  3) scan of all published records (cached 60s).
+     All three are merged, then sorted: starts-with first, then word-starts-with, then the rest. */
+  var allDocs=null, allAt=0;
+  async function scanAll(){
+    if(allDocs&&Date.now()-allAt<60000) return allDocs;
+    var docs=[], tok='', pages=0, ok=true;
+    try{
+      do{
+        var r3=await fetch(FS_BASE+'/public_dues?pageSize=300&key='+FB_KEY+(tok?'&pageToken='+encodeURIComponent(tok):''),{cache:'no-store'});
+        if(!r3.ok){ ok=false; break; }
+        var j=await r3.json(); (j.documents||[]).forEach(function(d){ docs.push(d.fields||{}); });
+        tok=j.nextPageToken||''; pages++;
+      }while(tok&&pages<12);
+    }catch(e){ ok=false; }
+    if(ok&&docs.length){ allDocs=docs; allAt=Date.now(); }
+    return docs;
+  }
   async function findByName(raw,nk){
-    var out=[], seen={}, upd='', toks=nk.split(' ');
+    var out=[], seen={}, toks=nk.split(' '), CAP=40;
     function take(f){
       entriesOf(f).forEach(function(x){
         var h=normName(x.nm); if(!toks.every(function(t){ return h.indexOf(t)>=0; })) return;
-        var key=h+'|'+normName(x.ad)+'|'+x.due; if(seen[key]||out.length>=25) return;
-        seen[key]=1; out.push(x); if(!upd) upd=updOf(f);
+        var key=h+'|'+normName(x.ad)+'|'+x.due; if(seen[key]||out.length>=CAP) return;
+        seen[key]=1; out.push(x);
       });
     }
     try{
@@ -10140,11 +10158,10 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       var r=await fetch(FS_BASE+'/public_dues/'+id+'?key='+FB_KEY,{cache:'no-store'});
       if(r.ok){ take((await r.json()).fields||{}); }
     }catch(e){}
-    if(out.length) return {list:out,upd:upd};
     try{
       var first=raw.trim().split(/\s+/)[0], qs=[], add=function(q){ if(q&&qs.indexOf(q)<0) qs.push(q); };
       [raw.trim(),first].forEach(function(q){ add(q); add(titleCase(q.toLowerCase())); add(q.toLowerCase()); add(q.toUpperCase()); });
-      for(var i=0;i<qs.length&&!out.length;i++){
+      for(var i=0;i<qs.length;i++){
         var body={structuredQuery:{from:[{collectionId:'public_dues'}],where:{compositeFilter:{op:'AND',filters:[
           {fieldFilter:{field:{fieldPath:'nm'},op:'GREATER_THAN_OR_EQUAL',value:{stringValue:qs[i]}}},
           {fieldFilter:{field:{fieldPath:'nm'},op:'LESS_THAN',value:{stringValue:qs[i]+'\uf8ff'}}}]}},limit:25}};
@@ -10153,17 +10170,10 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
         (await r2.json()||[]).forEach(function(x){ if(x.document) take(x.document.fields||{}); });
       }
     }catch(e){}
-    if(out.length) return {list:out,upd:upd};
-    try{
-      var tok='', pages=0;
-      do{
-        var r3=await fetch(FS_BASE+'/public_dues?pageSize=300&key='+FB_KEY+(tok?'&pageToken='+encodeURIComponent(tok):''),{cache:'no-store'});
-        if(!r3.ok) break;
-        var j=await r3.json(); (j.documents||[]).forEach(function(d){ take(d.fields||{}); });
-        tok=j.nextPageToken||''; pages++;
-      }while(tok&&pages<8&&out.length<25);
-    }catch(e){}
-    return {list:out,upd:upd};
+    try{ (await scanAll()).forEach(function(f){ take(f); }); }catch(e){}
+    function rank(x){ var h=normName(x.nm); if(h.indexOf(nk)===0) return 0; if((' '+h).indexOf(' '+nk)>=0) return 1; return 2; }
+    out.sort(function(a,b){ return rank(a)-rank(b) || normName(a.nm).localeCompare(normName(b.nm)); });
+    return {list:out,upd:''};
   }
   async function checkDue(){
     if(busy) return;
