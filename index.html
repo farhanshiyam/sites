@@ -1365,17 +1365,29 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
 <style id="rz-livechat-css">
 /* Home page: Live Chat card (opens the shop's chat page in the SAME tab, so Back returns here) */
 #rhChat{position:relative;overflow:hidden;border-radius:22px;padding:24px 28px;color:#fff;display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:radial-gradient(120% 140% at 100% 0%,#1f4e79 0%,#0f2d4a 60%,#0a2036 100%);border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 36px rgba(15,45,74,.22)}
+#rhPoll{position:relative;overflow:hidden;border-radius:22px;padding:24px 28px;color:#fff;display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:radial-gradient(120% 140% at 100% 0%,#1f4e79 0%,#0f2d4a 60%,#0a2036 100%);border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 36px rgba(15,45,74,.22)}
 #rhChat .rzc-ic{width:56px;height:56px;border-radius:50%;background:#fff;color:#0f2d4a;display:grid;place-items:center;flex:none;font-size:24px;position:relative}
+#rhPoll .rzc-ic{width:56px;height:56px;border-radius:50%;background:#fff;color:#0f2d4a;display:grid;place-items:center;flex:none;font-size:24px;position:relative}
 #rhChat .rzc-ic::after{content:"";position:absolute;right:2px;top:2px;width:13px;height:13px;border-radius:50%;background:#2fb344;border:2px solid #fff}
+#rhPoll .rzc-ic::after{content:"";position:absolute;right:2px;top:2px;width:13px;height:13px;border-radius:50%;background:#2fb344;border:2px solid #fff}
 #rhChat .rzc-tx{flex:1;min-width:220px}
+#rhPoll .rzc-tx{flex:1;min-width:220px}
 #rhChat .rzc-chip{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#d4a72c;margin-bottom:4px}
+#rhPoll .rzc-chip{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#d4a72c;margin-bottom:4px}
 #rhChat h2{margin:0 0 4px;font-size:clamp(19px,3.2vw,24px);font-weight:800;line-height:1.25;color:#fff}
+#rhPoll h2{margin:0 0 4px;font-size:clamp(19px,3.2vw,24px);font-weight:800;line-height:1.25;color:#fff}
 #rhChat p{margin:0;font-size:14.5px;line-height:1.5;color:rgba(255,255,255,.82)}
+#rhPoll p{margin:0;font-size:14.5px;line-height:1.5;color:rgba(255,255,255,.82)}
 #rhChat .rzc-go{display:inline-flex;align-items:center;gap:8px;background:#d4a72c;color:#0f2d4a;font-weight:800;font-size:15px;text-decoration:none;padding:12px 22px;border-radius:12px;white-space:nowrap;transition:filter .15s,transform .15s}
+#rhPoll .rzc-go{display:inline-flex;align-items:center;gap:8px;background:#d4a72c;color:#0f2d4a;font-weight:800;font-size:15px;text-decoration:none;padding:12px 22px;border-radius:12px;white-space:nowrap;transition:filter .15s,transform .15s}
 #rhChat .rzc-go:hover{filter:brightness(1.08);transform:translateY(-1px)}
+#rhPoll .rzc-go:hover{filter:brightness(1.08);transform:translateY(-1px)}
 #rhChat .rzc-go:focus-visible{outline:3px solid #fff;outline-offset:3px}
+#rhPoll .rzc-go:focus-visible{outline:3px solid #fff;outline-offset:3px}
 #rhChat .rzc-go svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+#rhPoll .rzc-go svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:600px){#rhChat{padding:20px 18px}#rhChat .rzc-go{width:100%;justify-content:center}}
+@media(max-width:600px){#rhPoll{padding:20px 18px}#rhPoll .rzc-go{width:100%;justify-content:center}}
 
 /* ===== Online Shop card + one-time announcement (opens the shop in the SAME tab) ===== */
 #rhShop{position:relative;overflow:hidden;border-radius:22px;padding:24px 28px;color:#fff;display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:radial-gradient(120% 140% at 0% 0%,#1d6b57 0%,#0f3d36 60%,#0a2a26 100%);border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 36px rgba(15,61,54,.22)}
@@ -1391,29 +1403,48 @@ html #rgceSplash .mark.rz-splash-mark{width:min(74vw,300px);height:auto}
 @media(max-width:600px){#rhShop{padding:20px 18px}#rhShop .rzs-go{width:100%;justify-content:center}}
 /* ===== Online Shop + Live Chat: border-based cards. Due check: plain MS Word table. One shared new button (.nbtn) ===== */
 #rgceHub #rhShop,#rgceHub #rhChat{background:var(--panel,#fff);color:var(--text,#142234);border:2px solid var(--rc);border-radius:14px;box-shadow:none;padding:22px 24px}
+#rgceHub #rhShop,#rgceHub #rhPoll{background:var(--panel,#fff);color:var(--text,#142234);border:2px solid var(--rc);border-radius:14px;box-shadow:none;padding:22px 24px}
 #rgceHub #rhShop{--rc:#0f3d36}
 #rgceHub #rhChat{--rc:#1f4e79}
+#rgceHub #rhPoll{--rc:#7a3e9d}
 #rgceHub #rhDx{--rc:#0f2d4a}
 body.dark-mode #rgceHub #rhShop{--rc:#5fd3a8}
 body.dark-mode #rgceHub #rhChat{--rc:#8cc4ee}
+body.dark-mode #rgceHub #rhPoll{--rc:#d2a8ff}
 body.dark-mode #rgceHub #rhDx{--rc:#cfd8e2}
 #rgceHub #rhShop h2,#rgceHub #rhChat h2{color:var(--text,#142234)}
+#rgceHub #rhShop h2,#rgceHub #rhPoll h2{color:var(--text,#142234)}
 #rgceHub #rhShop p,#rgceHub #rhChat p{color:var(--rh-muted,#5b6776)}
+#rgceHub #rhShop p,#rgceHub #rhPoll p{color:var(--rh-muted,#5b6776)}
 body.dark-mode #rgceHub #rhShop p,body.dark-mode #rgceHub #rhChat p{color:#b3bec9}
+body.dark-mode #rgceHub #rhShop p,body.dark-mode #rgceHub #rhPoll p{color:#b3bec9}
 #rgceHub #rhShop .rzs-chip,#rgceHub #rhChat .rzc-chip{color:var(--rc)}
+#rgceHub #rhShop .rzs-chip,#rgceHub #rhPoll .rzc-chip{color:var(--rc)}
 #rgceHub #rhShop .rzs-ic,#rgceHub #rhChat .rzc-ic{background:transparent;color:var(--rc);border:2px solid var(--rc)}
+#rgceHub #rhShop .rzs-ic,#rgceHub #rhPoll .rzc-ic{background:transparent;color:var(--rc);border:2px solid var(--rc)}
 #rgceHub #rhChat .rzc-ic::after{border-color:var(--panel,#fff)}
+#rgceHub #rhPoll .rzc-ic::after{border-color:var(--panel,#fff)}
 /* new button: outlined label + solid arrow block */
 #rgceHub #rhShop .nbtn,#rgceHub #rhChat .nbtn,#rgceHub #rhDx .nbtn{appearance:none;display:inline-flex;align-items:stretch;gap:0;padding:0;margin:0;font:inherit;font-weight:700;font-size:14.5px;line-height:1.2;text-decoration:none;white-space:nowrap;cursor:pointer;color:var(--rc);background:transparent;border:2px solid var(--rc);border-radius:10px;overflow:hidden;box-shadow:none;transform:none;filter:none;transition:background .15s,color .15s}
+#rgceHub #rhShop .nbtn,#rgceHub #rhPoll .nbtn,#rgceHub #rhDx .nbtn{appearance:none;display:inline-flex;align-items:stretch;gap:0;padding:0;margin:0;font:inherit;font-weight:700;font-size:14.5px;line-height:1.2;text-decoration:none;white-space:nowrap;cursor:pointer;color:var(--rc);background:transparent;border:2px solid var(--rc);border-radius:10px;overflow:hidden;box-shadow:none;transform:none;filter:none;transition:background .15s,color .15s}
 #rgceHub #rhShop .nbtn span,#rgceHub #rhChat .nbtn span,#rgceHub #rhDx .nbtn span{display:inline-flex;align-items:center;padding:9px 16px}
+#rgceHub #rhShop .nbtn span,#rgceHub #rhPoll .nbtn span,#rgceHub #rhDx .nbtn span{display:inline-flex;align-items:center;padding:9px 16px}
 #rgceHub #rhShop .nbtn svg,#rgceHub #rhChat .nbtn svg,#rgceHub #rhDx .nbtn svg{box-sizing:content-box;width:18px;height:auto;align-self:stretch;padding:0 12px;background:var(--rc);fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+#rgceHub #rhShop .nbtn svg,#rgceHub #rhPoll .nbtn svg,#rgceHub #rhDx .nbtn svg{box-sizing:content-box;width:18px;height:auto;align-self:stretch;padding:0 12px;background:var(--rc);fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 #rgceHub #rhShop .nbtn:hover,#rgceHub #rhChat .nbtn:hover,#rgceHub #rhDx .nbtn:hover{background:var(--rc);color:#fff;transform:none;filter:none;box-shadow:none}
+#rgceHub #rhShop .nbtn:hover,#rgceHub #rhPoll .nbtn:hover,#rgceHub #rhDx .nbtn:hover{background:var(--rc);color:#fff;transform:none;filter:none;box-shadow:none}
 #rgceHub #rhShop .nbtn:hover svg,#rgceHub #rhChat .nbtn:hover svg,#rgceHub #rhDx .nbtn:hover svg{background:rgba(0,0,0,.28)}
+#rgceHub #rhShop .nbtn:hover svg,#rgceHub #rhPoll .nbtn:hover svg,#rgceHub #rhDx .nbtn:hover svg{background:rgba(0,0,0,.28)}
 #rgceHub #rhShop .nbtn:focus-visible,#rgceHub #rhChat .nbtn:focus-visible,#rgceHub #rhDx .nbtn:focus-visible{outline:3px solid var(--rc);outline-offset:3px}
+#rgceHub #rhShop .nbtn:focus-visible,#rgceHub #rhPoll .nbtn:focus-visible,#rgceHub #rhDx .nbtn:focus-visible{outline:3px solid var(--rc);outline-offset:3px}
 body.dark-mode #rgceHub #rhShop .nbtn svg,body.dark-mode #rgceHub #rhChat .nbtn svg,body.dark-mode #rgceHub #rhDx .nbtn svg{stroke:#0b1117}
+body.dark-mode #rgceHub #rhShop .nbtn svg,body.dark-mode #rgceHub #rhPoll .nbtn svg,body.dark-mode #rgceHub #rhDx .nbtn svg{stroke:#0b1117}
 body.dark-mode #rgceHub #rhShop .nbtn:hover,body.dark-mode #rgceHub #rhChat .nbtn:hover,body.dark-mode #rgceHub #rhDx .nbtn:hover{color:#0b1117}
+body.dark-mode #rgceHub #rhShop .nbtn:hover,body.dark-mode #rgceHub #rhPoll .nbtn:hover,body.dark-mode #rgceHub #rhDx .nbtn:hover{color:#0b1117}
 body.dark-mode #rgceHub #rhShop .nbtn:hover svg,body.dark-mode #rgceHub #rhChat .nbtn:hover svg,body.dark-mode #rgceHub #rhDx .nbtn:hover svg{background:rgba(255,255,255,.4)}
+body.dark-mode #rgceHub #rhShop .nbtn:hover svg,body.dark-mode #rgceHub #rhPoll .nbtn:hover svg,body.dark-mode #rgceHub #rhDx .nbtn:hover svg{background:rgba(255,255,255,.4)}
 @media(max-width:600px){#rgceHub #rhShop .nbtn,#rgceHub #rhChat .nbtn{width:100%;justify-content:space-between}#rgceHub #rhShop .nbtn span,#rgceHub #rhChat .nbtn span{flex:1}}
+@media(max-width:600px){#rgceHub #rhShop .nbtn,#rgceHub #rhPoll .nbtn{width:100%;justify-content:space-between}#rgceHub #rhShop .nbtn span,#rgceHub #rhPoll .nbtn span{flex:1}}
 /* due check: plain MS Word table */
 #rgceHub #rhDx{background:none;border:0;box-shadow:none;padding:0;border-radius:0;font:15px/1.45 Calibri,"Segoe UI",Arial,"Noto Sans Bengali",sans-serif}
 #rgceHub #rhDx table.wt{width:100%;border-collapse:collapse;background:#fff;color:#000}
@@ -1728,6 +1759,15 @@ body:not(.dark-mode) #rgceHub .hero .eyebrow{color:#8a6a0a}
       <p id="rzcText">Ask about products, prices, orders or your due. Our shop team will reply right here. No login needed.</p>
     </div>
     <a class="rzc-go nbtn" id="rzcGo" href="https://farhanshiyam.github.io/due-checker/live-chat"><span id="rzcBtn">Start Live Chat</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </section>
+  <section class="rv" style="--d:7" id="rhPoll" aria-labelledby="rzpTitle" data-no-bn>
+    <span class="rzc-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></span>
+    <div class="rzc-tx">
+      <span class="rzc-chip" id="rzpChip">Customer Poll</span>
+      <h2 id="rzpTitle">Your opinion matters. Vote in our polls.</h2>
+      <p id="rzpText">Tell us what you like and help us choose. Give your name and number, or stay anonymous. It takes a few seconds.</p>
+    </div>
+    <button type="button" class="rzc-go nbtn" id="rzpGo"><span id="rzpBtn">View Polls</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
   </section>
   <div class="facts rv" style="--d:7">
     <div class="fact"><small>Address</small><b>Moshjid Market, Naohata Mor, Mohadevpur, Naogaon</b></div>
@@ -10537,6 +10577,196 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     });
   }
   if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
+<script id="rz-poll">
+(function () {
+  'use strict';
+  /* Customer polls: reads published polls from Firestore (REST, no login) and sends the customer's vote.
+     Needs the Firestore rules shown in the admin panel (Polls > Firestore rules). */
+  var KEY = 'AIzaSyCZOUCY2_19d6g5pnuVmEi1prfc-wBeN9w', PROJ = 'rgce-sparkdesk-2';
+  var BASE = 'https://firestore.googleapis.com/v1/projects/' + PROJ + '/databases/(default)/documents';
+  var TXT = {
+    en: {
+      chip: 'Customer Poll', title: 'Your opinion matters. Vote in our polls.', text: 'Tell us what you like and help us choose. Give your name and number, or stay anonymous. It takes a few seconds.', btn: 'View Polls',
+      h: 'Polls', close: 'Close', back: 'All polls', load: 'Loading polls...', none: 'No poll is open right now. Please check again soon.', err: 'Polls could not be loaded right now. Please try again later.',
+      take: 'Take part', see: 'See result', done: 'You took part', live: 'Open', scheduled: 'Starts {d}', ended: 'Ended', closed: 'Closed', until: 'Open until {d}', multi: 'Choose one or more answers', single: 'Choose one answer',
+      who: 'How do you want to take part?', kNamed: 'With my name', kAnon: 'Anonymous', kWalk: 'Walk-in at the shop', name: 'Your name', contact: 'Mobile number', nameOpt: 'Name (optional)', contactH: 'Used only to avoid double voting. One vote per number.',
+      send: 'Submit my vote', sending: 'Sending...', vName: 'Please enter your name.', vPhone: 'Enter a valid mobile number, like 01XXXXXXXXX.', vPick: 'Please choose an answer.', vDone: 'You have already taken part from this device.',
+      dup: 'This mobile number has already voted in this poll.', denied: 'Voting is not available right now.', fail: 'Could not send your vote. Check your internet and try again.',
+      thanks: 'Thank you!', thanksP: 'Your vote has been received.', res: 'Result', resAt: 'Updated {d}. New votes can take a little while to show.', votes: 'votes', total: 'Total votes', noRes: 'The result is not public for this poll.'
+    },
+    bn: {
+      chip: 'কাস্টমার পোল', title: 'আপনার মতামত গুরুত্বপূর্ণ। আমাদের পোলে ভোট দিন।', text: 'আপনি কী পছন্দ করেন জানান, সিদ্ধান্ত নিতে আমাদের সাহায্য করুন। নাম ও নম্বর দিয়ে অথবা নাম না জানিয়েও অংশ নিতে পারবেন। মাত্র কয়েক সেকেন্ড লাগবে।', btn: 'পোল দেখুন',
+      h: 'পোল', close: 'বন্ধ', back: 'সব পোল', load: 'পোল লোড হচ্ছে...', none: 'এখন কোনো পোল চালু নেই। একটু পরে আবার দেখুন।', err: 'এখন পোল লোড করা যাচ্ছে না। একটু পরে আবার চেষ্টা করুন।',
+      take: 'অংশ নিন', see: 'ফলাফল দেখুন', done: 'আপনি অংশ নিয়েছেন', live: 'চলছে', scheduled: 'শুরু {d}', ended: 'শেষ', closed: 'বন্ধ', until: '{d} পর্যন্ত চালু', multi: 'এক বা একাধিক উত্তর বেছে নিন', single: 'একটি উত্তর বেছে নিন',
+      who: 'কীভাবে অংশ নিতে চান?', kNamed: 'নামসহ', kAnon: 'নাম প্রকাশ না করে', kWalk: 'দোকানে ওয়াক-ইন', name: 'আপনার নাম', contact: 'মোবাইল নম্বর', nameOpt: 'নাম (ঐচ্ছিক)', contactH: 'শুধু একই ব্যক্তির দুইবার ভোট ঠেকাতে ব্যবহার হয়। এক নম্বরে একটি ভোট।',
+      send: 'আমার ভোট দিন', sending: 'পাঠানো হচ্ছে...', vName: 'আপনার নাম লিখুন।', vPhone: 'সঠিক মোবাইল নম্বর দিন, যেমন 01XXXXXXXXX।', vPick: 'একটি উত্তর বেছে নিন।', vDone: 'এই ডিভাইস থেকে আপনি আগেই অংশ নিয়েছেন।',
+      dup: 'এই মোবাইল নম্বর দিয়ে এই পোলে আগেই ভোট দেওয়া হয়েছে।', denied: 'এখন ভোট দেওয়া যাচ্ছে না।', fail: 'ভোট পাঠানো যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।',
+      thanks: 'ধন্যবাদ!', thanksP: 'আপনার ভোট গ্রহণ করা হয়েছে।', res: 'ফলাফল', resAt: '{d} পর্যন্ত আপডেট। নতুন ভোট দেখাতে কিছুটা সময় লাগতে পারে।', votes: 'ভোট', total: 'মোট ভোট', noRes: 'এই পোলের ফলাফল সবার জন্য প্রকাশ করা হয়নি।'
+    }
+  };
+  function cur() { try { return localStorage.getItem('rgce_lang') === 'bn' ? 'bn' : 'en'; } catch (e) { return document.documentElement.lang === 'bn' ? 'bn' : 'en'; } }
+  function tx(k, r) { var s = (TXT[cur()][k] != null ? TXT[cur()][k] : TXT.en[k]) || k; if (r) for (var x in r) s = s.split('{' + x + '}').join(r[x]); return s; }
+  function esc(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function $(id) { return document.getElementById(id); }
+  function paintCard() { var t = TXT[cur()]; function set(id, v) { var n = $(id); if (n) n.textContent = v; } set('rzpChip', t.chip); set('rzpTitle', t.title); set('rzpText', t.text); set('rzpBtn', t.btn); }
+  paintCard();
+  try { new MutationObserver(function () { paintCard(); if (ov) rerender(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] }); } catch (e) {}
+  window.addEventListener('storage', function (e) { if (e.key === 'rgce_lang') { paintCard(); if (ov) rerender(); } });
+
+  /* ---- Firestore REST helpers ---- */
+  function fv(v) {
+    if (!v) return null;
+    if ('stringValue' in v) return v.stringValue; if ('integerValue' in v) return +v.integerValue; if ('doubleValue' in v) return v.doubleValue;
+    if ('booleanValue' in v) return v.booleanValue; if ('timestampValue' in v) return v.timestampValue; if ('nullValue' in v) return null;
+    if (v.arrayValue) return (v.arrayValue.values || []).map(fv);
+    if (v.mapValue) { var o = {}, f = v.mapValue.fields || {}; for (var k in f) o[k] = fv(f[k]); return o; }
+    return null;
+  }
+  function toObj(d) { var o = {}, f = d.fields || {}; for (var k in f) o[k] = fv(f[k]); o.id = String(d.name || '').split('/').pop(); return o; }
+  function sv(s) { return { stringValue: String(s) }; }
+  async function sha(t) { var b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return Array.prototype.map.call(new Uint8Array(b), function (x) { return ('0' + x.toString(16)).slice(-2); }).join(''); }
+  function today() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function fmtD(s) { var m = String(s || '').match(/^(\d{4})-(\d{2})-(\d{2})$/); if (!m) return ''; return new Date(+m[1], +m[2] - 1, +m[3]).toLocaleDateString(cur() === 'bn' ? 'bn-BD' : 'en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  function fmtT(s) { var d = new Date(s); if (isNaN(d)) return ''; return d.toLocaleString(cur() === 'bn' ? 'bn-BD' : 'en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); }
+  function eff(p) { var td = today(); if (p.status === 'closed') return 'closed'; if (p.startAt && p.startAt > td) return 'scheduled'; if (p.endAt && p.endAt < td) return 'ended'; return 'live'; }
+  function normPhone(p) { var d = String(p || '').replace(/[\u09E6-\u09EF]/g, function (c) { return String(c.charCodeAt(0) - 0x09E6); }).replace(/\D/g, ''); if (d.indexOf('00880') === 0) d = d.slice(4); else if (d.indexOf('880') === 0) d = d.slice(2); if (d.length === 10 && d.charAt(0) === '1') d = '0' + d; return /^01\d{9}$/.test(d) ? d : ''; }
+  var COLS = ['#1f4e79', '#2e7d32', '#c62828', '#6a1b9a', '#e65100', '#00838f'];
+  function acc(p) { return COLS[(+p.accent || 0) % COLS.length]; }
+  function doneMap() { try { return JSON.parse(localStorage.getItem('rz_poll_done') || '{}') || {}; } catch (e) { return {}; } }
+  function markDone(id) { try { var m = doneMap(); m[id] = 1; localStorage.setItem('rz_poll_done', JSON.stringify(m)); } catch (e) {} }
+  function devId() { try { var d = localStorage.getItem('rz_dev'); if (!d) { d = Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(8)), function (b) { return (b % 36).toString(36); }).join(''); localStorage.setItem('rz_dev', d); } return d; } catch (e) { return 'na'; } }
+  function rnd(n) { return Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(n)), function (b) { return (b % 36).toString(36); }).join(''); }
+
+  async function loadPolls() {
+    var body = { structuredQuery: { from: [{ collectionId: 'polls' }], where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'IN', value: { arrayValue: { values: [sv('published'), sv('closed')] } } } }, limit: 50 } };
+    var r = await fetch(BASE + ':runQuery?key=' + KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (!r.ok) throw new Error('http ' + r.status);
+    var j = await r.json(), out = [];
+    (j || []).forEach(function (x) { if (x.document) out.push(toObj(x.document)); });
+    out.sort(function (a, b) { return String(b.createdAt || '').localeCompare(String(a.createdAt || '')); });
+    return out;
+  }
+  function hasRes(p) { return !!(p.showResults && p.pubAt && p.pubCounts); }
+
+  /* ---- overlay ---- */
+  var ov = null, state = { view: 'list', polls: null, err: false, poll: null, kind: '', busy: false, msg: '', picks: [], name: '', phone: '' };
+  function css() {
+    if ($('rzpCss')) return;
+    var s = document.createElement('style'); s.id = 'rzpCss';
+    s.textContent = '#rzpOv{--pb:#fff;--pt:#142234;--pm:#5b6776;--pl:#d6dde6;--pi:#f3f6fa;position:fixed;inset:0;z-index:2147483000;background:rgba(8,14,22,.62);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));font-family:inherit}'
+      + 'body.dark-mode #rzpOv{--pb:#16212e;--pt:#e6edf5;--pm:#a6b4c4;--pl:#2d3b4d;--pi:#0f1824}'
+      + '#rzpOv .sh{width:100%;max-width:680px;margin:auto 0;background:var(--pb);color:var(--pt);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden}'
+      + '#rzpOv .hd{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--pl);position:sticky;top:0;background:var(--pb);z-index:2}#rzpOv .hd h2{margin:0;font-size:19px;flex:1;min-width:0}'
+      + '#rzpOv .x,#rzpOv .bk{appearance:none;border:1px solid var(--pl);background:transparent;color:var(--pt);border-radius:10px;padding:7px 12px;font:inherit;font-weight:700;cursor:pointer}#rzpOv .x:hover,#rzpOv .bk:hover{border-color:var(--pt)}'
+      + '#rzpOv .bd{padding:16px 18px 22px}#rzpOv .mu{color:var(--pm);font-size:14px;line-height:1.5}'
+      + '#rzpOv .pc{border:1px solid var(--pl);border-top:5px solid var(--ac);border-radius:14px;padding:14px 16px;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}'
+      + '#rzpOv .em{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:25px;flex:none;background:color-mix(in srgb,var(--ac) 14%,transparent)}#rzpOv .pc .tt{flex:1 1 200px;min-width:0}#rzpOv .pc b{display:block;font-size:17px;line-height:1.3;overflow-wrap:anywhere}#rzpOv .pc .mu{margin-top:3px}'
+      + '#rzpOv .st{display:inline-block;font-size:12px;font-weight:700;border:1px solid var(--pl);border-radius:999px;padding:1px 9px;margin-bottom:5px;color:var(--pm)}#rzpOv .st.live{color:#1b7f3b;border-color:#1b7f3b}body.dark-mode #rzpOv .st.live{color:#5fcf86;border-color:#5fcf86}'
+      + '#rzpOv .go{appearance:none;border:0;border-radius:11px;padding:11px 18px;font:inherit;font-weight:800;font-size:15px;cursor:pointer;background:var(--ac,#1f4e79);color:#fff;width:auto}#rzpOv .go[disabled]{opacity:.6;cursor:not-allowed}#rzpOv .go.ghost{background:transparent;color:var(--ac,#1f4e79);border:2px solid var(--ac,#1f4e79)}'
+      + '#rzpOv h3{margin:18px 0 8px;font-size:15px}#rzpOv .seg{display:flex;flex-wrap:wrap;gap:8px}#rzpOv .seg button{appearance:none;flex:1 1 140px;border:2px solid var(--pl);background:var(--pi);color:var(--pt);border-radius:11px;padding:10px 12px;font:inherit;font-weight:700;cursor:pointer}#rzpOv .seg button.on{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--pi))}'
+      + '#rzpOv label.f{display:block;font-weight:700;font-size:14px;margin:12px 0 4px}#rzpOv input.t{width:100%;box-sizing:border-box;padding:12px 13px;border:2px solid var(--pl);border-radius:11px;background:var(--pi);color:var(--pt);font:inherit;font-size:16px}#rzpOv input.t:focus{outline:none;border-color:var(--ac)}'
+      + '#rzpOv .op{display:flex;gap:11px;align-items:center;border:2px solid var(--pl);border-radius:12px;padding:12px 14px;margin:0 0 8px;cursor:pointer;background:var(--pi);font-weight:600}#rzpOv .op:has(input:checked){border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--pi))}#rzpOv .op input{width:20px;height:20px;accent-color:var(--ac);flex:none;margin:0}#rzpOv .op span{overflow-wrap:anywhere}'
+      + '#rzpOv .er{color:#c62828;font-weight:600;font-size:14px;margin:10px 0 0;min-height:20px}body.dark-mode #rzpOv .er{color:#ff8a8a}'
+      + '#rzpOv .br{margin:12px 0}#rzpOv .br .l{display:flex;justify-content:space-between;gap:10px;font-weight:700;font-size:15px}#rzpOv .br .tr{height:16px;background:var(--pl);border-radius:999px;overflow:hidden;margin-top:5px}#rzpOv .br .tr i{display:block;height:100%;background:var(--ac);border-radius:999px}'
+      + '#rzpOv .ok{text-align:center;padding:10px 0 4px}#rzpOv .ok .ck{width:68px;height:68px;border-radius:50%;background:#1b7f3b;color:#fff;display:grid;place-items:center;margin:0 auto 10px;font-size:36px}'
+      + '@media(max-width:520px){#rzpOv{padding:0}#rzpOv .sh{border-radius:0;min-height:100%}#rzpOv .go{width:100%}}';
+    document.head.appendChild(s);
+  }
+  function open() {
+    css(); if (ov) return;
+    ov = document.createElement('div'); ov.id = 'rzpOv'; ov.setAttribute('data-no-bn', ''); ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true');
+    document.body.appendChild(ov); document.documentElement.style.overflow = 'hidden';
+    ov.addEventListener('mousedown', function (e) { if (e.target === ov) close(); });
+    ov.addEventListener('click', onClick); ov.addEventListener('input', onInput);
+    document.addEventListener('keydown', onKey);
+    state.view = 'list'; state.err = false; render();
+    if (!state.polls) { loadPolls().then(function (a) { state.polls = a; render(); }).catch(function () { state.err = true; render(); }); }
+    else loadPolls().then(function (a) { state.polls = a; if (state.view === 'list') render(); }).catch(function () {});
+  }
+  function close() { if (!ov) return; document.removeEventListener('keydown', onKey); ov.remove(); ov = null; document.documentElement.style.overflow = ''; var b = $('rzpGo'); if (b) { try { b.focus(); } catch (e) {} } }
+  function onKey(e) { if (e.key === 'Escape') close(); }
+  function rerender() { if (ov) render(); }
+  function frame(title, inner, back) {
+    ov.innerHTML = '<div class="sh"><div class="hd">' + (back ? '<button type="button" class="bk" data-a="back">\u2190 ' + esc(tx('back')) + '</button>' : '') + '<h2>' + esc(title) + '</h2><button type="button" class="x" data-a="close" aria-label="' + esc(tx('close')) + '">\u2715</button></div><div class="bd">' + inner + '</div></div>';
+    var f = ov.querySelector('.x'); if (f && !back) { try { f.focus({ preventScroll: true }); } catch (e) {} }
+  }
+  function render() {
+    if (!ov) return;
+    if (state.view === 'poll') return viewPoll(); if (state.view === 'thanks') return viewThanks(); if (state.view === 'result') return viewResult();
+    if (state.err) return frame(tx('h'), '<p class="mu">' + esc(tx('err')) + '</p>');
+    if (!state.polls) return frame(tx('h'), '<p class="mu">' + esc(tx('load')) + '</p>');
+    var dm = doneMap(), list = state.polls.filter(function (p) { var e = eff(p); return e === 'live' || e === 'scheduled' || hasRes(p); });
+    if (!list.length) return frame(tx('h'), '<p class="mu">' + esc(tx('none')) + '</p>');
+    frame(tx('h'), list.map(function (p) {
+      var e = eff(p), canVote = e === 'live', done = !!dm[p.id];
+      var stl = e === 'live' ? '<span class="st live">' + esc(tx('live')) + '</span>' : '<span class="st">' + esc(e === 'scheduled' ? tx('scheduled', { d: fmtD(p.startAt) }) : tx(e)) + '</span>';
+      var sub = e === 'live' && p.endAt ? '<div class="mu">' + esc(tx('until', { d: fmtD(p.endAt) })) + '</div>' : '';
+      var btn = canVote && !done ? '<button class="go" type="button" data-a="open" data-id="' + esc(p.id) + '">' + esc(tx('take')) + ' \u2192</button>'
+        : (hasRes(p) ? '<button class="go ghost" type="button" data-a="res" data-id="' + esc(p.id) + '">' + esc(tx('see')) + '</button>' : (done ? '<span class="mu">\u2713 ' + esc(tx('done')) + '</span>' : ''));
+      return '<div class="pc" style="--ac:' + acc(p) + '"><span class="em" aria-hidden="true">' + esc(p.emoji || '\uD83D\uDCCA') + '</span><div class="tt">' + stl + '<b>' + esc(p.title) + '</b>' + (p.desc ? '<div class="mu">' + esc(p.desc) + '</div>' : '') + sub + '</div>' + btn + '</div>';
+    }).join(''));
+  }
+  function kindsOf(p) { var k = []; if (p.allowNamed !== false) k.push('named'); if (p.allowAnon !== false) k.push('anon'); if (p.allowWalk !== false) k.push('walkin'); return k.length ? k : ['anon']; }
+  function viewPoll() {
+    var p = state.poll, ks = kindsOf(p); if (ks.indexOf(state.kind) < 0) state.kind = ks[0];
+    var lbl = { named: tx('kNamed'), anon: tx('kAnon'), walkin: tx('kWalk') };
+    var h = '<div style="--ac:' + acc(p) + '">' + (p.desc ? '<p class="mu" style="margin-top:0">' + esc(p.desc) + '</p>' : '')
+      + '<h3>' + esc(p.multi ? tx('multi') : tx('single')) + '</h3>'
+      + (p.options || []).map(function (o) { return '<label class="op"><input type="' + (p.multi ? 'checkbox' : 'radio') + '" name="rzpO" value="' + esc(o.id) + '"' + (state.picks.indexOf(o.id) >= 0 ? ' checked' : '') + '><span>' + esc(o.text) + '</span></label>'; }).join('')
+      + (ks.length > 1 ? '<h3>' + esc(tx('who')) + '</h3><div class="seg">' + ks.map(function (k) { return '<button type="button" data-a="kind" data-k="' + k + '" class="' + (k === state.kind ? 'on' : '') + '">' + esc(lbl[k]) + '</button>'; }).join('') + '</div>' : '')
+      + (state.kind === 'named' ? '<label class="f" for="rzpN">' + esc(tx('name')) + '</label><input class="t" id="rzpN" maxlength="80" autocomplete="name" value="' + esc(state.name) + '"><label class="f" for="rzpP">' + esc(tx('contact')) + '</label><input class="t" id="rzpP" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="01XXXXXXXXX" value="' + esc(state.phone) + '"><div class="mu" style="margin-top:4px;font-size:13px">' + esc(tx('contactH')) + '</div>' : '')
+      + (state.kind === 'walkin' ? '<label class="f" for="rzpN">' + esc(tx('nameOpt')) + '</label><input class="t" id="rzpN" maxlength="80" autocomplete="name" value="' + esc(state.name) + '">' : '')
+      + '<div class="er" id="rzpE" role="alert">' + esc(state.msg) + '</div><button class="go" type="button" data-a="send"' + (state.busy ? ' disabled' : '') + '>' + esc(state.busy ? tx('sending') : tx('send')) + '</button></div>';
+    frame((p.emoji || '') + ' ' + p.title, h, true);
+  }
+  function bars(p) {
+    var c = p.pubCounts || {}, tot = +p.pubTotal || 0;
+    return '<div style="--ac:' + acc(p) + '">' + (p.options || []).map(function (o) { var n = +c[o.id] || 0, pc = tot ? Math.round(n * 1000 / tot) / 10 : 0; return '<div class="br"><div class="l"><span>' + esc(o.text) + '</span><span>' + n + ' \u2022 ' + pc + '%</span></div><div class="tr"><i style="width:' + pc + '%"></i></div></div>'; }).join('')
+      + '<p class="mu">' + esc(tx('total')) + ': <b>' + tot + '</b><br>' + esc(tx('resAt', { d: fmtT(p.pubAt) })) + '</p></div>';
+  }
+  function viewThanks() {
+    var p = state.poll;
+    frame(tx('h'), '<div class="ok"><div class="ck">\u2713</div><h3 style="font-size:22px;margin:6px 0">' + esc(tx('thanks')) + '</h3><p class="mu">' + esc(tx('thanksP')) + '</p></div>' + (hasRes(p) ? '<h3>' + esc(tx('res')) + '</h3>' + bars(p) : '') + '<p style="margin-top:16px"><button class="go ghost" type="button" data-a="back" style="--ac:' + acc(p) + '">' + esc(tx('back')) + '</button></p>');
+  }
+  function viewResult() { var p = state.poll; frame((p.emoji || '') + ' ' + p.title, hasRes(p) ? bars(p) : '<p class="mu">' + esc(tx('noRes')) + '</p>', true); }
+  function onInput(e) {
+    if (e.target.id === 'rzpN') state.name = e.target.value; else if (e.target.id === 'rzpP') state.phone = e.target.value;
+    else if (e.target.name === 'rzpO') { var p = state.poll; state.picks = Array.prototype.map.call(ov.querySelectorAll('input[name="rzpO"]:checked'), function (x) { return x.value; }); }
+  }
+  function byId(id) { return (state.polls || []).filter(function (p) { return p.id === id; })[0]; }
+  async function onClick(e) {
+    var b = e.target.closest('[data-a]'); if (!b) return; var a = b.getAttribute('data-a');
+    if (a === 'close') return close();
+    if (a === 'back') { state.view = 'list'; state.msg = ''; return render(); }
+    if (a === 'open') { var p = byId(b.getAttribute('data-id')); if (!p) return; state.poll = p; state.view = 'poll'; state.picks = []; state.msg = ''; state.kind = kindsOf(p)[0]; state.busy = false; render(); return; }
+    if (a === 'res') { var q = byId(b.getAttribute('data-id')); if (!q) return; state.poll = q; state.view = 'result'; return render(); }
+    if (a === 'kind') { state.kind = b.getAttribute('data-k'); state.msg = ''; return render(); }
+    if (a === 'send') return send();
+  }
+  async function send() {
+    var p = state.poll; if (!p || state.busy) return;
+    var picks = Array.prototype.map.call(ov.querySelectorAll('input[name="rzpO"]:checked'), function (x) { return x.value; }); state.picks = picks;
+    var nm = (state.name || '').trim(), ph = '';
+    function stop(m) { state.msg = tx(m); state.busy = false; render(); }
+    if (!picks.length) return stop('vPick');
+    if (state.kind === 'named') { if (nm.length < 2) return stop('vName'); ph = normPhone(state.phone); if (!ph) return stop('vPhone'); }
+    if (state.kind === 'anon') { nm = ''; if (doneMap()[p.id]) return stop('vDone'); }
+    state.busy = true; state.msg = ''; render();
+    try {
+      var vid = state.kind === 'named' ? 'c' + (await sha('rgce-poll|' + p.id + '|' + ph)).slice(0, 40) : 'a' + rnd(24);
+      var body = { fields: { kind: sv(state.kind), name: sv(nm), contact: sv(ph), choices: { arrayValue: { values: picks.map(sv) } }, at: { timestampValue: new Date().toISOString() }, dev: sv(devId()) } };
+      var r = await fetch(BASE + '/polls/' + encodeURIComponent(p.id) + '/votes?documentId=' + encodeURIComponent(vid) + '&key=' + KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      if (r.ok) { markDone(p.id); state.busy = false; state.view = 'thanks'; state.name = ''; state.phone = ''; return render(); }
+      var code = r.status; state.busy = false;
+      if (code === 409) { markDone(p.id); return stop('dup'); }
+      if (code === 403) return stop('denied');
+      return stop('fail');
+    } catch (x) { state.busy = false; return stop('fail'); }
+  }
+  document.addEventListener('click', function (e) { var g = e.target.closest ? e.target.closest('#rzpGo') : null; if (g) { e.preventDefault(); open(); } });
 })();
 </script>
 
