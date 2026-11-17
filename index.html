@@ -1596,6 +1596,47 @@ body:not(.dark-mode) #rgceHub .hero .eyebrow{color:#8a6a0a}
 @media(max-width:520px){#rzTopShop{padding-left:10px;padding-right:10px}}
 @media print{#rhShop,.rz-ann,#rzTopShop{display:none!important}}
 </style>
+<style id="rz-poll-card-css">
+/* Home page: Polls card = one big animated link (not a boxed button like the others) */
+#rgceHub #rhPoll.rzp{--rc:#7a3e9d;--rp1:#7a3e9d;--rp2:#e0508a;--rp3:#f5a623;display:block;position:relative;overflow:hidden;padding:0;border:2px solid transparent;border-radius:18px;color:var(--text,#142234);
+  background:linear-gradient(var(--panel,#fff),var(--panel,#fff)) padding-box,linear-gradient(110deg,var(--rp1),var(--rp2),var(--rp3),var(--rp1)) border-box;background-size:100% 100%,200% 100%;
+  box-shadow:0 10px 30px rgba(122,62,157,.18);animation:rzpFlow 6s linear infinite;transition:transform .2s ease,box-shadow .2s ease}
+#rgceHub #rhPoll.rzp:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(224,80,138,.28)}
+body.dark-mode #rgceHub #rhPoll.rzp{--rc:#d2a8ff;--rp1:#d2a8ff;--rp2:#ff8fb8;--rp3:#ffd27a;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+#rhPoll .rzp-card{position:relative;display:flex;align-items:center;gap:22px;padding:22px 26px;color:inherit;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;overflow:hidden}
+#rhPoll .rzp-card::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,transparent 35%,rgba(224,80,138,.12) 50%,transparent 65%);transform:translateX(-100%);animation:rzpSheen 4.8s ease-in-out infinite}
+#rhPoll .rzp-card:focus-visible{outline:3px solid var(--rc);outline-offset:-6px;border-radius:16px}
+#rhPoll .rzp-viz{flex:none;width:92px;height:70px;display:flex;align-items:flex-end;gap:7px}
+#rhPoll .rzp-viz i{flex:1;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,var(--rp2),var(--rp1));transform-origin:bottom;animation:rzpBar 2.6s ease-in-out infinite}
+#rhPoll .rzp-viz i:nth-child(1){height:45%}
+#rhPoll .rzp-viz i:nth-child(2){height:80%;animation-delay:-.5s}
+#rhPoll .rzp-viz i:nth-child(3){height:58%;animation-delay:-1s}
+#rhPoll .rzp-viz i:nth-child(4){height:100%;animation-delay:-1.5s}
+#rhPoll .rzp-viz i:nth-child(5){height:70%;animation-delay:-2s}
+#rhPoll .rzp-body{flex:1;min-width:0;display:block}
+#rhPoll .rzp-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-bottom:6px}
+#rhPoll .rzp-live{display:inline-flex;align-items:center;gap:6px;background:#e0245e;color:#fff;font-size:11px;font-weight:800;letter-spacing:1.2px;padding:3px 10px;border-radius:999px}
+#rhPoll .rzp-live b{width:7px;height:7px;border-radius:50%;background:#fff;animation:rzpPulse 1.4s ease-in-out infinite}
+#rhPoll.rzp-idle .rzp-live{display:none}
+#rhPoll .rzp-chip{font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--rc)}
+#rhPoll .rzp-count{font-size:12.5px;font-weight:700;color:var(--rh-muted,#5b6776)}
+#rhPoll .rzp-count:empty{display:none}
+#rgceHub #rhPoll.rzp h2{margin:0 0 4px;font-size:clamp(19px,3.2vw,24px);font-weight:800;line-height:1.25;color:var(--text,#142234)}
+#rgceHub #rhPoll.rzp p{margin:0;font-size:14.5px;line-height:1.5;color:var(--rh-muted,#5b6776)}
+body.dark-mode #rgceHub #rhPoll.rzp p,body.dark-mode #rhPoll .rzp-count{color:#b3bec9}
+#rhPoll .rzp-cta{position:relative;display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding-bottom:4px;font-weight:800;font-size:15.5px;color:var(--rc)}
+#rhPoll .rzp-cta::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--rp1),var(--rp2),var(--rp3));transform:scaleX(.3);transform-origin:left;transition:transform .35s ease}
+#rhPoll .rzp-card:hover .rzp-cta::after,#rhPoll .rzp-card:focus-visible .rzp-cta::after{transform:scaleX(1)}
+#rhPoll .rzp-cta svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;animation:rzpNudge 1.7s ease-in-out infinite}
+@keyframes rzpFlow{to{background-position:0 0,200% 0}}
+@keyframes rzpSheen{0%,55%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@keyframes rzpBar{0%,100%{transform:scaleY(.55)}50%{transform:scaleY(1)}}
+@keyframes rzpPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+@keyframes rzpNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+@media(max-width:600px){#rhPoll .rzp-card{flex-direction:column;align-items:flex-start;gap:14px;padding:18px 18px}#rhPoll .rzp-viz{width:76px;height:54px}}
+@media(prefers-reduced-motion:reduce){#rgceHub #rhPoll.rzp,#rhPoll .rzp-card::before,#rhPoll .rzp-viz i,#rhPoll .rzp-live b,#rhPoll .rzp-cta svg{animation:none!important}}
+@media print{#rhPoll{display:none!important}}
+</style>
 <style id="rgce-outside-close">
 /* blank space around/below an open modal is "outside": give it room so a tap there is possible even on short modals */
 #modalOverlay.open,#fbmOverlay.open,#rgceSafePanel{min-height:calc(100vh - 150px);cursor:default}
@@ -1760,14 +1801,20 @@ body:not(.dark-mode) #rgceHub .hero .eyebrow{color:#8a6a0a}
     </div>
     <a class="rzc-go nbtn" id="rzcGo" href="https://farhanshiyam.github.io/due-checker/live-chat"><span id="rzcBtn">Start Live Chat</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
   </section>
-  <section class="rv" style="--d:7" id="rhPoll" aria-labelledby="rzpTitle" data-no-bn>
-    <span class="rzc-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></span>
-    <div class="rzc-tx">
-      <span class="rzc-chip" id="rzpChip">Customer Poll</span>
-      <h2 id="rzpTitle">Your opinion matters. Vote in our polls.</h2>
-      <p id="rzpText">Tell us what you like and help us choose. Give your name and number, or stay anonymous. It takes a few seconds.</p>
-    </div>
-    <button type="button" class="rzc-go nbtn" id="rzpGo"><span id="rzpBtn">View Polls</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  <section class="rv rzp" style="--d:7" id="rhPoll" aria-labelledby="rzpTitle" data-no-bn>
+    <a class="rzp-card" id="rzpGo" href="#polls">
+      <span class="rzp-viz" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="rzp-body">
+        <span class="rzp-top">
+          <span class="rzp-live" id="rzpLive"><b></b><span id="rzpLiveT">LIVE</span></span>
+          <span class="rzp-chip" id="rzpChip">Customer Poll</span>
+          <span class="rzp-count" id="rzpCount"></span>
+        </span>
+        <h2 id="rzpTitle">Your opinion matters. Vote in our polls.</h2>
+        <p id="rzpText">Tell us what you like and help us choose. Give your name and number, or stay anonymous. It takes a few seconds.</p>
+        <span class="rzp-cta"><span id="rzpBtn">View polling pages</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </span>
+    </a>
   </section>
   <div class="facts rv" style="--d:7">
     <div class="fact"><small>Address</small><b>Moshjid Market, Naohata Mor, Mohadevpur, Naogaon</b></div>
@@ -7322,6 +7369,7 @@ body:not(.dark-mode) #rgceHub .hero .eyebrow{color:#8a6a0a}
     function rgceApplyPath(p) {
       var seg = p.split('/').map(function (x) { try { return decodeURIComponent(x); } catch (e) { return x; } });
       var a = seg[0], ok = true;
+      if (a === 'polls') return;
       rgceSetViewAttr();
       rgceRouting = true;
       try {
@@ -7413,10 +7461,12 @@ body:not(.dark-mode) #rgceHub .hero .eyebrow{color:#8a6a0a}
     }
     if (RGCE_ROUTER_ON) {
       rgceActual = rgceParse();
+      if (/^polls(\/|$)/.test(rgceActual)) rgceActual = '';   // /polls... is handled by the polls module
       if (rgceActual === RGCE_LOGIN_SLUG) { rgceStartOnLogin = true; rgceActual = ''; }
       rgceHold = rgceActual !== '';          // keep the typed URL until login + data are ready
       window.addEventListener('popstate', function () {
         var prev = rgceActual, p = rgceParse();
+        if (/^polls(\/|$)/.test(p)) { rgceActual = ''; return; }   // polls module handles it
         if (p === RGCE_LOGIN_SLUG) {                      // back/forward onto the login address
           if (window.__currentUser) { try { history.replaceState({ p: '' }, '', RGCE_BASE); } catch (e) {} return; }
           rgceOnLogin = true; if (window.__rgceLogin) window.__rgceLogin.show(); return;
@@ -10586,10 +10636,10 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   /* Customer polls: reads published polls from Firestore (REST, no login) and sends the customer's vote.
      Needs the Firestore rules shown in the admin panel (Polls > Firestore rules). */
   var KEY = 'AIzaSyCZOUCY2_19d6g5pnuVmEi1prfc-wBeN9w', PROJ = 'rgce-sparkdesk-2';
-  var BASE = 'https://firestore.googleapis.com/v1/projects/' + PROJ + '/databases/(default)/documents';
+  var FSB = 'https://firestore.googleapis.com/v1/projects/' + PROJ + '/databases/(default)/documents';
   var TXT = {
     en: {
-      chip: 'Customer Poll', title: 'Your opinion matters. Vote in our polls.', text: 'Tell us what you like and help us choose. Give your name and number, or stay anonymous. It takes a few seconds.', btn: 'View Polls',
+      chip: 'Customer Poll', title: 'Your opinion matters. Vote in our polls.', text: 'Tell us what you like and help us choose. Give your name and number, or stay anonymous. It takes a few seconds.', btn: 'View polling pages',
       h: 'Polls', close: 'Close', back: 'All polls', load: 'Loading polls...', none: 'No poll is open right now. Please check again soon.', err: 'Polls could not be loaded right now. Please try again later.',
       take: 'Take part', see: 'See result', done: 'You took part', live: 'Open', scheduled: 'Starts {d}', ended: 'Ended', closed: 'Closed', until: 'Open until {d}', multi: 'Choose one or more answers', single: 'Choose one answer',
       who: 'How do you want to take part?', kNamed: 'With my name', kAnon: 'Anonymous', kWalk: 'Walk-in at the shop', name: 'Your name', contact: 'Mobile number', nameOpt: 'Name (optional)', contactH: 'Used only to avoid double voting. One vote per number.',
@@ -10598,7 +10648,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       thanks: 'Thank you!', thanksP: 'Your vote has been received.', res: 'Result', resAt: 'Updated {d}. New votes can take a little while to show.', votes: 'votes', total: 'Total votes', noRes: 'The result is not public for this poll.'
     },
     bn: {
-      chip: 'কাস্টমার পোল', title: 'আপনার মতামত গুরুত্বপূর্ণ। আমাদের পোলে ভোট দিন।', text: 'আপনি কী পছন্দ করেন জানান, সিদ্ধান্ত নিতে আমাদের সাহায্য করুন। নাম ও নম্বর দিয়ে অথবা নাম না জানিয়েও অংশ নিতে পারবেন। মাত্র কয়েক সেকেন্ড লাগবে।', btn: 'পোল দেখুন',
+      chip: 'কাস্টমার পোল', title: 'আপনার মতামত গুরুত্বপূর্ণ। আমাদের পোলে ভোট দিন।', text: 'আপনি কী পছন্দ করেন জানান, সিদ্ধান্ত নিতে আমাদের সাহায্য করুন। নাম ও নম্বর দিয়ে অথবা নাম না জানিয়েও অংশ নিতে পারবেন। মাত্র কয়েক সেকেন্ড লাগবে।', btn: 'পোলিং পেজ দেখুন',
       h: 'পোল', close: 'বন্ধ', back: 'সব পোল', load: 'পোল লোড হচ্ছে...', none: 'এখন কোনো পোল চালু নেই। একটু পরে আবার দেখুন।', err: 'এখন পোল লোড করা যাচ্ছে না। একটু পরে আবার চেষ্টা করুন।',
       take: 'অংশ নিন', see: 'ফলাফল দেখুন', done: 'আপনি অংশ নিয়েছেন', live: 'চলছে', scheduled: 'শুরু {d}', ended: 'শেষ', closed: 'বন্ধ', until: '{d} পর্যন্ত চালু', multi: 'এক বা একাধিক উত্তর বেছে নিন', single: 'একটি উত্তর বেছে নিন',
       who: 'কীভাবে অংশ নিতে চান?', kNamed: 'নামসহ', kAnon: 'নাম প্রকাশ না করে', kWalk: 'দোকানে ওয়াক-ইন', name: 'আপনার নাম', contact: 'মোবাইল নম্বর', nameOpt: 'নাম (ঐচ্ছিক)', contactH: 'শুধু একই ব্যক্তির দুইবার ভোট ঠেকাতে ব্যবহার হয়। এক নম্বরে একটি ভোট।',
@@ -10607,11 +10657,13 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       thanks: 'ধন্যবাদ!', thanksP: 'আপনার ভোট গ্রহণ করা হয়েছে।', res: 'ফলাফল', resAt: '{d} পর্যন্ত আপডেট। নতুন ভোট দেখাতে কিছুটা সময় লাগতে পারে।', votes: 'ভোট', total: 'মোট ভোট', noRes: 'এই পোলের ফলাফল সবার জন্য প্রকাশ করা হয়নি।'
     }
   };
+  Object.assign(TXT.en, { liveTag: 'LIVE', open1: '1 poll open now', openN: '{n} polls open now', cnt1: '1 poll', cnt: '{n} polls', opts: '{n} options' });
+  Object.assign(TXT.bn, { liveTag: '\u09B2\u09BE\u0987\u09AD', open1: '\u09E7\u099F\u09BF \u09AA\u09CB\u09B2 \u099A\u09BE\u09B2\u09C1 \u0986\u099B\u09C7', openN: '{n}\u099F\u09BF \u09AA\u09CB\u09B2 \u099A\u09BE\u09B2\u09C1 \u0986\u099B\u09C7', cnt1: '\u09E7\u099F\u09BF \u09AA\u09CB\u09B2', cnt: '{n}\u099F\u09BF \u09AA\u09CB\u09B2', opts: '{n}\u099F\u09BF \u0985\u09AA\u09B6\u09A8' });
   function cur() { try { return localStorage.getItem('rgce_lang') === 'bn' ? 'bn' : 'en'; } catch (e) { return document.documentElement.lang === 'bn' ? 'bn' : 'en'; } }
   function tx(k, r) { var s = (TXT[cur()][k] != null ? TXT[cur()][k] : TXT.en[k]) || k; if (r) for (var x in r) s = s.split('{' + x + '}').join(r[x]); return s; }
   function esc(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function $(id) { return document.getElementById(id); }
-  function paintCard() { var t = TXT[cur()]; function set(id, v) { var n = $(id); if (n) n.textContent = v; } set('rzpChip', t.chip); set('rzpTitle', t.title); set('rzpText', t.text); set('rzpBtn', t.btn); }
+  function paintCard() { var t = TXT[cur()]; function set(id, v) { var n = $(id); if (n) n.textContent = v; } set('rzpChip', t.chip); set('rzpTitle', t.title); set('rzpText', t.text); set('rzpBtn', t.btn); set('rzpLiveT', t.liveTag); if (typeof paintCount === 'function') paintCount(); }
   paintCard();
   try { new MutationObserver(function () { paintCard(); if (ov) rerender(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] }); } catch (e) {}
   window.addEventListener('storage', function (e) { if (e.key === 'rgce_lang') { paintCard(); if (ov) rerender(); } });
@@ -10642,7 +10694,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
 
   async function loadPolls() {
     var body = { structuredQuery: { from: [{ collectionId: 'polls' }], where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'IN', value: { arrayValue: { values: [sv('published'), sv('closed')] } } } }, limit: 50 } };
-    var r = await fetch(BASE + ':runQuery?key=' + KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    var r = await fetch(FSB + ':runQuery?key=' + KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (!r.ok) throw new Error('http ' + r.status);
     var j = await r.json(), out = [];
     (j || []).forEach(function (x) { if (x.document) out.push(toObj(x.document)); });
@@ -10652,97 +10704,265 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   function hasRes(p) { return !!(p.showResults && p.pubAt && p.pubCounts); }
 
   /* ---- overlay ---- */
-  var ov = null, state = { view: 'list', polls: null, err: false, poll: null, kind: '', busy: false, msg: '', picks: [], name: '', phone: '' };
+  var ov = null, state = { view: 'list', polls: null, err: false, poll: null, kind: '', busy: false, msg: '', picks: [], name: '', phone: '', fresh: true, key: '', focused: false };
+  var ON = !!(window.history && history.pushState) && /^https?:$/.test(location.protocol);
+  var BASE = (typeof window.__APP_BASE === 'string' && window.__APP_BASE) ? window.__APP_BASE : '/';
+  var nav = { n: 0, silent: false, deep: false };
+
+  /* ---- address bar: /polls , /polls/<poll-name> , /polls/<poll-name>/result , /polls/<poll-name>/thank-you ---- */
+  function slugify(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9\u0980-\u09FF]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60).replace(/-+$/, ''); }
+  function baseSlug(p) { return slugify(p.title) || ('poll-' + slugify(String(p.id).slice(0, 6))); }
+  function pollSlug(p) {
+    var s = baseSlug(p), clash = (state.polls || []).some(function (q) { return q.id !== p.id && baseSlug(q) === s; });
+    return clash ? s + '-' + slugify(String(p.id).slice(0, 4)) : s;
+  }
+  function urlFor(view, p) {
+    var u = BASE + 'polls';
+    if (p && view !== 'list') u += '/' + encodeURIComponent(pollSlug(p));
+    if (view === 'result') u += '/result'; else if (view === 'thanks') u += '/thank-you';
+    return u;
+  }
+  function dec(s) { try { return decodeURIComponent(s); } catch (e) { return s; } }
+  function parsePath() {
+    var p = location.pathname || '/';
+    if (p.indexOf(BASE) === 0) p = p.slice(BASE.length); else p = p.replace(/^\/+/, '');
+    p = p.replace(/\/+$/, '');
+    var m = p.match(/^polls(?:\/([^\/]+))?(?:\/(result|thank-you))?$/);
+    return m ? { slug: m[1] ? dec(m[1]) : '', sub: m[2] || '' } : null;
+  }
+  function setUrl(u, replace) {
+    if (!ON) return;
+    try {
+      if (dec(location.pathname) === dec(u)) return;
+      if (replace) history.replaceState({ rzp: 1, d: nav.n }, '', u);
+      else { nav.n++; history.pushState({ rzp: 1, d: nav.n }, '', u); }
+    } catch (e) {}
+  }
+
+  /* ---- styles ---- */
   function css() {
     if ($('rzpCss')) return;
     var s = document.createElement('style'); s.id = 'rzpCss';
-    s.textContent = '#rzpOv{--pb:#fff;--pt:#142234;--pm:#5b6776;--pl:#d6dde6;--pi:#f3f6fa;position:fixed;inset:0;z-index:2147483000;background:rgba(8,14,22,.62);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));font-family:inherit}'
-      + 'body.dark-mode #rzpOv{--pb:#16212e;--pt:#e6edf5;--pm:#a6b4c4;--pl:#2d3b4d;--pi:#0f1824}'
-      + '#rzpOv .sh{width:100%;max-width:680px;margin:auto 0;background:var(--pb);color:var(--pt);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden}'
-      + '#rzpOv .hd{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--pl);position:sticky;top:0;background:var(--pb);z-index:2}#rzpOv .hd h2{margin:0;font-size:19px;flex:1;min-width:0}'
-      + '#rzpOv .x,#rzpOv .bk{appearance:none;border:1px solid var(--pl);background:transparent;color:var(--pt);border-radius:10px;padding:7px 12px;font:inherit;font-weight:700;cursor:pointer}#rzpOv .x:hover,#rzpOv .bk:hover{border-color:var(--pt)}'
-      + '#rzpOv .bd{padding:16px 18px 22px}#rzpOv .mu{color:var(--pm);font-size:14px;line-height:1.5}'
-      + '#rzpOv .pc{border:1px solid var(--pl);border-top:5px solid var(--ac);border-radius:14px;padding:14px 16px;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}'
-      + '#rzpOv .em{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:25px;flex:none;background:color-mix(in srgb,var(--ac) 14%,transparent)}#rzpOv .pc .tt{flex:1 1 200px;min-width:0}#rzpOv .pc b{display:block;font-size:17px;line-height:1.3;overflow-wrap:anywhere}#rzpOv .pc .mu{margin-top:3px}'
-      + '#rzpOv .st{display:inline-block;font-size:12px;font-weight:700;border:1px solid var(--pl);border-radius:999px;padding:1px 9px;margin-bottom:5px;color:var(--pm)}#rzpOv .st.live{color:#1b7f3b;border-color:#1b7f3b}body.dark-mode #rzpOv .st.live{color:#5fcf86;border-color:#5fcf86}'
-      + '#rzpOv .go{appearance:none;border:0;border-radius:11px;padding:11px 18px;font:inherit;font-weight:800;font-size:15px;cursor:pointer;background:var(--ac,#1f4e79);color:#fff;width:auto}#rzpOv .go[disabled]{opacity:.6;cursor:not-allowed}#rzpOv .go.ghost{background:transparent;color:var(--ac,#1f4e79);border:2px solid var(--ac,#1f4e79)}'
-      + '#rzpOv h3{margin:18px 0 8px;font-size:15px}#rzpOv .seg{display:flex;flex-wrap:wrap;gap:8px}#rzpOv .seg button{appearance:none;flex:1 1 140px;border:2px solid var(--pl);background:var(--pi);color:var(--pt);border-radius:11px;padding:10px 12px;font:inherit;font-weight:700;cursor:pointer}#rzpOv .seg button.on{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--pi))}'
-      + '#rzpOv label.f{display:block;font-weight:700;font-size:14px;margin:12px 0 4px}#rzpOv input.t{width:100%;box-sizing:border-box;padding:12px 13px;border:2px solid var(--pl);border-radius:11px;background:var(--pi);color:var(--pt);font:inherit;font-size:16px}#rzpOv input.t:focus{outline:none;border-color:var(--ac)}'
-      + '#rzpOv .op{display:flex;gap:11px;align-items:center;border:2px solid var(--pl);border-radius:12px;padding:12px 14px;margin:0 0 8px;cursor:pointer;background:var(--pi);font-weight:600}#rzpOv .op:has(input:checked){border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--pi))}#rzpOv .op input{width:20px;height:20px;accent-color:var(--ac);flex:none;margin:0}#rzpOv .op span{overflow-wrap:anywhere}'
-      + '#rzpOv .er{color:#c62828;font-weight:600;font-size:14px;margin:10px 0 0;min-height:20px}body.dark-mode #rzpOv .er{color:#ff8a8a}'
-      + '#rzpOv .br{margin:12px 0}#rzpOv .br .l{display:flex;justify-content:space-between;gap:10px;font-weight:700;font-size:15px}#rzpOv .br .tr{height:16px;background:var(--pl);border-radius:999px;overflow:hidden;margin-top:5px}#rzpOv .br .tr i{display:block;height:100%;background:var(--ac);border-radius:999px}'
-      + '#rzpOv .ok{text-align:center;padding:10px 0 4px}#rzpOv .ok .ck{width:68px;height:68px;border-radius:50%;background:#1b7f3b;color:#fff;display:grid;place-items:center;margin:0 auto 10px;font-size:36px}'
-      + '@media(max-width:520px){#rzpOv{padding:0}#rzpOv .sh{border-radius:0;min-height:100%}#rzpOv .go{width:100%}}';
+    s.textContent = `
+#rzpOv,#rzpOv *{box-sizing:border-box}
+#rzpOv{--pb:#fff;--pt:#142234;--pm:#5b6776;--pl:#e3e8ef;--pi:#f5f7fb;position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(10,14,24,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);overscroll-behavior:contain;font-family:inherit;opacity:0;transition:opacity .18s ease}
+#rzpOv.on{opacity:1}
+body.dark-mode #rzpOv{--pb:#16212e;--pt:#e6edf5;--pm:#a6b4c4;--pl:#2d3b4d;--pi:#0f1824}
+#rzpOv .sh{width:min(720px,100%);height:min(800px,calc(100vh - 32px));height:min(800px,calc(100dvh - 32px));display:flex;flex-direction:column;background:var(--pb);color:var(--pt);border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.45);overflow:hidden;transform:translateY(16px) scale(.985);transition:transform .22s ease}
+#rzpOv.on .sh{transform:none}
+#rzpOv .hd{flex:none;display:flex;align-items:center;gap:12px;padding:16px 18px;color:#fff;background:linear-gradient(120deg,color-mix(in srgb,var(--ac) 70%,#000) 0%,var(--ac) 62%,color-mix(in srgb,var(--ac) 68%,#fff) 135%)}
+#rzpOv .lg{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:22px;flex:none}
+#rzpOv .ht{flex:1;min-width:0}
+#rzpOv .ht h2{margin:0;font-size:19px;line-height:1.25;font-weight:800;color:#fff;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:anywhere}
+#rzpOv .hs{font-size:12.5px;opacity:.9;margin-top:2px}
+#rzpOv .bk,#rzpOv .x{appearance:none;border:0;background:rgba(255,255,255,.18);color:#fff;border-radius:11px;min-width:38px;height:38px;padding:0 12px;font:inherit;font-weight:700;cursor:pointer;flex:none;transition:background .15s}
+#rzpOv .bk:hover,#rzpOv .x:hover{background:rgba(255,255,255,.32)}
+#rzpOv .bk:focus-visible,#rzpOv .x:focus-visible,#rzpOv .go:focus-visible{outline:3px solid #fff;outline-offset:2px}
+#rzpOv .bd{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;-webkit-overflow-scrolling:touch;padding:16px 18px 22px}
+#rzpOv .ft{flex:none;padding:12px 18px calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--pl);background:var(--pb)}
+#rzpOv .mu{color:var(--pm);font-size:14px;line-height:1.5}
+#rzpOv .pc{position:relative;border:1px solid var(--pl);background:var(--pb);border-radius:16px;padding:16px 16px 16px 20px;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 10px rgba(20,34,52,.06)}
+#rzpOv .pc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ac)}
+#rzpOv .pr{display:flex;gap:12px;align-items:flex-start}
+#rzpOv .em{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:25px;flex:none;background:color-mix(in srgb,var(--ac) 14%,transparent)}
+#rzpOv .tt{flex:1;min-width:0}
+#rzpOv .tt b{display:block;font-size:17px;line-height:1.3;overflow-wrap:anywhere}
+#rzpOv .tt .mu{margin-top:3px}
+#rzpOv .st{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;border:1px solid var(--pl);border-radius:999px;padding:2px 10px;margin-bottom:6px;color:var(--pm)}
+#rzpOv .st.live{color:#1b7f3b;border-color:#1b7f3b}
+#rzpOv .st.live::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;animation:rzpDot 1.6s ease-in-out infinite}
+body.dark-mode #rzpOv .st.live{color:#5fcf86;border-color:#5fcf86}
+#rzpOv .mt{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+#rzpOv .chip{font-size:12px;font-weight:700;color:var(--pm);background:var(--pi);border:1px solid var(--pl);border-radius:999px;padding:3px 10px}
+#rzpOv .ac{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+#rzpOv .dn{font-weight:700;font-size:14px;color:#1b7f3b}
+body.dark-mode #rzpOv .dn{color:#5fcf86}
+#rzpOv .go{appearance:none;border:0;border-radius:999px;padding:11px 20px;font:inherit;font-weight:800;font-size:15px;cursor:pointer;background:var(--ac,#7a3e9d);color:#fff;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,filter .15s}
+#rzpOv .go:hover{filter:brightness(1.1);transform:translateY(-1px)}
+#rzpOv .go[disabled]{opacity:.6;cursor:not-allowed;transform:none}
+#rzpOv .go.ghost{background:transparent;color:var(--ac,#7a3e9d);box-shadow:inset 0 0 0 2px var(--ac,#7a3e9d)}
+body.dark-mode #rzpOv .go.ghost{color:color-mix(in srgb,var(--ac) 50%,#fff);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--ac) 65%,#fff)}
+#rzpOv .go.full{width:100%;padding:14px}
+#rzpOv h3{margin:18px 0 8px;font-size:15px}
+#rzpOv h3:first-child{margin-top:2px}
+#rzpOv .seg{display:flex;flex-wrap:wrap;gap:8px}
+#rzpOv .seg button{appearance:none;flex:1 1 140px;border:2px solid var(--pl);background:var(--pi);color:var(--pt);border-radius:12px;padding:10px 12px;font:inherit;font-weight:700;cursor:pointer}
+#rzpOv .seg button.on{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--pi))}
+#rzpOv label.f{display:block;font-weight:700;font-size:14px;margin:12px 0 4px}
+#rzpOv input.t{width:100%;padding:12px 13px;border:2px solid var(--pl);border-radius:12px;background:var(--pi);color:var(--pt);font:inherit;font-size:16px}
+#rzpOv input.t:focus{outline:none;border-color:var(--ac)}
+#rzpOv .op{display:flex;gap:12px;align-items:center;border:2px solid var(--pl);border-radius:13px;padding:13px 14px;margin:0 0 8px;cursor:pointer;background:var(--pi);font-weight:600;transition:border-color .15s,background .15s}
+#rzpOv .op:hover{border-color:color-mix(in srgb,var(--ac) 50%,var(--pl))}
+#rzpOv .op:has(input:checked){border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--pi))}
+#rzpOv .op input{width:20px;height:20px;accent-color:var(--ac);flex:none;margin:0}
+#rzpOv .op span{overflow-wrap:anywhere}
+#rzpOv .er{color:#c62828;font-weight:600;font-size:14px;min-height:20px;margin:0 0 8px}
+body.dark-mode #rzpOv .er{color:#ff8a8a}
+#rzpOv .br{margin:14px 0}
+#rzpOv .br .l{display:flex;justify-content:space-between;gap:10px;font-weight:700;font-size:15px}
+#rzpOv .br .tr{height:14px;background:var(--pl);border-radius:999px;overflow:hidden;margin-top:6px}
+#rzpOv .br .tr i{display:block;height:100%;background:color-mix(in srgb,var(--ac) 55%,var(--pl));border-radius:999px;transform-origin:left;animation:rzpGrow .8s ease both}
+#rzpOv .br.top .tr i{background:var(--ac)}
+#rzpOv .ok{text-align:center;padding:14px 0 4px}
+#rzpOv .ok .ck{width:72px;height:72px;border-radius:50%;background:#1b7f3b;color:#fff;display:grid;place-items:center;margin:0 auto 10px;font-size:38px;animation:rzpPop .5s cubic-bezier(.2,1.4,.4,1) both}
+#rzpOv .sk{height:118px;border-radius:16px;margin-bottom:14px;background:linear-gradient(90deg,var(--pi) 25%,var(--pl) 50%,var(--pi) 75%);background-size:200% 100%;animation:rzpSk 1.3s linear infinite}
+#rzpOv .bd.in .pc{animation:rzpUp .4s ease both}
+#rzpOv .bd.in .pc:nth-child(2){animation-delay:.06s}#rzpOv .bd.in .pc:nth-child(3){animation-delay:.12s}#rzpOv .bd.in .pc:nth-child(4){animation-delay:.18s}#rzpOv .bd.in .pc:nth-child(5){animation-delay:.24s}#rzpOv .bd.in .pc:nth-child(n+6){animation-delay:.3s}
+@keyframes rzpUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes rzpGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes rzpPop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes rzpDot{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes rzpSk{to{background-position:-200% 0}}
+@media(max-width:560px){#rzpOv{padding:0}#rzpOv .sh{width:100%;height:100vh;height:100dvh;border-radius:0}#rzpOv .go.m{width:100%}}
+@media(prefers-reduced-motion:reduce){#rzpOv,#rzpOv *{animation:none!important;transition:none!important}}`;
     document.head.appendChild(s);
   }
-  function open() {
+
+  /* ---- open / close ---- */
+  function stopBg(e) { if (!e.target.closest || !e.target.closest('.bd')) e.preventDefault(); }
+  function mount() {
     css(); if (ov) return;
-    ov = document.createElement('div'); ov.id = 'rzpOv'; ov.setAttribute('data-no-bn', ''); ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true');
-    document.body.appendChild(ov); document.documentElement.style.overflow = 'hidden';
+    ov = document.createElement('div'); ov.id = 'rzpOv'; ov.setAttribute('data-no-bn', ''); ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', tx('h'));
+    document.body.appendChild(ov);
+    /* no change to <html> overflow: the page behind keeps its scrollbar and width, so nothing jumps */
     ov.addEventListener('mousedown', function (e) { if (e.target === ov) close(); });
     ov.addEventListener('click', onClick); ov.addEventListener('input', onInput);
+    ov.addEventListener('wheel', stopBg, { passive: false }); ov.addEventListener('touchmove', stopBg, { passive: false });
     document.addEventListener('keydown', onKey);
-    state.view = 'list'; state.err = false; render();
-    if (!state.polls) { loadPolls().then(function (a) { state.polls = a; render(); }).catch(function () { state.err = true; render(); }); }
-    else loadPolls().then(function (a) { state.polls = a; if (state.view === 'list') render(); }).catch(function () {});
+    state.err = false; state.fresh = true; state.key = ''; state.focused = false;
+    requestAnimationFrame(function () { if (ov) ov.classList.add('on'); });
   }
-  function close() { if (!ov) return; document.removeEventListener('keydown', onKey); ov.remove(); ov = null; document.documentElement.style.overflow = ''; var b = $('rzpGo'); if (b) { try { b.focus(); } catch (e) {} } }
-  function onKey(e) { if (e.key === 'Escape') close(); }
-  function rerender() { if (ov) render(); }
-  function frame(title, inner, back) {
-    ov.innerHTML = '<div class="sh"><div class="hd">' + (back ? '<button type="button" class="bk" data-a="back">\u2190 ' + esc(tx('back')) + '</button>' : '') + '<h2>' + esc(title) + '</h2><button type="button" class="x" data-a="close" aria-label="' + esc(tx('close')) + '">\u2715</button></div><div class="bd">' + inner + '</div></div>';
-    var f = ov.querySelector('.x'); if (f && !back) { try { f.focus({ preventScroll: true }); } catch (e) {} }
+  function closeDom() { if (!ov) return; document.removeEventListener('keydown', onKey); ov.remove(); ov = null; var b = $('rzpGo'); if (b) { try { b.focus({ preventScroll: true }); } catch (e) {} } }
+  function close() {
+    if (!ov) return; closeDom();
+    if (!ON) return;
+    var back = nav.deep ? nav.n - 1 : nav.n;
+    function fin() { if (nav.deep) { try { history.replaceState(null, '', BASE); } catch (e) {} nav.deep = false; } nav.n = 0; }
+    if (back > 0) {
+      nav.silent = true; setTimeout(function () { nav.silent = false; }, 800);
+      window.addEventListener('popstate', function once() { window.removeEventListener('popstate', once); fin(); });
+      try { history.go(-back); } catch (e) { nav.silent = false; fin(); }
+    } else fin();
+  }
+  function onKey(e) {
+    if (e.key === 'Escape') return close();
+    if (e.key === 'Tab' && ov) {
+      var f = ov.querySelectorAll('button:not([disabled]),input,a[href]'); if (!f.length) return;
+      var a = f[0], z = f[f.length - 1];
+      if (!ov.contains(document.activeElement)) { e.preventDefault(); a.focus(); }
+      else if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+      else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+    }
+  }
+  function ensurePolls() {
+    return loadPolls().then(function (a) { state.polls = a; state.err = false; paintCount(); }).catch(function () { if (!state.polls) state.err = true; });
+  }
+  function open() {
+    if (ov) return; mount(); setUrl(urlFor('list'), false);
+    state.view = 'list'; state.poll = null; render();
+    ensurePolls().then(function () { if (ov && state.view === 'list') render(); });
+  }
+  function prep(p) { state.picks = []; state.msg = ''; state.kind = kindsOf(p)[0]; state.busy = false; }
+  function show(view, p, mode) {
+    state.view = view; state.poll = p || null; state.msg = '';
+    if (mode !== 'none') setUrl(urlFor(view, p), mode === 'replace');
+    render();
+  }
+  function goBack() { if (ON && nav.n > 1) history.back(); else show('list', null, 'replace'); }
+  /* open the screen that belongs to the address (refresh, shared link, Back / Forward) */
+  function resolve(r) {
+    if (!ov) return;
+    var p = r.slug ? (state.polls || []).filter(function (x) { return pollSlug(x) === r.slug; })[0] : null;
+    if (!p) { if (r.slug) setUrl(urlFor('list'), true); return show('list', null, 'none'); }
+    var done = !!doneMap()[p.id], live = eff(p) === 'live';
+    if (r.sub === 'result' && hasRes(p)) return show('result', p, 'none');
+    if (r.sub === 'thank-you' && done) return show('thanks', p, 'none');
+    if (live && !done) { if (state.poll !== p || state.view !== 'poll') prep(p); return show('poll', p, 'none'); }
+    if (hasRes(p)) { setUrl(urlFor('result', p), true); return show('result', p, 'none'); }
+    setUrl(urlFor('list'), true); show('list', null, 'none');
+  }
+  function applyRoute(r) {
+    mount();
+    if (state.polls) { resolve(r); ensurePolls(); return; }
+    state.view = 'list'; state.poll = null; render();
+    ensurePolls().then(function () { resolve(r); });
+  }
+  window.addEventListener('popstate', function (e) {
+    var st = e.state; nav.n = st && st.rzp ? (st.d | 0) : 0;
+    if (nav.silent) { nav.silent = false; return; }
+    var r = parsePath();
+    if (!r) { if (ov) closeDom(); return; }
+    applyRoute(r);
+  });
+
+  /* ---- rendering ---- */
+  function frame(title, inner, o) {
+    o = o || {};
+    var old = ov.querySelector('.bd'), key = state.view + '|' + (state.poll ? state.poll.id : ''), top = old && state.key === key ? old.scrollTop : 0; state.key = key;
+    ov.innerHTML = '<div class="sh" style="--ac:' + (o.ac || '#7a3e9d') + '"><div class="hd">'
+      + (o.back ? '<button type="button" class="bk" data-a="back">\u2190 ' + esc(tx('back')) + '</button>' : '<span class="lg" aria-hidden="true">' + (o.icon || '\uD83D\uDCCA') + '</span>')
+      + '<div class="ht"><h2>' + esc(title) + '</h2>' + (o.sub ? '<div class="hs">' + esc(o.sub) + '</div>' : '') + '</div>'
+      + '<button type="button" class="x" data-a="close" aria-label="' + esc(tx('close')) + '">\u2715</button></div>'
+      + '<div class="bd' + (o.anim ? ' in' : '') + '">' + inner + '</div>' + (o.foot ? '<div class="ft">' + o.foot + '</div>' : '') + '</div>';
+    var nb = ov.querySelector('.bd'); if (nb && top) nb.scrollTop = top;
+    if (!state.focused) { state.focused = true; var f = ov.querySelector('.x'); if (f) { try { f.focus({ preventScroll: true }); } catch (e) {} } }
   }
   function render() {
     if (!ov) return;
     if (state.view === 'poll') return viewPoll(); if (state.view === 'thanks') return viewThanks(); if (state.view === 'result') return viewResult();
     if (state.err) return frame(tx('h'), '<p class="mu">' + esc(tx('err')) + '</p>');
-    if (!state.polls) return frame(tx('h'), '<p class="mu">' + esc(tx('load')) + '</p>');
+    if (!state.polls) return frame(tx('h'), '<div class="sk"></div><div class="sk"></div><div class="sk"></div>');
     var dm = doneMap(), list = state.polls.filter(function (p) { var e = eff(p); return e === 'live' || e === 'scheduled' || hasRes(p); });
     if (!list.length) return frame(tx('h'), '<p class="mu">' + esc(tx('none')) + '</p>');
+    var liveN = list.filter(function (p) { return eff(p) === 'live'; }).length;
+    var sub = tx(list.length === 1 ? 'cnt1' : 'cnt', { n: list.length }) + (liveN ? ' \u2022 ' + tx(liveN === 1 ? 'open1' : 'openN', { n: liveN }) : '');
+    var anim = state.fresh; state.fresh = false;
     frame(tx('h'), list.map(function (p) {
       var e = eff(p), canVote = e === 'live', done = !!dm[p.id];
       var stl = e === 'live' ? '<span class="st live">' + esc(tx('live')) + '</span>' : '<span class="st">' + esc(e === 'scheduled' ? tx('scheduled', { d: fmtD(p.startAt) }) : tx(e)) + '</span>';
-      var sub = e === 'live' && p.endAt ? '<div class="mu">' + esc(tx('until', { d: fmtD(p.endAt) })) + '</div>' : '';
-      var btn = canVote && !done ? '<button class="go" type="button" data-a="open" data-id="' + esc(p.id) + '">' + esc(tx('take')) + ' \u2192</button>'
-        : (hasRes(p) ? '<button class="go ghost" type="button" data-a="res" data-id="' + esc(p.id) + '">' + esc(tx('see')) + '</button>' : (done ? '<span class="mu">\u2713 ' + esc(tx('done')) + '</span>' : ''));
-      return '<div class="pc" style="--ac:' + acc(p) + '"><span class="em" aria-hidden="true">' + esc(p.emoji || '\uD83D\uDCCA') + '</span><div class="tt">' + stl + '<b>' + esc(p.title) + '</b>' + (p.desc ? '<div class="mu">' + esc(p.desc) + '</div>' : '') + sub + '</div>' + btn + '</div>';
-    }).join(''));
+      var chips = '<span class="chip">' + esc(p.multi ? tx('multi') : tx('single')) + '</span><span class="chip">' + esc(tx('opts', { n: (p.options || []).length })) + '</span>' + (e === 'live' && p.endAt ? '<span class="chip">' + esc(tx('until', { d: fmtD(p.endAt) })) + '</span>' : '');
+      var acts = '';
+      if (canVote && !done) acts += '<button class="go m" type="button" data-a="open" data-id="' + esc(p.id) + '">' + esc(tx('take')) + ' \u2192</button>';
+      else if (done) acts += '<span class="dn">\u2713 ' + esc(tx('done')) + '</span>';
+      if (hasRes(p)) acts += '<button class="go ghost m" type="button" data-a="res" data-id="' + esc(p.id) + '">' + esc(tx('see')) + '</button>';
+      return '<article class="pc" style="--ac:' + acc(p) + '"><div class="pr"><span class="em" aria-hidden="true">' + esc(p.emoji || '\uD83D\uDCCA') + '</span><div class="tt">' + stl + '<b>' + esc(p.title) + '</b>' + (p.desc ? '<div class="mu">' + esc(p.desc) + '</div>' : '') + '</div></div><div class="mt">' + chips + '</div>' + (acts ? '<div class="ac">' + acts + '</div>' : '') + '</article>';
+    }).join(''), { sub: sub, anim: anim });
   }
   function kindsOf(p) { var k = []; if (p.allowNamed !== false) k.push('named'); if (p.allowAnon !== false) k.push('anon'); if (p.allowWalk !== false) k.push('walkin'); return k.length ? k : ['anon']; }
   function viewPoll() {
     var p = state.poll, ks = kindsOf(p); if (ks.indexOf(state.kind) < 0) state.kind = ks[0];
     var lbl = { named: tx('kNamed'), anon: tx('kAnon'), walkin: tx('kWalk') };
-    var h = '<div style="--ac:' + acc(p) + '">' + (p.desc ? '<p class="mu" style="margin-top:0">' + esc(p.desc) + '</p>' : '')
+    var h = (p.desc ? '<p class="mu" style="margin-top:0">' + esc(p.desc) + '</p>' : '')
       + '<h3>' + esc(p.multi ? tx('multi') : tx('single')) + '</h3>'
       + (p.options || []).map(function (o) { return '<label class="op"><input type="' + (p.multi ? 'checkbox' : 'radio') + '" name="rzpO" value="' + esc(o.id) + '"' + (state.picks.indexOf(o.id) >= 0 ? ' checked' : '') + '><span>' + esc(o.text) + '</span></label>'; }).join('')
       + (ks.length > 1 ? '<h3>' + esc(tx('who')) + '</h3><div class="seg">' + ks.map(function (k) { return '<button type="button" data-a="kind" data-k="' + k + '" class="' + (k === state.kind ? 'on' : '') + '">' + esc(lbl[k]) + '</button>'; }).join('') + '</div>' : '')
       + (state.kind === 'named' ? '<label class="f" for="rzpN">' + esc(tx('name')) + '</label><input class="t" id="rzpN" maxlength="80" autocomplete="name" value="' + esc(state.name) + '"><label class="f" for="rzpP">' + esc(tx('contact')) + '</label><input class="t" id="rzpP" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="01XXXXXXXXX" value="' + esc(state.phone) + '"><div class="mu" style="margin-top:4px;font-size:13px">' + esc(tx('contactH')) + '</div>' : '')
-      + (state.kind === 'walkin' ? '<label class="f" for="rzpN">' + esc(tx('nameOpt')) + '</label><input class="t" id="rzpN" maxlength="80" autocomplete="name" value="' + esc(state.name) + '">' : '')
-      + '<div class="er" id="rzpE" role="alert">' + esc(state.msg) + '</div><button class="go" type="button" data-a="send"' + (state.busy ? ' disabled' : '') + '>' + esc(state.busy ? tx('sending') : tx('send')) + '</button></div>';
-    frame((p.emoji || '') + ' ' + p.title, h, true);
+      + (state.kind === 'walkin' ? '<label class="f" for="rzpN">' + esc(tx('nameOpt')) + '</label><input class="t" id="rzpN" maxlength="80" autocomplete="name" value="' + esc(state.name) + '">' : '');
+    var foot = '<div class="er" id="rzpE" role="alert">' + esc(state.msg) + '</div><button class="go full" type="button" data-a="send"' + (state.busy ? ' disabled' : '') + '>' + esc(state.busy ? tx('sending') : tx('send')) + '</button>';
+    frame((p.emoji || '') + ' ' + p.title, h, { back: true, ac: acc(p), foot: foot, icon: p.emoji, sub: p.multi ? tx('multi') : tx('single') });
   }
   function bars(p) {
-    var c = p.pubCounts || {}, tot = +p.pubTotal || 0;
-    return '<div style="--ac:' + acc(p) + '">' + (p.options || []).map(function (o) { var n = +c[o.id] || 0, pc = tot ? Math.round(n * 1000 / tot) / 10 : 0; return '<div class="br"><div class="l"><span>' + esc(o.text) + '</span><span>' + n + ' \u2022 ' + pc + '%</span></div><div class="tr"><i style="width:' + pc + '%"></i></div></div>'; }).join('')
-      + '<p class="mu">' + esc(tx('total')) + ': <b>' + tot + '</b><br>' + esc(tx('resAt', { d: fmtT(p.pubAt) })) + '</p></div>';
+    var c = p.pubCounts || {}, tot = +p.pubTotal || 0, mx = 0;
+    (p.options || []).forEach(function (o) { mx = Math.max(mx, +c[o.id] || 0); });
+    return (p.options || []).map(function (o) { var n = +c[o.id] || 0, pc = tot ? Math.round(n * 1000 / tot) / 10 : 0; return '<div class="br' + (n && n === mx ? ' top' : '') + '"><div class="l"><span>' + esc(o.text) + '</span><span>' + n + ' \u2022 ' + pc + '%</span></div><div class="tr"><i style="width:' + pc + '%"></i></div></div>'; }).join('')
+      + '<p class="mu">' + esc(tx('total')) + ': <b>' + tot + '</b><br>' + esc(tx('resAt', { d: fmtT(p.pubAt) })) + '</p>';
   }
   function viewThanks() {
     var p = state.poll;
-    frame(tx('h'), '<div class="ok"><div class="ck">\u2713</div><h3 style="font-size:22px;margin:6px 0">' + esc(tx('thanks')) + '</h3><p class="mu">' + esc(tx('thanksP')) + '</p></div>' + (hasRes(p) ? '<h3>' + esc(tx('res')) + '</h3>' + bars(p) : '') + '<p style="margin-top:16px"><button class="go ghost" type="button" data-a="back" style="--ac:' + acc(p) + '">' + esc(tx('back')) + '</button></p>');
+    frame(tx('h'), '<div class="ok"><div class="ck">\u2713</div><h3 style="font-size:22px;margin:6px 0">' + esc(tx('thanks')) + '</h3><p class="mu">' + esc(tx('thanksP')) + '</p></div>' + (hasRes(p) ? '<h3>' + esc(tx('res')) + '</h3>' + bars(p) : ''), { back: true, ac: acc(p) });
   }
-  function viewResult() { var p = state.poll; frame((p.emoji || '') + ' ' + p.title, hasRes(p) ? bars(p) : '<p class="mu">' + esc(tx('noRes')) + '</p>', true); }
+  function viewResult() { var p = state.poll; frame((p.emoji || '') + ' ' + p.title, hasRes(p) ? bars(p) : '<p class="mu">' + esc(tx('noRes')) + '</p>', { back: true, ac: acc(p), icon: p.emoji, sub: tx('res') }); }
   function onInput(e) {
     if (e.target.id === 'rzpN') state.name = e.target.value; else if (e.target.id === 'rzpP') state.phone = e.target.value;
-    else if (e.target.name === 'rzpO') { var p = state.poll; state.picks = Array.prototype.map.call(ov.querySelectorAll('input[name="rzpO"]:checked'), function (x) { return x.value; }); }
+    else if (e.target.name === 'rzpO') state.picks = Array.prototype.map.call(ov.querySelectorAll('input[name="rzpO"]:checked'), function (x) { return x.value; });
   }
   function byId(id) { return (state.polls || []).filter(function (p) { return p.id === id; })[0]; }
   async function onClick(e) {
     var b = e.target.closest('[data-a]'); if (!b) return; var a = b.getAttribute('data-a');
     if (a === 'close') return close();
-    if (a === 'back') { state.view = 'list'; state.msg = ''; return render(); }
-    if (a === 'open') { var p = byId(b.getAttribute('data-id')); if (!p) return; state.poll = p; state.view = 'poll'; state.picks = []; state.msg = ''; state.kind = kindsOf(p)[0]; state.busy = false; render(); return; }
-    if (a === 'res') { var q = byId(b.getAttribute('data-id')); if (!q) return; state.poll = q; state.view = 'result'; return render(); }
+    if (a === 'back') return goBack();
+    if (a === 'open') { var p = byId(b.getAttribute('data-id')); if (!p) return; prep(p); return show('poll', p, 'push'); }
+    if (a === 'res') { var q = byId(b.getAttribute('data-id')); if (!q) return; return show('result', q, 'push'); }
     if (a === 'kind') { state.kind = b.getAttribute('data-k'); state.msg = ''; return render(); }
     if (a === 'send') return send();
   }
@@ -10750,23 +10970,49 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     var p = state.poll; if (!p || state.busy) return;
     var picks = Array.prototype.map.call(ov.querySelectorAll('input[name="rzpO"]:checked'), function (x) { return x.value; }); state.picks = picks;
     var nm = (state.name || '').trim(), ph = '';
-    function stop(m) { state.msg = tx(m); state.busy = false; render(); }
+    var sb = ov.querySelector('[data-a="send"]');
+    function stop(m) { state.msg = tx(m); state.busy = false; var er = $('rzpE'); if (er && sb) { er.textContent = state.msg; sb.disabled = false; sb.textContent = tx('send'); } else render(); }
     if (!picks.length) return stop('vPick');
     if (state.kind === 'named') { if (nm.length < 2) return stop('vName'); ph = normPhone(state.phone); if (!ph) return stop('vPhone'); }
     if (state.kind === 'anon') { nm = ''; if (doneMap()[p.id]) return stop('vDone'); }
-    state.busy = true; state.msg = ''; render();
+    state.busy = true; state.msg = ''; var er0 = $('rzpE'); if (er0) er0.textContent = ''; if (sb) { sb.disabled = true; sb.textContent = tx('sending'); }
     try {
       var vid = state.kind === 'named' ? 'c' + (await sha('rgce-poll|' + p.id + '|' + ph)).slice(0, 40) : 'a' + rnd(24);
       var body = { fields: { kind: sv(state.kind), name: sv(nm), contact: sv(ph), choices: { arrayValue: { values: picks.map(sv) } }, at: { timestampValue: new Date().toISOString() }, dev: sv(devId()) } };
-      var r = await fetch(BASE + '/polls/' + encodeURIComponent(p.id) + '/votes?documentId=' + encodeURIComponent(vid) + '&key=' + KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-      if (r.ok) { markDone(p.id); state.busy = false; state.view = 'thanks'; state.name = ''; state.phone = ''; return render(); }
+      var r = await fetch(FSB + '/polls/' + encodeURIComponent(p.id) + '/votes?documentId=' + encodeURIComponent(vid) + '&key=' + KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      if (r.ok) { markDone(p.id); state.busy = false; state.name = ''; state.phone = ''; if (!ov) return; return show('thanks', p, 'replace'); }
       var code = r.status; state.busy = false;
       if (code === 409) { markDone(p.id); return stop('dup'); }
       if (code === 403) return stop('denied');
       return stop('fail');
     } catch (x) { state.busy = false; return stop('fail'); }
   }
-  document.addEventListener('click', function (e) { var g = e.target.closest ? e.target.closest('#rzpGo') : null; if (g) { e.preventDefault(); open(); } });
+
+  /* ---- Home card: live count + click ---- */
+  function paintCount() {
+    var sp = (typeof state !== 'undefined' && state && state.polls) || null;   // called once before state exists
+    var n = (sp || []).filter(function (p) { return eff(p) === 'live'; }).length;
+    var c = $('rzpCount'), h = $('rhPoll');
+    if (c) c.textContent = n ? tx(n === 1 ? 'open1' : 'openN', { n: n }) : '';
+    if (h) h.classList.toggle('rzp-idle', !!sp && !n);
+  }
+  (function () {
+    var g = $('rzpGo'); if (g && ON) g.setAttribute('href', BASE + 'polls');
+    var h = $('rhPoll'); if (!h) return;
+    function pre() { if (!state.polls) ensurePolls(); }
+    if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { if (es.some(function (x) { return x.isIntersecting; })) { io.disconnect(); pre(); } }, { rootMargin: '200px' }); io.observe(h); } else pre();
+  })();
+  document.addEventListener('click', function (e) {
+    var g = e.target.closest ? e.target.closest('#rzpGo') : null; if (!g) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button > 0) return;
+    e.preventDefault(); open();
+  });
+  /* opened by address (/polls/...) */
+  (function () {
+    var r = parsePath(); if (!r || !ON) return;
+    nav.deep = true; nav.n = 1; try { history.replaceState({ rzp: 1, d: 1 }, '', location.href); } catch (e) {}
+    applyRoute(r);
+  })();
 })();
 </script>
 
