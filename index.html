@@ -1774,13 +1774,14 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
   <h1 class="rv" style="--d:1">Welcome to Roza Gift Corner &amp; Electric.</h1>
   <p class="rv" style="--d:2">Gifts, electrical and cosmetics under one roof.</p>
   <div class="gl rv" style="--d:3"></div>
-  <a class="rzp-hero rv" style="--d:3" id="rzpHeroGo" href="#polls" data-no-bn><span class="rzp-hd" aria-hidden="true"></span><span id="rzpHeroT">Customer Polls</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
   <div class="rh-acts rv" style="--d:3" data-no-bn>
     <button type="button" class="rh-b solid" data-dcu-act="addCustomer"><i class="fas fa-user-plus" aria-hidden="true"></i><span data-dcu="addC">Add customer</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     <button type="button" class="rh-b" data-dcu-act="sb:createInvoice"><i class="fas fa-file-invoice" aria-hidden="true"></i><span data-dcu="newInv">Create invoice</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     <button type="button" class="rh-b" data-dcu-act="view:customers"><i class="fas fa-users" aria-hidden="true"></i><span data-dcu="custBtn">Customer register</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
   </div>
-</div></section>
+</div>
+  <a class="rzp-hero rv" style="--d:3" id="rzpHeroGo" href="#polls" data-no-bn><span class="rzp-hd" aria-hidden="true"></span><span id="rzpHeroT">Customer Polls</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</section>
 <div class="rh-grid">
   <section class="rv" style="--d:4" id="rhDx" data-no-bn>
     <p class="sr">Enter your registered mobile number or your full name to check your due details. No login needed.</p>
@@ -9514,6 +9515,9 @@ html[data-dcu-view="customers"] #rgceHub{display:none}
 #rgceHub .rh-b:hover{background:rgba(255,255,255,.2);transform:translateY(-1px)}
 #rgceHub .rh-b.solid{background:#fff;color:#1f4e79;border-color:#fff}
 #rgceHub .rh-grid{display:grid;gap:20px}
+/* "Customer Polls" arrow link: on the right side of the welcome hero (the poll card itself stays in the card list) */
+#rgceHub .hero>.rzp-hero{position:absolute;right:56px;top:50%;margin:-16px 0 0;z-index:2}
+@media(max-width:900px){#rgceHub .hero>.rzp-hero{position:static;margin:0 32px 26px}}
 
 #rgceHub .fact{background:var(--panel,#fff);color:var(--text,#142234);border:1px solid var(--border,#dde5ee);border-radius:16px;box-shadow:var(--rh-sh);padding:20px 26px}
 #rgceHub .fact small{color:var(--muted,#5b6776)}
@@ -10655,7 +10659,8 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       chip: 'Customer Poll', title: 'Your opinion matters. Vote in our polls.', text: 'Tell us what you like and help us choose. Give your name and number, or stay anonymous. It takes a few seconds.', btn: 'Vote Now', hero: 'Customer Polls',
       h: 'Polls', close: 'Close', back: 'All polls', load: 'Loading polls...', none: 'No poll is open right now. Please check again soon.', err: 'Polls could not be loaded right now. Please try again later.',
       take: 'Take part', see: 'See result', done: 'You took part', live: 'Open', scheduled: 'Starts {d}', ended: 'Ended', closed: 'Closed', until: 'Open until {d}', multi: 'Choose one or more answers', single: 'Choose one answer',
-      who: 'How do you want to take part?', kNamed: 'With my name', kAnon: 'Anonymous', kWalk: 'Walk-in at the shop', name: 'Your name', contact: 'Mobile number', nameOpt: 'Name (optional)', contactH: 'Used only to avoid double voting. One vote per number.',
+      ipNote: 'To prevent fake votes, your device and IP address are recorded with your vote.',
+    who: 'How do you want to take part?', kNamed: 'With my name', kAnon: 'Anonymous', kWalk: 'Walk-in at the shop', name: 'Your name', contact: 'Mobile number', nameOpt: 'Name (optional)', contactH: 'Used only to avoid double voting. One vote per number.',
       send: 'Submit my vote', sending: 'Sending...', vName: 'Please enter your name.', vPhone: 'Enter a valid mobile number, like 01XXXXXXXXX.', vPick: 'Please choose an answer.', vDone: 'You have already taken part from this device.',
       dup: 'This mobile number has already voted in this poll.', denied: 'Voting is not available right now.', fail: 'Could not send your vote. Check your internet and try again.',
       thanks: 'Thank you!', thanksP: 'Your vote has been received.', res: 'Result', resAt: 'Updated {d}. New votes can take a little while to show.', votes: 'votes', total: 'Total votes', noRes: 'The result is not public for this poll.'
@@ -10664,7 +10669,8 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       chip: 'কাস্টমার পোল', title: 'আপনার মতামত গুরুত্বপূর্ণ। আমাদের পোলে ভোট দিন।', text: 'আপনি কী পছন্দ করেন জানান, সিদ্ধান্ত নিতে আমাদের সাহায্য করুন। নাম ও নম্বর দিয়ে অথবা নাম না জানিয়েও অংশ নিতে পারবেন। মাত্র কয়েক সেকেন্ড লাগবে।', btn: 'ভোট দিন', hero: 'কাস্টমার পোল',
       h: 'পোল', close: 'বন্ধ', back: 'সব পোল', load: 'পোল লোড হচ্ছে...', none: 'এখন কোনো পোল চালু নেই। একটু পরে আবার দেখুন।', err: 'এখন পোল লোড করা যাচ্ছে না। একটু পরে আবার চেষ্টা করুন।',
       take: 'অংশ নিন', see: 'ফলাফল দেখুন', done: 'আপনি অংশ নিয়েছেন', live: 'চলছে', scheduled: 'শুরু {d}', ended: 'শেষ', closed: 'বন্ধ', until: '{d} পর্যন্ত চালু', multi: 'এক বা একাধিক উত্তর বেছে নিন', single: 'একটি উত্তর বেছে নিন',
-      who: 'কীভাবে অংশ নিতে চান?', kNamed: 'নামসহ', kAnon: 'নাম প্রকাশ না করে', kWalk: 'দোকানে ওয়াক-ইন', name: 'আপনার নাম', contact: 'মোবাইল নম্বর', nameOpt: 'নাম (ঐচ্ছিক)', contactH: 'শুধু একই ব্যক্তির দুইবার ভোট ঠেকাতে ব্যবহার হয়। এক নম্বরে একটি ভোট।',
+      ipNote: 'ভুয়া ভোট ঠেকাতে আপনার ভোটের সাথে ডিভাইস ও আইপি অ্যাড্রেস সংরক্ষণ করা হয়।',
+    who: 'কীভাবে অংশ নিতে চান?', kNamed: 'নামসহ', kAnon: 'নাম প্রকাশ না করে', kWalk: 'দোকানে ওয়াক-ইন', name: 'আপনার নাম', contact: 'মোবাইল নম্বর', nameOpt: 'নাম (ঐচ্ছিক)', contactH: 'শুধু একই ব্যক্তির দুইবার ভোট ঠেকাতে ব্যবহার হয়। এক নম্বরে একটি ভোট।',
       send: 'আমার ভোট দিন', sending: 'পাঠানো হচ্ছে...', vName: 'আপনার নাম লিখুন।', vPhone: 'সঠিক মোবাইল নম্বর দিন, যেমন 01XXXXXXXXX।', vPick: 'একটি উত্তর বেছে নিন।', vDone: 'এই ডিভাইস থেকে আপনি আগেই অংশ নিয়েছেন।',
       dup: 'এই মোবাইল নম্বর দিয়ে এই পোলে আগেই ভোট দেওয়া হয়েছে।', denied: 'এখন ভোট দেওয়া যাচ্ছে না।', fail: 'ভোট পাঠানো যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।',
       thanks: 'ধন্যবাদ!', thanksP: 'আপনার ভোট গ্রহণ করা হয়েছে।', res: 'ফলাফল', resAt: '{d} পর্যন্ত আপডেট। নতুন ভোট দেখাতে কিছুটা সময় লাগতে পারে।', votes: 'ভোট', total: 'মোট ভোট', noRes: 'এই পোলের ফলাফল সবার জন্য প্রকাশ করা হয়নি।'
@@ -10703,6 +10709,28 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   function doneMap() { try { return JSON.parse(localStorage.getItem('rz_poll_done') || '{}') || {}; } catch (e) { return {}; } }
   function markDone(id) { try { var m = doneMap(); m[id] = 1; localStorage.setItem('rz_poll_done', JSON.stringify(m)); } catch (e) {} }
   function devId() { try { var d = localStorage.getItem('rz_dev'); if (!d) { d = Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(8)), function (b) { return (b % 36).toString(36); }).join(''); localStorage.setItem('rz_dev', d); } return d; } catch (e) { return 'na'; } }
+  /* visitor's public IP, recorded with the vote so the admin can spot fake / repeated votes (best effort: blank if blocked) */
+  var ipP = null;
+  function getIp() {
+    if (ipP) return ipP;
+    ipP = (async function () {
+      var svc = [['https://api.ipify.org?format=json', 'j'], ['https://www.cloudflare.com/cdn-cgi/trace', 't']];
+      for (var i = 0; i < svc.length; i++) {
+        var tm = null;
+        try {
+          var ac = new AbortController(); tm = setTimeout(function () { ac.abort(); }, 3000);
+          var r = await fetch(svc[i][0], { signal: ac.signal, cache: 'no-store' }); clearTimeout(tm);
+          if (!r.ok) continue;
+          var ip = '';
+          if (svc[i][1] === 'j') ip = String((await r.json()).ip || ''); else { var m = (await r.text()).match(/^ip=(.+)$/m); ip = m ? m[1].trim() : ''; }
+          if (/^[0-9a-fA-F:.]{3,45}$/.test(ip)) return ip;
+        } catch (e) { if (tm) clearTimeout(tm); }
+      }
+      return '';
+    })();
+    ipP.then(function (v) { if (!v) ipP = null; });
+    return ipP;
+  }
   function rnd(n) { return Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(n)), function (b) { return (b % 36).toString(36); }).join(''); }
 
   function norm(p) {
@@ -10965,7 +10993,7 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
       + (ks.length > 1 ? '<h3>' + esc(tx('who')) + '</h3><div class="seg">' + ks.map(function (k) { return '<button type="button" data-a="kind" data-k="' + k + '" class="' + (k === state.kind ? 'on' : '') + '">' + esc(lbl[k]) + '</button>'; }).join('') + '</div>' : '')
       + (state.kind === 'named' ? '<label class="f" for="rzpN">' + esc(tx('name')) + '</label><input class="t" id="rzpN" maxlength="80" autocomplete="name" value="' + esc(state.name) + '"><label class="f" for="rzpP">' + esc(tx('contact')) + '</label><input class="t" id="rzpP" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="01XXXXXXXXX" value="' + esc(state.phone) + '"><div class="mu" style="margin-top:4px;font-size:13px">' + esc(tx('contactH')) + '</div>' : '')
       + (state.kind === 'walkin' ? '<label class="f" for="rzpN">' + esc(tx('nameOpt')) + '</label><input class="t" id="rzpN" maxlength="80" autocomplete="name" value="' + esc(state.name) + '">' : '');
-    var foot = '<div class="er" id="rzpE" role="alert">' + esc(state.msg) + '</div><button class="go full" type="button" data-a="send"' + (state.busy ? ' disabled' : '') + '>' + esc(state.busy ? tx('sending') : tx('send')) + '</button>';
+    var foot = '<p class="mu" style="font-size:12.5px;margin:0 0 8px">\uD83D\uDD12 ' + esc(tx('ipNote')) + '</p><div class="er" id="rzpE" role="alert">' + esc(state.msg) + '</div><button class="go full" type="button" data-a="send"' + (state.busy ? ' disabled' : '') + '>' + esc(state.busy ? tx('sending') : tx('send')) + '</button>';
     frame((p.emoji || '') + ' ' + p.title, h, { back: true, ac: acc(p), foot: foot, icon: p.emoji, sub: p.multi ? tx('multi') : tx('single'), cls: 'frm' });
   }
   function bars(p) {
@@ -10988,7 +11016,7 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     var b = e.target.closest('[data-a]'); if (!b) return; var a = b.getAttribute('data-a');
     if (a === 'close') return close();
     if (a === 'back') return goBack();
-    if (a === 'open') { var p = byId(b.getAttribute('data-id')); if (!p) return; prep(p); return show('poll', p, 'push'); }
+    if (a === 'open') { getIp(); var p = byId(b.getAttribute('data-id')); if (!p) return; prep(p); return show('poll', p, 'push'); }
     if (a === 'res') { var q = byId(b.getAttribute('data-id')); if (!q) return; return show('result', q, 'push'); }
     if (a === 'kind') { state.kind = b.getAttribute('data-k'); state.msg = ''; return render(); }
     if (a === 'send') return send();
@@ -11005,7 +11033,8 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     state.busy = true; state.msg = ''; var er0 = $('rzpE'); if (er0) er0.textContent = ''; if (sb) { sb.disabled = true; sb.textContent = tx('sending'); }
     try {
       var vid = state.kind === 'named' ? 'c' + (await sha('rgce-poll|' + p.id + '|' + ph)).slice(0, 40) : 'a' + rnd(24);
-      var body = { fields: { kind: sv(state.kind), name: sv(nm), contact: sv(ph), choices: { arrayValue: { values: picks.map(sv) } }, at: { timestampValue: new Date().toISOString() }, dev: sv(devId()) } };
+      var ip = await getIp();
+      var body = { fields: { kind: sv(state.kind), name: sv(nm), contact: sv(ph), choices: { arrayValue: { values: picks.map(sv) } }, at: { timestampValue: new Date().toISOString() }, dev: sv(devId()), ip: sv(ip) } };
       var r = await fetch(FSB + '/polls/' + encodeURIComponent(p.id) + '/votes?documentId=' + encodeURIComponent(vid) + '&key=' + KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       if (r.ok) { markDone(p.id); state.busy = false; state.name = ''; state.phone = ''; if (!ov) return; return show('thanks', p, 'replace'); }
       var code = r.status; state.busy = false;
