@@ -1638,6 +1638,15 @@ body.dark-mode #rgceHub #rhPoll.rzp p,body.dark-mode #rhPoll .rzp-count{color:#b
 @media(max-width:600px){#rhPoll .rzp-card{flex-direction:column;align-items:flex-start;gap:14px;padding:18px 18px}#rhPoll .rzp-viz{width:76px;height:54px}}
 @media(prefers-reduced-motion:reduce){#rgceHub.ready #rhPoll.rzp,#rgceHub #rhPoll.rzp,#rhPoll .rzp-card::before,#rhPoll .rzp-viz i,#rhPoll .rzp-live b,#rhPoll .rzp-cta svg{animation:none!important}}
 @media print{#rhPoll{display:none!important}}
+/* polls open INSIDE the page: other home blocks step aside and the polls page takes the space */
+#rgceHub.rzp-open .hero,#rgceHub.rzp-open .rh-grid>*:not(#rzpOv){display:none!important}
+#rgceHub .rzp-hero{display:inline-flex;align-items:center;gap:9px;margin:2px 0 14px;padding-bottom:4px;position:relative;font-weight:800;font-size:15.5px;text-decoration:none;color:#6b2f8a;cursor:pointer}
+body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
+#rgceHub .rzp-hero .rzp-hd{width:9px;height:9px;border-radius:50%;background:#e0245e;animation:rzpPulse 1.4s ease-in-out infinite}
+#rgceHub .rzp-hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:linear-gradient(90deg,#7a3e9d,#e0508a,#f5a623);transform:scaleX(.3);transform-origin:left;transition:transform .35s ease}
+#rgceHub .rzp-hero:hover::after,#rgceHub .rzp-hero:focus-visible::after{transform:scaleX(1)}
+#rgceHub .rzp-hero svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;animation:rzpNudge 1.7s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){#rgceHub .rzp-hero .rzp-hd,#rgceHub .rzp-hero svg{animation:none!important}}
 </style>
 <style id="rgce-outside-close">
 /* blank space around/below an open modal is "outside": give it room so a tap there is possible even on short modals */
@@ -1765,6 +1774,7 @@ body.dark-mode #rgceHub #rhPoll.rzp p,body.dark-mode #rhPoll .rzp-count{color:#b
   <h1 class="rv" style="--d:1">Welcome to Roza Gift Corner &amp; Electric.</h1>
   <p class="rv" style="--d:2">Gifts, electrical and cosmetics under one roof.</p>
   <div class="gl rv" style="--d:3"></div>
+  <a class="rzp-hero rv" style="--d:3" id="rzpHeroGo" href="#polls" data-no-bn><span class="rzp-hd" aria-hidden="true"></span><span id="rzpHeroT">Customer Polls</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
   <div class="rh-acts rv" style="--d:3" data-no-bn>
     <button type="button" class="rh-b solid" data-dcu-act="addCustomer"><i class="fas fa-user-plus" aria-hidden="true"></i><span data-dcu="addC">Add customer</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     <button type="button" class="rh-b" data-dcu-act="sb:createInvoice"><i class="fas fa-file-invoice" aria-hidden="true"></i><span data-dcu="newInv">Create invoice</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
@@ -1814,10 +1824,11 @@ body.dark-mode #rgceHub #rhPoll.rzp p,body.dark-mode #rhPoll .rzp-count{color:#b
         </span>
         <h2 id="rzpTitle">Your opinion matters. Vote in our polls.</h2>
         <p id="rzpText">Tell us what you like and help us choose. Give your name and number, or stay anonymous. It takes a few seconds.</p>
-        <span class="rzp-cta"><span id="rzpBtn">View polling pages</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="rzp-cta"><span id="rzpBtn">Vote Now</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </span>
     </a>
   </section>
+  <div id="rzpOv" class="rzp-pg" hidden data-no-bn role="region" aria-label="Polls"></div>
   <div class="facts rv" style="--d:7">
     <div class="fact"><small>Address</small><b>Moshjid Market, Naohata Mor, Mohadevpur, Naogaon</b></div>
     <div class="fact"><small>Phone</small><b class="ok"><a href="tel:+8801715986646" style="text-decoration:none">+8801715986646</a></b></div>
@@ -10641,7 +10652,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   var FSB = 'https://firestore.googleapis.com/v1/projects/' + PROJ + '/databases/(default)/documents';
   var TXT = {
     en: {
-      chip: 'Customer Poll', title: 'Your opinion matters. Vote in our polls.', text: 'Tell us what you like and help us choose. Give your name and number, or stay anonymous. It takes a few seconds.', btn: 'View polling pages',
+      chip: 'Customer Poll', title: 'Your opinion matters. Vote in our polls.', text: 'Tell us what you like and help us choose. Give your name and number, or stay anonymous. It takes a few seconds.', btn: 'Vote Now', hero: 'Customer Polls',
       h: 'Polls', close: 'Close', back: 'All polls', load: 'Loading polls...', none: 'No poll is open right now. Please check again soon.', err: 'Polls could not be loaded right now. Please try again later.',
       take: 'Take part', see: 'See result', done: 'You took part', live: 'Open', scheduled: 'Starts {d}', ended: 'Ended', closed: 'Closed', until: 'Open until {d}', multi: 'Choose one or more answers', single: 'Choose one answer',
       who: 'How do you want to take part?', kNamed: 'With my name', kAnon: 'Anonymous', kWalk: 'Walk-in at the shop', name: 'Your name', contact: 'Mobile number', nameOpt: 'Name (optional)', contactH: 'Used only to avoid double voting. One vote per number.',
@@ -10650,7 +10661,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       thanks: 'Thank you!', thanksP: 'Your vote has been received.', res: 'Result', resAt: 'Updated {d}. New votes can take a little while to show.', votes: 'votes', total: 'Total votes', noRes: 'The result is not public for this poll.'
     },
     bn: {
-      chip: 'কাস্টমার পোল', title: 'আপনার মতামত গুরুত্বপূর্ণ। আমাদের পোলে ভোট দিন।', text: 'আপনি কী পছন্দ করেন জানান, সিদ্ধান্ত নিতে আমাদের সাহায্য করুন। নাম ও নম্বর দিয়ে অথবা নাম না জানিয়েও অংশ নিতে পারবেন। মাত্র কয়েক সেকেন্ড লাগবে।', btn: 'পোলিং পেজ দেখুন',
+      chip: 'কাস্টমার পোল', title: 'আপনার মতামত গুরুত্বপূর্ণ। আমাদের পোলে ভোট দিন।', text: 'আপনি কী পছন্দ করেন জানান, সিদ্ধান্ত নিতে আমাদের সাহায্য করুন। নাম ও নম্বর দিয়ে অথবা নাম না জানিয়েও অংশ নিতে পারবেন। মাত্র কয়েক সেকেন্ড লাগবে।', btn: 'ভোট দিন', hero: 'কাস্টমার পোল',
       h: 'পোল', close: 'বন্ধ', back: 'সব পোল', load: 'পোল লোড হচ্ছে...', none: 'এখন কোনো পোল চালু নেই। একটু পরে আবার দেখুন।', err: 'এখন পোল লোড করা যাচ্ছে না। একটু পরে আবার চেষ্টা করুন।',
       take: 'অংশ নিন', see: 'ফলাফল দেখুন', done: 'আপনি অংশ নিয়েছেন', live: 'চলছে', scheduled: 'শুরু {d}', ended: 'শেষ', closed: 'বন্ধ', until: '{d} পর্যন্ত চালু', multi: 'এক বা একাধিক উত্তর বেছে নিন', single: 'একটি উত্তর বেছে নিন',
       who: 'কীভাবে অংশ নিতে চান?', kNamed: 'নামসহ', kAnon: 'নাম প্রকাশ না করে', kWalk: 'দোকানে ওয়াক-ইন', name: 'আপনার নাম', contact: 'মোবাইল নম্বর', nameOpt: 'নাম (ঐচ্ছিক)', contactH: 'শুধু একই ব্যক্তির দুইবার ভোট ঠেকাতে ব্যবহার হয়। এক নম্বরে একটি ভোট।',
@@ -10659,13 +10670,13 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       thanks: 'ধন্যবাদ!', thanksP: 'আপনার ভোট গ্রহণ করা হয়েছে।', res: 'ফলাফল', resAt: '{d} পর্যন্ত আপডেট। নতুন ভোট দেখাতে কিছুটা সময় লাগতে পারে।', votes: 'ভোট', total: 'মোট ভোট', noRes: 'এই পোলের ফলাফল সবার জন্য প্রকাশ করা হয়নি।'
     }
   };
-  Object.assign(TXT.en, { liveTag: 'LIVE', open1: '1 poll open now', openN: '{n} polls open now', cnt1: '1 poll', cnt: '{n} polls', opts: '{n} options' });
-  Object.assign(TXT.bn, { liveTag: '\u09B2\u09BE\u0987\u09AD', open1: '\u09E7\u099F\u09BF \u09AA\u09CB\u09B2 \u099A\u09BE\u09B2\u09C1 \u0986\u099B\u09C7', openN: '{n}\u099F\u09BF \u09AA\u09CB\u09B2 \u099A\u09BE\u09B2\u09C1 \u0986\u099B\u09C7', cnt1: '\u09E7\u099F\u09BF \u09AA\u09CB\u09B2', cnt: '{n}\u099F\u09BF \u09AA\u09CB\u09B2', opts: '{n}\u099F\u09BF \u0985\u09AA\u09B6\u09A8' });
+  Object.assign(TXT.en, { liveTag: 'LIVE', home: 'Home', gOpen: 'Open now', gSoon: 'Coming soon', gPast: 'Past polls', open1: '1 poll open now', openN: '{n} polls open now', cnt1: '1 poll', cnt: '{n} polls', opts: '{n} options' });
+  Object.assign(TXT.bn, { liveTag: '\u09B2\u09BE\u0987\u09AD', home: '\u09B9\u09CB\u09AE', gOpen: '\u098F\u0996\u09A8 \u099A\u09B2\u099B\u09C7', gSoon: '\u09B6\u09C0\u0998\u09CD\u09B0\u0987 \u0986\u09B8\u099B\u09C7', gPast: '\u0986\u0997\u09C7\u09B0 \u09AA\u09CB\u09B2', open1: '\u09E7\u099F\u09BF \u09AA\u09CB\u09B2 \u099A\u09BE\u09B2\u09C1 \u0986\u099B\u09C7', openN: '{n}\u099F\u09BF \u09AA\u09CB\u09B2 \u099A\u09BE\u09B2\u09C1 \u0986\u099B\u09C7', cnt1: '\u09E7\u099F\u09BF \u09AA\u09CB\u09B2', cnt: '{n}\u099F\u09BF \u09AA\u09CB\u09B2', opts: '{n}\u099F\u09BF \u0985\u09AA\u09B6\u09A8' });
   function cur() { try { return localStorage.getItem('rgce_lang') === 'bn' ? 'bn' : 'en'; } catch (e) { return document.documentElement.lang === 'bn' ? 'bn' : 'en'; } }
   function tx(k, r) { var s = (TXT[cur()][k] != null ? TXT[cur()][k] : TXT.en[k]) || k; if (r) for (var x in r) s = s.split('{' + x + '}').join(r[x]); return s; }
   function esc(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function $(id) { return document.getElementById(id); }
-  function paintCard() { var t = TXT[cur()]; function set(id, v) { var n = $(id); if (n) n.textContent = v; } set('rzpChip', t.chip); set('rzpTitle', t.title); set('rzpText', t.text); set('rzpBtn', t.btn); set('rzpLiveT', t.liveTag); if (typeof paintCount === 'function') paintCount(); }
+  function paintCard() { var t = TXT[cur()]; function set(id, v) { var n = $(id); if (n) n.textContent = v; } set('rzpChip', t.chip); set('rzpTitle', t.title); set('rzpText', t.text); set('rzpBtn', t.btn); set('rzpLiveT', t.liveTag); set('rzpHeroT', t.hero); if (typeof paintCount === 'function') paintCount(); }
   paintCard();
   try { new MutationObserver(function () { paintCard(); if (ov) rerender(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] }); } catch (e) {}
   window.addEventListener('storage', function (e) { if (e.key === 'rgce_lang') { paintCard(); if (ov) rerender(); } });
@@ -10694,16 +10705,27 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   function devId() { try { var d = localStorage.getItem('rz_dev'); if (!d) { d = Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(8)), function (b) { return (b % 36).toString(36); }).join(''); localStorage.setItem('rz_dev', d); } return d; } catch (e) { return 'na'; } }
   function rnd(n) { return Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(n)), function (b) { return (b % 36).toString(36); }).join(''); }
 
+  function norm(p) {
+    p.title = String(p.title || p.question || p.name || p.id || '');
+    var o = p.options || p.choices || p.answers || []; if (!Array.isArray(o)) o = [];
+    p.options = o.map(function (x, i) {
+      if (x && typeof x === 'object') return { id: String(x.id != null ? x.id : i), text: String(x.text || x.label || x.title || x.name || x.value || ('Option ' + (i + 1))) };
+      return { id: String(i), text: String(x) };
+    });
+    return p;
+  }
   async function loadPolls() {
-    var body = { structuredQuery: { from: [{ collectionId: 'polls' }], where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'IN', value: { arrayValue: { values: [sv('published'), sv('closed')] } } } }, limit: 50 } };
+    var body = { structuredQuery: { from: [{ collectionId: 'polls' }], where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'IN', value: { arrayValue: { values: [sv('published'), sv('closed')] } } } }, limit: 100 } };
     var r = await fetch(FSB + ':runQuery?key=' + KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (!r.ok) throw new Error('http ' + r.status);
     var j = await r.json(), out = [];
-    (j || []).forEach(function (x) { if (x.document) out.push(toObj(x.document)); });
+    (j || []).forEach(function (x) { if (x.document) out.push(norm(toObj(x.document))); });
     out.sort(function (a, b) { return String(b.createdAt || '').localeCompare(String(a.createdAt || '')); });
     return out;
   }
-  function hasRes(p) { return !!(p.showResults && p.pubAt && p.pubCounts); }
+  function hasRes(p) { return !!(p.showResults && p.pubCounts); }
+  /* console helper: console.table(__rzPollDebug()) shows why a poll is listed the way it is */
+  window.__rzPollDebug = function () { return (state.polls || []).map(function (p) { return { id: p.id, title: p.title, status: p.status, shownAs: eff(p), startAt: p.startAt, endAt: p.endAt, options: (p.options || []).length, showResults: !!p.showResults, hasPublishedCounts: !!p.pubCounts }; }); };
 
   /* ---- overlay ---- */
   var ov = null, state = { view: 'list', polls: null, err: false, poll: null, kind: '', busy: false, msg: '', picks: [], name: '', phone: '', fresh: true, key: '', focused: false };
@@ -10741,29 +10763,32 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     } catch (e) {}
   }
 
-  /* ---- styles ---- */
   function css() {
     if ($('rzpCss')) return;
     var s = document.createElement('style'); s.id = 'rzpCss';
     s.textContent = `
+#rzpOv[hidden]{display:none!important}
 #rzpOv,#rzpOv *{box-sizing:border-box}
-#rzpOv{--pb:#fff;--pt:#142234;--pm:#5b6776;--pl:#e3e8ef;--pi:#f5f7fb;position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(10,14,24,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);overscroll-behavior:contain;font-family:inherit;opacity:0;transition:opacity .18s ease}
-#rzpOv.on{opacity:1}
+#rzpOv{--pb:var(--panel,#fff);--pt:var(--text,#142234);--pm:#5b6776;--pl:#e3e8ef;--pi:#f5f7fb;display:block;width:100%;font-family:inherit;-webkit-user-select:text;user-select:text;animation:rzpIn .3s ease both}
 body.dark-mode #rzpOv{--pb:#16212e;--pt:#e6edf5;--pm:#a6b4c4;--pl:#2d3b4d;--pi:#0f1824}
-#rzpOv .sh{width:min(720px,100%);height:min(800px,calc(100vh - 32px));height:min(800px,calc(100dvh - 32px));display:flex;flex-direction:column;background:var(--pb);color:var(--pt);border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.45);overflow:hidden;transform:translateY(16px) scale(.985);transition:transform .22s ease}
-#rzpOv.on .sh{transform:none}
-#rzpOv .hd{flex:none;display:flex;align-items:center;gap:12px;padding:16px 18px;color:#fff;background:linear-gradient(120deg,color-mix(in srgb,var(--ac) 70%,#000) 0%,var(--ac) 62%,color-mix(in srgb,var(--ac) 68%,#fff) 135%)}
+#rzpOv .sh{width:100%;max-width:1000px;margin:0 auto;min-height:calc(100vh - 190px);min-height:calc(100dvh - 190px);display:flex;flex-direction:column;background:var(--pb);color:var(--pt);border:1px solid var(--pl);border-radius:20px;box-shadow:0 10px 36px rgba(20,34,52,.12)}
+#rzpOv .hd{display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:19px 19px 0 0;color:#fff;background:linear-gradient(120deg,color-mix(in srgb,var(--ac) 70%,#000) 0%,var(--ac) 62%,color-mix(in srgb,var(--ac) 68%,#fff) 135%)}
 #rzpOv .lg{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:22px;flex:none}
 #rzpOv .ht{flex:1;min-width:0}
-#rzpOv .ht h2{margin:0;font-size:19px;line-height:1.25;font-weight:800;color:#fff;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:anywhere}
-#rzpOv .hs{font-size:12.5px;opacity:.9;margin-top:2px}
-#rzpOv .bk,#rzpOv .x{appearance:none;border:0;background:rgba(255,255,255,.18);color:#fff;border-radius:11px;min-width:38px;height:38px;padding:0 12px;font:inherit;font-weight:700;cursor:pointer;flex:none;transition:background .15s}
-#rzpOv .bk:hover,#rzpOv .x:hover{background:rgba(255,255,255,.32)}
-#rzpOv .bk:focus-visible,#rzpOv .x:focus-visible,#rzpOv .go:focus-visible{outline:3px solid #fff;outline-offset:2px}
-#rzpOv .bd{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;-webkit-overflow-scrolling:touch;padding:16px 18px 22px}
-#rzpOv .ft{flex:none;padding:12px 18px calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--pl);background:var(--pb)}
+#rzpOv .ht h2{margin:0;font-size:20px;line-height:1.25;font-weight:800;color:#fff;overflow-wrap:anywhere}
+#rzpOv .hs{font-size:12.5px;opacity:.92;margin-top:2px}
+#rzpOv .bk{appearance:none;border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:11px;min-height:38px;padding:0 14px;font:inherit;font-weight:700;cursor:pointer;flex:none;transition:background .15s;white-space:nowrap}
+#rzpOv .bk:hover{background:rgba(255,255,255,.34)}
+#rzpOv .bk:focus-visible,#rzpOv .go:focus-visible{outline:3px solid #fff;outline-offset:2px}
+#rzpOv .bd{flex:1 1 auto;padding:18px 20px 26px;width:100%}
+#rzpOv .bd.lst{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;align-content:start}
+#rzpOv .bd.frm{max-width:720px;margin:0 auto}
+#rzpOv .gh{grid-column:1/-1;margin:6px 0 0;font-size:13px;letter-spacing:1.2px;text-transform:uppercase;color:var(--pm)}
+#rzpOv .gh:first-child{margin-top:0}
+#rzpOv .ft{position:sticky;bottom:0;z-index:3;padding:12px 20px calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--pl);background:var(--pb);border-radius:0 0 19px 19px}
+#rzpOv .ft>*{max-width:720px;margin-left:auto;margin-right:auto}
 #rzpOv .mu{color:var(--pm);font-size:14px;line-height:1.5}
-#rzpOv .pc{position:relative;border:1px solid var(--pl);background:var(--pb);border-radius:16px;padding:16px 16px 16px 20px;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 10px rgba(20,34,52,.06)}
+#rzpOv .pc{position:relative;border:1px solid var(--pl);background:var(--pb);border-radius:16px;padding:16px 16px 16px 20px;overflow:hidden;box-shadow:0 2px 10px rgba(20,34,52,.06);display:flex;flex-direction:column}
 #rzpOv .pc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ac)}
 #rzpOv .pr{display:flex;gap:12px;align-items:flex-start}
 #rzpOv .em{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:25px;flex:none;background:color-mix(in srgb,var(--ac) 14%,transparent)}
@@ -10776,7 +10801,7 @@ body.dark-mode #rzpOv{--pb:#16212e;--pt:#e6edf5;--pm:#a6b4c4;--pl:#2d3b4d;--pi:#
 body.dark-mode #rzpOv .st.live{color:#5fcf86;border-color:#5fcf86}
 #rzpOv .mt{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 #rzpOv .chip{font-size:12px;font-weight:700;color:var(--pm);background:var(--pi);border:1px solid var(--pl);border-radius:999px;padding:3px 10px}
-#rzpOv .ac{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+#rzpOv .ac{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:auto;padding-top:14px}
 #rzpOv .dn{font-weight:700;font-size:14px;color:#1b7f3b}
 body.dark-mode #rzpOv .dn{color:#5fcf86}
 #rzpOv .go{appearance:none;border:0;border-radius:999px;padding:11px 20px;font:inherit;font-weight:800;font-size:15px;cursor:pointer;background:var(--ac,#7a3e9d);color:#fff;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,filter .15s}
@@ -10785,15 +10810,15 @@ body.dark-mode #rzpOv .dn{color:#5fcf86}
 #rzpOv .go.ghost{background:transparent;color:var(--ac,#7a3e9d);box-shadow:inset 0 0 0 2px var(--ac,#7a3e9d)}
 body.dark-mode #rzpOv .go.ghost{color:color-mix(in srgb,var(--ac) 50%,#fff);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--ac) 65%,#fff)}
 #rzpOv .go.full{width:100%;padding:14px}
-#rzpOv h3{margin:18px 0 8px;font-size:15px}
+#rzpOv h3{margin:18px 0 8px;font-size:15px;color:var(--pt)}
 #rzpOv h3:first-child{margin-top:2px}
 #rzpOv .seg{display:flex;flex-wrap:wrap;gap:8px}
 #rzpOv .seg button{appearance:none;flex:1 1 140px;border:2px solid var(--pl);background:var(--pi);color:var(--pt);border-radius:12px;padding:10px 12px;font:inherit;font-weight:700;cursor:pointer}
 #rzpOv .seg button.on{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--pi))}
 #rzpOv label.f{display:block;font-weight:700;font-size:14px;margin:12px 0 4px}
-#rzpOv input.t{width:100%;padding:12px 13px;border:2px solid var(--pl);border-radius:12px;background:var(--pi);color:var(--pt);font:inherit;font-size:16px}
+#rzpOv input.t{width:100%;padding:12px 13px;border:2px solid var(--pl);border-radius:12px;background:var(--pi);color:var(--pt);font:inherit;font-size:16px;-webkit-user-select:text;user-select:text}
 #rzpOv input.t:focus{outline:none;border-color:var(--ac)}
-#rzpOv .op{display:flex;gap:12px;align-items:center;border:2px solid var(--pl);border-radius:13px;padding:13px 14px;margin:0 0 8px;cursor:pointer;background:var(--pi);font-weight:600;transition:border-color .15s,background .15s}
+#rzpOv .op{display:flex;gap:12px;align-items:center;border:2px solid var(--pl);border-radius:13px;padding:13px 14px;margin:0 0 8px;cursor:pointer;background:var(--pi);color:var(--pt);font-weight:600;transition:border-color .15s,background .15s}
 #rzpOv .op:hover{border-color:color-mix(in srgb,var(--ac) 50%,var(--pl))}
 #rzpOv .op:has(input:checked){border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--pi))}
 #rzpOv .op input{width:20px;height:20px;accent-color:var(--ac);flex:none;margin:0}
@@ -10807,34 +10832,39 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
 #rzpOv .br.top .tr i{background:var(--ac)}
 #rzpOv .ok{text-align:center;padding:14px 0 4px}
 #rzpOv .ok .ck{width:72px;height:72px;border-radius:50%;background:#1b7f3b;color:#fff;display:grid;place-items:center;margin:0 auto 10px;font-size:38px;animation:rzpPop .5s cubic-bezier(.2,1.4,.4,1) both}
-#rzpOv .sk{height:118px;border-radius:16px;margin-bottom:14px;background:linear-gradient(90deg,var(--pi) 25%,var(--pl) 50%,var(--pi) 75%);background-size:200% 100%;animation:rzpSk 1.3s linear infinite}
+#rzpOv .sk{height:118px;border-radius:16px;background:linear-gradient(90deg,var(--pi) 25%,var(--pl) 50%,var(--pi) 75%);background-size:200% 100%;animation:rzpSk 1.3s linear infinite}
 #rzpOv .bd.in .pc{animation:rzpUp .4s ease both}
-#rzpOv .bd.in .pc:nth-child(2){animation-delay:.06s}#rzpOv .bd.in .pc:nth-child(3){animation-delay:.12s}#rzpOv .bd.in .pc:nth-child(4){animation-delay:.18s}#rzpOv .bd.in .pc:nth-child(5){animation-delay:.24s}#rzpOv .bd.in .pc:nth-child(n+6){animation-delay:.3s}
+#rzpOv .bd.in .pc:nth-child(2){animation-delay:.06s}#rzpOv .bd.in .pc:nth-child(3){animation-delay:.12s}#rzpOv .bd.in .pc:nth-child(4){animation-delay:.18s}#rzpOv .bd.in .pc:nth-child(n+5){animation-delay:.24s}
+@keyframes rzpIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes rzpUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes rzpGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes rzpPop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes rzpDot{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes rzpSk{to{background-position:-200% 0}}
-@media(max-width:560px){#rzpOv{padding:0}#rzpOv .sh{width:100%;height:100vh;height:100dvh;border-radius:0}#rzpOv .go.m{width:100%}}
-@media(prefers-reduced-motion:reduce){#rzpOv,#rzpOv *{animation:none!important;transition:none!important}}`;
+@media(max-width:600px){#rzpOv .sh{border-radius:16px;min-height:calc(100dvh - 150px)}#rzpOv .hd{border-radius:15px 15px 0 0;padding:14px}#rzpOv .bd{padding:14px}#rzpOv .bd.lst{grid-template-columns:1fr}#rzpOv .go.m{width:100%}#rzpOv .ft{padding-left:14px;padding-right:14px}}
+@media(prefers-reduced-motion:reduce){#rzpOv,#rzpOv *{animation:none!important;transition:none!important}}`.split('#rzpOv').join('#rgceHub #rzpOv').split('body.dark-mode #rgceHub #rzpOv').join('body.dark-mode #rgceHub #rzpOv');
     document.head.appendChild(s);
   }
 
-  /* ---- open / close ---- */
-  function stopBg(e) { if (!e.target.closest || !e.target.closest('.bd')) e.preventDefault(); }
+  /* ---- open / close (the polls page lives inside the app page; no popup) ---- */
   function mount() {
     css(); if (ov) return;
-    ov = document.createElement('div'); ov.id = 'rzpOv'; ov.setAttribute('data-no-bn', ''); ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', tx('h'));
-    document.body.appendChild(ov);
-    /* no change to <html> overflow: the page behind keeps its scrollbar and width, so nothing jumps */
-    ov.addEventListener('mousedown', function (e) { if (e.target === ov) close(); });
-    ov.addEventListener('click', onClick); ov.addEventListener('input', onInput);
-    ov.addEventListener('wheel', stopBg, { passive: false }); ov.addEventListener('touchmove', stopBg, { passive: false });
+    var el = $('rzpOv'), hub = $('rgceHub'); if (!el || !hub) return;
+    ov = el; state.scrollY = window.pageYOffset || 0;
+    hub.classList.add('rzp-open'); ov.hidden = false;
+    if (!ov.__rzpBound) { ov.__rzpBound = 1; ov.addEventListener('click', onClick); ov.addEventListener('input', onInput); }
     document.addEventListener('keydown', onKey);
     state.err = false; state.fresh = true; state.key = ''; state.focused = false;
-    requestAnimationFrame(function () { if (ov) ov.classList.add('on'); });
+    try { window.scrollTo(0, 0); } catch (e) {}
   }
-  function closeDom() { if (!ov) return; document.removeEventListener('keydown', onKey); ov.remove(); ov = null; var b = $('rzpGo'); if (b) { try { b.focus({ preventScroll: true }); } catch (e) {} } }
+  function closeDom() {
+    if (!ov) return;
+    document.removeEventListener('keydown', onKey);
+    var hub = $('rgceHub'); ov.hidden = true; ov.innerHTML = ''; ov = null;
+    if (hub) hub.classList.remove('rzp-open');
+    try { window.scrollTo(0, state.scrollY || 0); } catch (e) {}
+    var b = $('rzpGo'); if (b) { try { b.focus({ preventScroll: true }); } catch (e) {} }
+  }
   function close() {
     if (!ov) return; closeDom();
     if (!ON) return;
@@ -10846,16 +10876,7 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
       try { history.go(-back); } catch (e) { nav.silent = false; fin(); }
     } else fin();
   }
-  function onKey(e) {
-    if (e.key === 'Escape') return close();
-    if (e.key === 'Tab' && ov) {
-      var f = ov.querySelectorAll('button:not([disabled]),input,a[href]'); if (!f.length) return;
-      var a = f[0], z = f[f.length - 1];
-      if (!ov.contains(document.activeElement)) { e.preventDefault(); a.focus(); }
-      else if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
-      else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
-    }
-  }
+  function onKey(e) { if (e.key === 'Escape' && ov && !(e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName))) { if (state.view === 'list') close(); else goBack(); } }
   function ensurePolls() {
     return loadPolls().then(function (a) { state.polls = a; state.err = false; paintCount(); }).catch(function () { if (!state.polls) state.err = true; });
   }
@@ -10900,35 +10921,39 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
   /* ---- rendering ---- */
   function frame(title, inner, o) {
     o = o || {};
-    var old = ov.querySelector('.bd'), key = state.view + '|' + (state.poll ? state.poll.id : ''), top = old && state.key === key ? old.scrollTop : 0; state.key = key;
+    var key = state.view + '|' + (state.poll ? state.poll.id : ''), changed = state.key !== key; state.key = key;
     ov.innerHTML = '<div class="sh" style="--ac:' + (o.ac || '#7a3e9d') + '"><div class="hd">'
-      + (o.back ? '<button type="button" class="bk" data-a="back">\u2190 ' + esc(tx('back')) + '</button>' : '<span class="lg" aria-hidden="true">' + (o.icon || '\uD83D\uDCCA') + '</span>')
+      + (o.back ? '<button type="button" class="bk" data-a="back">\u2190 ' + esc(tx('back')) + '</button>' : '<button type="button" class="bk" data-a="close">\u2190 ' + esc(tx('home')) + '</button>')
       + '<div class="ht"><h2>' + esc(title) + '</h2>' + (o.sub ? '<div class="hs">' + esc(o.sub) + '</div>' : '') + '</div>'
-      + '<button type="button" class="x" data-a="close" aria-label="' + esc(tx('close')) + '">\u2715</button></div>'
-      + '<div class="bd' + (o.anim ? ' in' : '') + '">' + inner + '</div>' + (o.foot ? '<div class="ft">' + o.foot + '</div>' : '') + '</div>';
-    var nb = ov.querySelector('.bd'); if (nb && top) nb.scrollTop = top;
-    if (!state.focused) { state.focused = true; var f = ov.querySelector('.x'); if (f) { try { f.focus({ preventScroll: true }); } catch (e) {} } }
+      + (o.icon ? '<span class="lg" aria-hidden="true">' + esc(o.icon) + '</span>' : '') + '</div>'
+      + '<div class="bd' + (o.cls ? ' ' + o.cls : '') + (o.anim ? ' in' : '') + '">' + inner + '</div>' + (o.foot ? '<div class="ft">' + o.foot + '</div>' : '') + '</div>';
+    if (changed && state.focused) { try { window.scrollTo(0, 0); } catch (e) {} }
+    if (!state.focused) { state.focused = true; var f = ov.querySelector('.bk'); if (f) { try { f.focus({ preventScroll: true }); } catch (e) {} } }
   }
   function render() {
     if (!ov) return;
     if (state.view === 'poll') return viewPoll(); if (state.view === 'thanks') return viewThanks(); if (state.view === 'result') return viewResult();
-    if (state.err) return frame(tx('h'), '<p class="mu">' + esc(tx('err')) + '</p>');
-    if (!state.polls) return frame(tx('h'), '<div class="sk"></div><div class="sk"></div><div class="sk"></div>');
-    var dm = doneMap(), list = state.polls.filter(function (p) { var e = eff(p); return e === 'live' || e === 'scheduled' || hasRes(p); });
-    if (!list.length) return frame(tx('h'), '<p class="mu">' + esc(tx('none')) + '</p>');
+    if (state.err) return frame(tx('h'), '<p class="mu">' + esc(tx('err')) + '</p>', { cls: 'frm' });
+    if (!state.polls) return frame(tx('h'), '<div class="sk"></div><div class="sk"></div><div class="sk"></div>', { cls: 'lst' });
+    var dm = doneMap(), rank = { live: 0, scheduled: 1 };
+    var list = state.polls.slice().sort(function (a, b) { var x = rank[eff(a)], y = rank[eff(b)]; x = x == null ? 2 : x; y = y == null ? 2 : y; return x - y; });
+    if (!list.length) return frame(tx('h'), '<p class="mu">' + esc(tx('none')) + '</p>', { cls: 'frm' });
     var liveN = list.filter(function (p) { return eff(p) === 'live'; }).length;
     var sub = tx(list.length === 1 ? 'cnt1' : 'cnt', { n: list.length }) + (liveN ? ' \u2022 ' + tx(liveN === 1 ? 'open1' : 'openN', { n: liveN }) : '');
-    var anim = state.fresh; state.fresh = false;
-    frame(tx('h'), list.map(function (p) {
-      var e = eff(p), canVote = e === 'live', done = !!dm[p.id];
+    var last = '', anim = state.fresh; state.fresh = false;
+    var html = list.map(function (p) {
+      var e = eff(p), canVote = e === 'live', done = !!dm[p.id], g = e === 'live' ? 'gOpen' : e === 'scheduled' ? 'gSoon' : 'gPast';
+      var head = g !== last ? '<h3 class="gh">' + esc(tx(g)) + '</h3>' : ''; last = g;
       var stl = e === 'live' ? '<span class="st live">' + esc(tx('live')) + '</span>' : '<span class="st">' + esc(e === 'scheduled' ? tx('scheduled', { d: fmtD(p.startAt) }) : tx(e)) + '</span>';
       var chips = '<span class="chip">' + esc(p.multi ? tx('multi') : tx('single')) + '</span><span class="chip">' + esc(tx('opts', { n: (p.options || []).length })) + '</span>' + (e === 'live' && p.endAt ? '<span class="chip">' + esc(tx('until', { d: fmtD(p.endAt) })) + '</span>' : '');
       var acts = '';
       if (canVote && !done) acts += '<button class="go m" type="button" data-a="open" data-id="' + esc(p.id) + '">' + esc(tx('take')) + ' \u2192</button>';
       else if (done) acts += '<span class="dn">\u2713 ' + esc(tx('done')) + '</span>';
       if (hasRes(p)) acts += '<button class="go ghost m" type="button" data-a="res" data-id="' + esc(p.id) + '">' + esc(tx('see')) + '</button>';
-      return '<article class="pc" style="--ac:' + acc(p) + '"><div class="pr"><span class="em" aria-hidden="true">' + esc(p.emoji || '\uD83D\uDCCA') + '</span><div class="tt">' + stl + '<b>' + esc(p.title) + '</b>' + (p.desc ? '<div class="mu">' + esc(p.desc) + '</div>' : '') + '</div></div><div class="mt">' + chips + '</div>' + (acts ? '<div class="ac">' + acts + '</div>' : '') + '</article>';
-    }).join(''), { sub: sub, anim: anim });
+      else if (!canVote && !done) acts += '<span class="mu">' + esc(tx('noRes')) + '</span>';
+      return head + '<article class="pc" style="--ac:' + acc(p) + '"><div class="pr"><span class="em" aria-hidden="true">' + esc(p.emoji || '\uD83D\uDCCA') + '</span><div class="tt">' + stl + '<b>' + esc(p.title) + '</b>' + (p.desc ? '<div class="mu">' + esc(p.desc) + '</div>' : '') + '</div></div><div class="mt">' + chips + '</div>' + (acts ? '<div class="ac">' + acts + '</div>' : '') + '</article>';
+    }).join('');
+    frame(tx('h'), html, { sub: sub, anim: anim, cls: 'lst' });
   }
   function kindsOf(p) { var k = []; if (p.allowNamed !== false) k.push('named'); if (p.allowAnon !== false) k.push('anon'); if (p.allowWalk !== false) k.push('walkin'); return k.length ? k : ['anon']; }
   function viewPoll() {
@@ -10941,19 +10966,19 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
       + (state.kind === 'named' ? '<label class="f" for="rzpN">' + esc(tx('name')) + '</label><input class="t" id="rzpN" maxlength="80" autocomplete="name" value="' + esc(state.name) + '"><label class="f" for="rzpP">' + esc(tx('contact')) + '</label><input class="t" id="rzpP" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="01XXXXXXXXX" value="' + esc(state.phone) + '"><div class="mu" style="margin-top:4px;font-size:13px">' + esc(tx('contactH')) + '</div>' : '')
       + (state.kind === 'walkin' ? '<label class="f" for="rzpN">' + esc(tx('nameOpt')) + '</label><input class="t" id="rzpN" maxlength="80" autocomplete="name" value="' + esc(state.name) + '">' : '');
     var foot = '<div class="er" id="rzpE" role="alert">' + esc(state.msg) + '</div><button class="go full" type="button" data-a="send"' + (state.busy ? ' disabled' : '') + '>' + esc(state.busy ? tx('sending') : tx('send')) + '</button>';
-    frame((p.emoji || '') + ' ' + p.title, h, { back: true, ac: acc(p), foot: foot, icon: p.emoji, sub: p.multi ? tx('multi') : tx('single') });
+    frame((p.emoji || '') + ' ' + p.title, h, { back: true, ac: acc(p), foot: foot, icon: p.emoji, sub: p.multi ? tx('multi') : tx('single'), cls: 'frm' });
   }
   function bars(p) {
     var c = p.pubCounts || {}, tot = +p.pubTotal || 0, mx = 0;
     (p.options || []).forEach(function (o) { mx = Math.max(mx, +c[o.id] || 0); });
     return (p.options || []).map(function (o) { var n = +c[o.id] || 0, pc = tot ? Math.round(n * 1000 / tot) / 10 : 0; return '<div class="br' + (n && n === mx ? ' top' : '') + '"><div class="l"><span>' + esc(o.text) + '</span><span>' + n + ' \u2022 ' + pc + '%</span></div><div class="tr"><i style="width:' + pc + '%"></i></div></div>'; }).join('')
-      + '<p class="mu">' + esc(tx('total')) + ': <b>' + tot + '</b><br>' + esc(tx('resAt', { d: fmtT(p.pubAt) })) + '</p>';
+      + '<p class="mu">' + esc(tx('total')) + ': <b>' + tot + '</b>' + (p.pubAt ? '<br>' + esc(tx('resAt', { d: fmtT(p.pubAt) })) : '') + '</p>';
   }
   function viewThanks() {
     var p = state.poll;
-    frame(tx('h'), '<div class="ok"><div class="ck">\u2713</div><h3 style="font-size:22px;margin:6px 0">' + esc(tx('thanks')) + '</h3><p class="mu">' + esc(tx('thanksP')) + '</p></div>' + (hasRes(p) ? '<h3>' + esc(tx('res')) + '</h3>' + bars(p) : ''), { back: true, ac: acc(p) });
+    frame(tx('h'), '<div class="ok"><div class="ck">\u2713</div><h3 style="font-size:22px;margin:6px 0">' + esc(tx('thanks')) + '</h3><p class="mu">' + esc(tx('thanksP')) + '</p></div>' + (hasRes(p) ? '<h3>' + esc(tx('res')) + '</h3>' + bars(p) : ''), { back: true, ac: acc(p), cls: 'frm' });
   }
-  function viewResult() { var p = state.poll; frame((p.emoji || '') + ' ' + p.title, hasRes(p) ? bars(p) : '<p class="mu">' + esc(tx('noRes')) + '</p>', { back: true, ac: acc(p), icon: p.emoji, sub: tx('res') }); }
+  function viewResult() { var p = state.poll; frame((p.emoji || '') + ' ' + p.title, hasRes(p) ? bars(p) : '<p class="mu">' + esc(tx('noRes')) + '</p>', { back: true, ac: acc(p), icon: p.emoji, sub: tx('res'), cls: 'frm' }); }
   function onInput(e) {
     if (e.target.id === 'rzpN') state.name = e.target.value; else if (e.target.id === 'rzpP') state.phone = e.target.value;
     else if (e.target.name === 'rzpO') state.picks = Array.prototype.map.call(ov.querySelectorAll('input[name="rzpO"]:checked'), function (x) { return x.value; });
@@ -10999,13 +11024,13 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     if (h) h.classList.toggle('rzp-idle', !!sp && !n);
   }
   (function () {
-    var g = $('rzpGo'); if (g && ON) g.setAttribute('href', BASE + 'polls');
+    ['rzpGo', 'rzpHeroGo'].forEach(function (id) { var g = $(id); if (g && ON) g.setAttribute('href', BASE + 'polls'); });
     var h = $('rhPoll'); if (!h) return;
     function pre() { if (!state.polls) ensurePolls(); }
     if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { if (es.some(function (x) { return x.isIntersecting; })) { io.disconnect(); pre(); } }, { rootMargin: '200px' }); io.observe(h); } else pre();
   })();
   document.addEventListener('click', function (e) {
-    var g = e.target.closest ? e.target.closest('#rzpGo') : null; if (!g) return;
+    var g = e.target.closest ? e.target.closest('#rzpGo,#rzpHeroGo') : null; if (!g) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button > 0) return;
     e.preventDefault(); open();
   });
