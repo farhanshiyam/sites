@@ -9770,28 +9770,54 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   /* ---- staff side: publish masked due records (one small document per phone number) ---- */
   function dueKey(){ return 'dcu_due_hash_'+uid(); }
   function loadHashes(){ try{ return JSON.parse(localStorage.getItem(dueKey())||'{}')||{}; }catch(e){ return {}; } }
-  /* "last updated" for a customer = date of the last payment received; if no payment history, the date the customer was added (never the live date) */
-  function luOf(c){
+  /* Activity of a customer = every Payment Received, Due Added and Adjustment (payment history + the auto lines in the note).
+     "Last updated" = date of the latest activity (payment-like lines written by hand in the note count too);
+     nothing found -> the date the customer was added. Never the live/publish date.
+     Only type + amount + date go on the public slip, never the free-text notes. */
+  function actOf(c){
     var iso=function(d){ return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); };
     var dayFirst=(function(){ try{ var t=new Date(2000,10,25).toLocaleDateString(); return t.search(/25/)<t.search(/11/); }catch(e){ return true; } })();
+    var MON={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+    var soon=new Date(Date.now()+864e5);
+    function ok(r){ return r&&!isNaN(r)&&r<=soon&&r.getFullYear()>=2000?r:null; }
     function parse(v,dfFixed){
-      if(typeof v==='number'&&v>0) return new Date(v);
+      if(typeof v==='number'&&v>0) return ok(new Date(v));
       var t=String(v||'').replace(/[\u09E6-\u09EF]/g,function(ch){return String(ch.charCodeAt(0)-0x09E6);});
-      var m=t.match(/(\d{1,4})[\/.\-](\d{1,2})[\/.\-](\d{1,4})/); if(!m) return null;
-      var a=+m[1], b=+m[2], y=+m[3], d, mo;
+      var m=t.match(/(\d{1,2})\s*(?:st|nd|rd|th)?\s+([A-Za-z]{3})[A-Za-z]*\.?,?\s+(\d{4})/);
+      if(m&&MON[m[2].toLowerCase()]!=null) return ok(new Date(+m[3],MON[m[2].toLowerCase()],+m[1]));
+      m=t.match(/([A-Za-z]{3})[A-Za-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})/);
+      if(m&&MON[m[1].toLowerCase()]!=null) return ok(new Date(+m[3],MON[m[1].toLowerCase()],+m[2]));
+      m=t.match(/(\d{1,4})[\/.\-](\d{1,2})[\/.\-](\d{1,4})/); if(!m) return null;
+      var a=+m[1], b=+m[2], y=+m[3], d, mo, alt=null;
       if(m[1].length===4){ y=a; mo=b; d=+m[3]; }
-      else if(a>12){ d=a; mo=b; } else if(b>12){ mo=a; d=b; } else if(dfFixed||dayFirst){ d=a; mo=b; } else { mo=a; d=b; }
+      else if(a>12){ d=a; mo=b; } else if(b>12){ mo=a; d=b; }
+      else { if(dfFixed||dayFirst){ d=a; mo=b; alt={d:b,mo:a}; } else { mo=a; d=b; alt={d:a,mo:b}; } }   /* day/month ambiguous: device order first, the other order if that would be a future date */
       if(y<100) y+=2000;
-      var r=new Date(y,mo-1,d); return isNaN(r)||mo<1||mo>12?null:r;
+      var r=mo<1||mo>12||d<1||d>31?null:ok(new Date(y,mo-1,d));
+      if(!r&&alt&&alt.mo>=1&&alt.mo<=12&&alt.d>=1&&alt.d<=31) r=ok(new Date(y,alt.mo-1,alt.d));
+      return r;
     }
-    var best=null;
+    var best=null, ev=[], seen={}, n=0;
+    var take=function(d){ if(d&&(!best||d>best)) best=d; };
+    var add=function(d,t,a){ if(!d) return; take(d); var k=iso(d)+t+a; if(seen[k]) return; seen[k]=1; ev.push({d:iso(d),t:t,a:a,i:n++}); };
+    var kind=function(type){ type=String(type||''); if(/edit/i.test(type)) return ''; if(/payment/i.test(type)) return 'p'; if(/due\s*added/i.test(type)) return 'd'; if(/adjust/i.test(type)) return 'a'; return ''; };
     (c.transactionHistory||[]).forEach(function(h){
-      if(!h||!/payment/i.test(String(h.type||''))||!(Number(h.amount)>0)) return;
-      var d=parse(h.ts||h.date); if(d&&(!best||d>best)) best=d;
+      if(!h) return; var t=kind(h.type), a=Math.round(Number(h.amount)||0); if(!t||a<=0) return;
+      add(parse(h.ts||h.date),t,a);
+    });
+    var PAY=/payment\s*received|receive|\bpaid\b|collect|\u099C\u09AE\u09BE|\u09AA\u09B0\u09BF\u09B6\u09CB\u09A7|\u09AA\u09C7\u09AE\u09C7\u09A8\u09CD\u099F|\u09AA\u09C7\u09DF\u09C7\u099B\u09BF|\u09AA\u09C7\u09AF\u09BC\u09C7\u099B\u09BF|\u09A8\u0997\u09A6/i;
+    var AUTO=/^\s*\[([^\]]+)\]\s*(payment received|due added|adjustment)\s*:\s*([\d,]+)/i;
+    String(c.note||'').split(/\r?\n/).forEach(function(line){
+      var m=line.match(AUTO);
+      if(m){ var t=kind(m[2]), a=parseInt(m[3].replace(/,/g,''),10)||0, d=parse(m[1]); if(t&&a>0&&d) add(d,t,a); else take(d); }
+      else if(PAY.test(line)) take(parse(line));
     });
     if(!best) best=parse(c.dateAdded,true);   // dateAdded is always DD/MM/YYYY
-    return best?iso(best):'';
+    ev.sort(function(x,y){ return x.d<y.d?1:x.d>y.d?-1:x.i-y.i; });
+    return { lu: best?iso(best):'', ev: ev.slice(0,3).map(function(e){ return {d:e.d,t:e.t,a:e.a}; }) };
   }
+  function luOf(c){ return actOf(c).lu; }
+  function evOf(c){ return actOf(c).ev; }
   function buildDueGroups(){
     var A=window.__app, list=(A&&A.getCustomers&&A.getCustomers())||[], g={};
     list.forEach(function(c){
@@ -9800,7 +9826,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       var cd=Math.max(0,due-paid);
       phs.forEach(function(ph){
         var x=g[ph]||(g[ph]={due:0,names:[],addrs:[],n:0,list:[]});
-        x.due+=cd; x.n++; if(x.list.length<25) x.list.push({nm:String(c.name||'').trim()||'-',ad:String(c.address||'').trim(),src:String(c.source==null?'':c.source).trim(),due:Math.round(cd),lu:luOf(c)}); var m=String(c.name||'').trim()||'-'; if(x.names.indexOf(m)<0&&x.names.length<3) x.names.push(m); var ad=String(c.address||'').trim(); if(ad&&x.addrs.indexOf(ad)<0&&x.addrs.length<3) x.addrs.push(ad);
+        x.due+=cd; x.n++; if(x.list.length<25) x.list.push({nm:String(c.name||'').trim()||'-',ad:String(c.address||'').trim(),src:String(c.source==null?'':c.source).trim(),due:Math.round(cd),lu:luOf(c),ev:evOf(c)}); var m=String(c.name||'').trim()||'-'; if(x.names.indexOf(m)<0&&x.names.length<3) x.names.push(m); var ad=String(c.address||'').trim(); if(ad&&x.addrs.indexOf(ad)<0&&x.addrs.length<3) x.addrs.push(ad);
       });
     });
     return g;
@@ -9823,7 +9849,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       var nm=String(c.name||'').trim()||'-', ad=String(c.address||'').trim(), cd=Math.max(0,(+c.due||0)-(+c.paid||0));
       var cid='c'+await sha('rgce-due-cust-v1:'+(c.id||(nm+'|'+ad)));
       if(ids.indexOf(cid)>=0) continue;
-      var sr=String(c.source==null?'':c.source).trim(), item=[{nm:nm,ad:ad,src:sr,due:Math.round(cd),lu:luOf(c)}], ch='v3C|'+Math.round(cd)+'|'+nm+'|'+ad+'|'+sr+'|'+luOf(c);
+      var sr=String(c.source==null?'':c.source).trim(), item=[{nm:nm,ad:ad,src:sr,due:Math.round(cd),lu:luOf(c),ev:evOf(c)}], ch='v4C|'+Math.round(cd)+'|'+nm+'|'+ad+'|'+sr+'|'+luOf(c)+'|'+JSON.stringify(evOf(c));
       ids.push(cid); nextHashes[cid]=ch;
       if(force||hashes[cid]!==ch||prev.indexOf(cid)<0) ops.push({id:cid,data:{ownerUid:u,due:Math.round(cd),nm:nm,ad:ad,n:1,cs:JSON.stringify(item),upd:window.FB.serverTimestamp()}});
     }
@@ -9853,7 +9879,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       var k=normName(c.name); if(!k||k.length<3) return;
       var cd=Math.max(0,(+c.due||0)-(+c.paid||0)), g=G[k]||(G[k]={n:0,due:0,list:[]});
       g.n++; g.due+=cd;
-      if(g.list.length<25) g.list.push({nm:String(c.name||'').trim()||'-',ad:String(c.address||'').trim(),src:String(c.source==null?'':c.source).trim(),due:Math.round(cd),lu:luOf(c)});
+      if(g.list.length<25) g.list.push({nm:String(c.name||'').trim()||'-',ad:String(c.address||'').trim(),src:String(c.source==null?'':c.source).trim(),due:Math.round(cd),lu:luOf(c),ev:evOf(c)});
     });
     var ks=Object.keys(G);
     for(var i=0;i<ks.length;i++){
@@ -10227,8 +10253,10 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   function entriesOf(f){
     var arr=null; try{ if(f.cs&&f.cs.stringValue) arr=JSON.parse(f.cs.stringValue); }catch(e){}
     if(!arr||!arr.length) arr=[{nm:(f.nm&&f.nm.stringValue)||'-',ad:(f.ad&&f.ad.stringValue)||'',due:fnum(f.due)}];
-    return arr.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',src:String(x.src==null?'':x.src).trim(),due:Number(x.due)||0,lu:String(x.lu||'')}; });
+    return arr.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',src:String(x.src==null?'':x.src).trim(),due:Number(x.due)||0,lu:String(x.lu||''),ev:Array.isArray(x.ev)?x.ev:[]}; });
   }
+  var EVL={p:'Payment Received',d:'Due Added',a:'Adjustment'};
+  function evLines(ev){ return (Array.isArray(ev)?ev:[]).slice(0,3).map(function(e){ var d=luText(e&&e.d); return d&&EVL[e.t]&&+e.a>0?d+'  '+EVL[e.t]+': Tk '+Math.round(+e.a):''; }).filter(Boolean); }
   function luText(v){ var m=String(v||'').match(/^(\d{4})-(\d{2})-(\d{2})$/); if(!m) return ''; return new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }
   function updOf(f){ try{ if(f.upd&&f.upd.timestampValue) return new Date(f.upd.timestampValue).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }catch(e){} return ''; }
   function titleCase(t){ return t.replace(/(^|\s)(\S)/g,function(m,a,b){ return a+b.toUpperCase(); }); }
@@ -10305,7 +10333,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
         }
       }
       if(!list){ say('',(byName?'No due record found for this name. Enter your full name exactly as registered, or use your mobile number.':'No due record found for this number. Please contact the shop.')+'<div class="sm">Shop phone: '+esc(SHOP_PHONE)+'</div>'); beep(330,0.14,0.035,'sine'); return; }
-      slips=list.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',src:x.src||'',due:Number(x.due)||0,upd:luText(x.lu)||'-',ph:p}; });
+      slips=list.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',src:x.src||'',due:Number(x.due)||0,upd:luText(x.lu)||'-',nt:evLines(x.ev),ph:p}; });
       var rows=slips.map(function(x,i){
         return '<tr><td data-l="No.">'+(i+1)+'</td><td data-l="Name"><b>'+esc(x.nm)+'</b></td><td data-l="Address">'+esc(x.ad||'-')+'</td><td data-l="Source">'+esc(x.src||'-')+'</td><td data-l="Due" class="am">'+(x.due>0?'<span class="amt">'+esc(Math.round(x.due).toLocaleString('en-US'))+'</span> <span class="tk">Taka</span>':'No due')+'</td><td data-l="Slip"><button class="slipbtn" data-i="'+i+'" type="button">View slip</button></td></tr>';
       }).join('');
@@ -10361,10 +10389,11 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     if(ph) rows.push(['Mobile',ph.slice(0,3)+'****'+ph.slice(-3)]);
     if(slip.src) rows.push(['Source',slip.src]);
     rows.push(['Last updated',slip.upd||'-']);
+    if(slip.nt&&slip.nt.length) rows.push(['Note',slip.nt]);
     var LW=290, y=395, TW=W-2*M;
     g.lineWidth=2; g.strokeStyle=INK;
     rows.forEach(function(r){
-      g.font='500 30px '+F; var ls=wrap(g,r[1],TW-LW-44).slice(0,3), rh=Math.max(72,ls.length*42+30);
+      g.font='500 30px '+F; var ls=(Array.isArray(r[1])?r[1]:wrap(g,r[1],TW-LW-44)).slice(0,3), rh=Math.max(72,ls.length*42+30);
       g.fillStyle=SOFT; g.fillRect(M,y,LW,rh);
       g.strokeRect(M,y,TW,rh); g.beginPath(); g.moveTo(M+LW,y); g.lineTo(M+LW,y+rh); g.stroke();
       T(r[0],M+22,y+Math.round(rh/2)+10,27,INK,700);
