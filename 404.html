@@ -1692,7 +1692,11 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
       <div class="auth-card">
         <button type="button" class="auth-close" id="authCloseBtn" aria-label="Close" title="Close">✕</button>
         <h2>Sign in to your account</h2>
-        <p class="auth-sub">Authorized staff only. Please sign in to continue.</p>
+        <p class="auth-sub">Authorized owner only. Sign in with Google or with your email and password.</p>
+        <button class="auth-btn secondary" id="authGoogleBtn" type="button" style="margin-bottom:0;">
+          <i class="fab fa-google"></i> Sign in with Google
+        </button>
+        <div class="auth-divider">or</div>
         <div class="form-group">
           <label for="authEmail">Email address</label>
           <input type="email" id="authEmail" placeholder="name@company.com" autocomplete="username">
@@ -1704,8 +1708,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
         <button class="auth-btn primary" id="authLoginBtn">
           <i class="fas fa-right-to-bracket"></i> Sign in
         </button>
-        <div class="auth-divider">or</div>
-        <button class="auth-btn secondary" id="authResetBtn">
+        <button class="auth-btn secondary" id="authResetBtn" style="margin-top:10px;">
           <i class="fas fa-key"></i> Forgot password?
         </button>
         <div id="authMsg"></div>
@@ -2318,7 +2321,8 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import {
       getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged,
-      sendPasswordResetEmail, setPersistence, browserLocalPersistence
+      sendPasswordResetEmail, setPersistence, browserLocalPersistence,
+      GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import {
       initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
@@ -2343,9 +2347,36 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
       console.warn('Auth persistence setup failed:', err);
     });
 
+    // ---- Google-only owner login -------------------------------------------
+    // শুধু এই UID (Firestore rules-এর isOwner() এর UID) ঢুকতে পারবে।
+    const OWNER_UID = 'rdhIW68BCxXlQ28Gi1IdHJTjaxt2';
+    // চাইলে আপনার Gmail লিখে দিন (বাড়তি সুরক্ষা)। ফাঁকা থাকলে শুধু UID মেলানো হবে।
+    const OWNER_EMAIL = '';
+    const googleProvider = new GoogleAuthProvider();
+    googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+    function isAllowedUser(u) {
+      if (!u || u.uid !== OWNER_UID) return false;
+      if (OWNER_EMAIL && String(u.email || '').toLowerCase() !== OWNER_EMAIL.toLowerCase()) return false;
+      return true;
+    }
+    async function signInWithGoogle() {
+      try {
+        return await signInWithPopup(auth, googleProvider);
+      } catch (e) {
+        if (e && (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment')) {
+          await signInWithRedirect(auth, googleProvider);   // popup না চললে redirect
+          return null;
+        }
+        throw e;
+      }
+    }
+    getRedirectResult(auth).catch(err => { console.warn('Redirect sign-in failed:', err && err.code); });
+
     window.FB = {
       auth, db,
       signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail,
+      signInWithGoogle, isAllowedUser, OWNER_UID,
       doc, setDoc, getDoc, getDocFromServer, serverTimestamp
     };
     window.dispatchEvent(new Event('firebase-ready'));
@@ -3252,7 +3283,12 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
         'auth/invalid-credential': 'Wrong email or password.',
         'auth/too-many-requests': 'Too many attempts. Wait a few minutes.',
         'auth/network-request-failed': 'Network error. Check internet.',
-        'auth/user-disabled': 'Account disabled.'
+        'auth/user-disabled': 'Account disabled.',
+        'auth/popup-closed-by-user': 'Sign-in cancelled.',
+        'auth/cancelled-popup-request': 'Sign-in cancelled.',
+        'auth/unauthorized-domain': 'This domain is not authorized in Firebase (Authentication → Settings → Authorized domains).',
+        'auth/operation-not-allowed': 'Google sign-in is not enabled in Firebase.',
+        'auth/account-exists-with-different-credential': 'This email is registered with a different sign-in method.'
       };
       return map[code] || 'Login failed: ' + code;
     }
@@ -3269,6 +3305,21 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
         msgEl.textContent = text;
         msgEl.className = type || '';
       }
+
+      const googleBtn = document.getElementById('authGoogleBtn');
+      const googleBtnHtml = '<i class="fab fa-google"></i> Sign in with Google';
+      if (googleBtn) googleBtn.addEventListener('click', async () => {
+        googleBtn.disabled = true;
+        googleBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in…';
+        setMsg('Opening Google…');
+        try {
+          await window.FB.signInWithGoogle();
+        } catch (e) {
+          setMsg(translateAuthError(e.code || e.message), 'error');
+        }
+        googleBtn.disabled = false;
+        googleBtn.innerHTML = googleBtnHtml;
+      });
 
       loginBtn.addEventListener('click', async () => {
         const email = emailInput.value.trim();
@@ -3331,6 +3382,19 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
       });
 
       window.FB.onAuthStateChanged(window.FB.auth, async (user) => {
+        if (user && !window.FB.isAllowedUser(user)) {
+          // নিবন্ধিত অ্যাকাউন্ট ছাড়া অন্য কেউ: সাইন-আউট, নতুন তৈরি হওয়া অ্যাকাউন্ট মুছে ফেলা
+          const badEmail = user.email || 'this account';
+          console.warn('Blocked sign-in. uid=' + user.uid);
+          try {
+            const m = user.metadata || {};
+            if (m.creationTime && m.creationTime === m.lastSignInTime) await user.delete();
+          } catch (e) {}
+          try { await window.FB.signOut(window.FB.auth); } catch (e) {}
+          overlay.style.display = 'flex';
+          setMsg('Access denied: ' + badEmail + ' is not authorized. Sign in with the registered Google account.', 'error');
+          return;
+        }
         currentUser = user;
         window.__currentUser = user;
         document.body.classList.toggle('is-authed', !!user);
