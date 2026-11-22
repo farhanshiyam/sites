@@ -1895,6 +1895,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
         <div class="sidebar-item" data-action="backupRestore"><i class="fas fa-database"></i><span class="sidebar-label">Backup / Restore</span></div>
         <div class="sidebar-item" data-action="telegramBackup"><i class="fab fa-telegram-plane"></i><span class="sidebar-label">Telegram Backup</span></div>
         <div class="sidebar-item" data-action="googleSheets"><i class="fas fa-table"></i><span class="sidebar-label">Google Sheets Sync</span></div>
+        <div class="sidebar-item" data-action="whatsapp"><i class="fab fa-whatsapp"></i><span class="sidebar-label">WhatsApp Messages</span></div>
         </div>
         <div class="sidebar-group" style="--n:2"><div class="sidebar-section-title">Invoice System</div>
         <div class="sidebar-item" data-action="createInvoice"><i class="fas fa-file-invoice"></i><span class="sidebar-label">Create Invoice</span></div>
@@ -4543,6 +4544,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
           <td>${formatMoney(currentDue)}</td>
           <td class="actions-cell">
             <div class="seg-control" role="group" aria-label="Customer actions">
+              <button type="button" class="seg-btn sg-green"  data-act="wa"    title="WhatsApp due reminder" aria-label="WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></button>
               <button type="button" class="seg-btn sg-amber"  data-act="pay"   title="Pay"    aria-label="Pay"><svg><use href="#i-card"/></svg>Pay</button>
               <button type="button" class="seg-btn sg-violet" data-act="edit"  title="Edit"   aria-label="Edit"><svg><use href="#i-edit"/></svg>Edit</button>
               <button type="button" class="seg-btn sg-red"    data-act="del"   title="Delete" aria-label="Delete"><svg><use href="#i-trash"/></svg>Delete</button>
@@ -4553,6 +4555,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
           if (e.target.closest('.actions-cell')) return;
           openPreviewModal(c.id);
         });
+        tr.querySelector('[data-act="wa"]').addEventListener('click',    (e) => { e.stopPropagation(); waSendDue(c.id); });
         tr.querySelector('[data-act="pay"]').addEventListener('click',   (e) => { e.stopPropagation(); openPaymentModal(c.id); });
         tr.querySelector('[data-act="edit"]').addEventListener('click',  (e) => { e.stopPropagation(); openEditModal(c.id); });
         tr.querySelector('[data-act="del"]').addEventListener('click',   (e) => { e.stopPropagation(); openDeleteModal(c.id); });
@@ -7092,6 +7095,78 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
       });
     }
 
+/* ===== WhatsApp Cloud API: token lives in Apps Script Properties, never in the browser ===== */
+    const WA_CFG_KEY = 'rgce_wa_cfg';
+    function waCfg() { let o = {}; try { o = JSON.parse(localStorage.getItem(WA_CFG_KEY) || '{}'); } catch (e) {} return { template: o.template || 'due_reminder', lang: o.lang || 'bn' }; }
+    function waPhone(p) {
+      let d = String(p || '').replace(/\D/g, '');
+      if (d.indexOf('00') === 0) d = d.slice(2);
+      if (/^01\d{9}$/.test(d)) d = '88' + d;
+      else if (/^1\d{9}$/.test(d)) d = '880' + d;
+      return /^[1-9]\d{10,14}$/.test(d) ? d : '';
+    }
+    async function waSend(to, extra) {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: await rgceAuthBody(Object.assign({ action: 'sendWhatsApp', to: to }, extra)), redirect: 'follow'
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const j = await res.json().catch(() => ({}));
+      if (!j || j.success !== true) throw new Error((j && j.error) || 'Apps Script did not accept sendWhatsApp (is the new code deployed?)');
+      return j;
+    }
+    function waDuePayload(c) { const cfg = waCfg(); return { type: 'template', template: cfg.template, lang: cfg.lang, params: [String(c.name || ''), String(getCurrentDue(c))] }; }
+    async function waSendDue(id) {
+      if (!rgceRequireLogin()) return;
+      const c = customers.find(x => String(x.id) === String(id)); if (!c) return;
+      const to = waPhone(c.phone);
+      if (!to) { showToast('Phone number missing or invalid.', 'error'); return; }
+      if (getCurrentDue(c) <= 0) { showToast('This customer has no due.', 'warning'); return; }
+      if (!confirm('Send WhatsApp due reminder to ' + (c.name || '') + ' (+' + to + ') for ' + getCurrentDue(c) + ' ?')) return;
+      try { await waSend(to, waDuePayload(c)); showToast('✅ WhatsApp sent to ' + (c.name || to), 'success'); }
+      catch (e) { showToast('WhatsApp failed: ' + e.message, 'error', 8000); }
+    }
+    async function waSendAllDue() {
+      if (!rgceRequireLogin()) return;
+      const list = customers.filter(c => getCurrentDue(c) > 0 && waPhone(c.phone));
+      const msg = document.getElementById('waMsg');
+      if (!list.length) { msg.innerHTML = '<div class="warning-box">No customer with due and a valid phone number.</div>'; return; }
+      if (!confirm('Send WhatsApp due reminder to ' + list.length + ' customers?\n\nOnly send to customers who expect messages from you.')) return;
+      let ok = 0, bad = 0, last = '';
+      for (let i = 0; i < list.length; i++) {
+        msg.innerHTML = '<div class="info-box">Sending ' + (i + 1) + ' / ' + list.length + ' … ✅ ' + ok + ' · ❌ ' + bad + '</div>';
+        try { await waSend(waPhone(list[i].phone), waDuePayload(list[i])); ok++; } catch (e) { bad++; last = e.message; }
+        await new Promise(r => setTimeout(r, 1200));
+      }
+      msg.innerHTML = '<div class="' + (bad ? 'warning-box' : 'info-box') + '">Done. ✅ ' + ok + ' sent · ❌ ' + bad + ' failed' + (last ? ' (' + escapeHtml(last) + ')' : '') + '</div>';
+    }
+    function openWhatsAppPanel() {
+      rgceSetModal('whatsapp');
+      const cfg = waCfg();
+      const body = `
+        <p style="margin-bottom:10px;">Messages are sent through your WhatsApp Cloud API. The access token and Phone Number ID are kept in your Apps Script (Script Properties), not in this page.</p>
+        <div class="form-group" style="margin-bottom:12px;"><label>Approved template name</label><input type="text" id="waTpl" value="${escapeHtml(cfg.template)}"></div>
+        <div class="form-group" style="margin-bottom:12px;"><label>Template language code (e.g. bn, en)</label><input type="text" id="waLang" value="${escapeHtml(cfg.lang)}"></div>
+        <div class="form-group" style="margin-bottom:12px;"><label>Test number</label><input type="text" id="waTest" placeholder="01XXXXXXXXX"></div>
+        <p style="font-size:12px;margin-bottom:10px;">Template body uses 2 variables: {{1}} = customer name, {{2}} = current due.</p>
+        <button class="btn" id="waTestBtn">Send test</button> <button class="btn btn-primary" id="waAllBtn">Send due reminder to all</button>
+        <div id="waMsg" style="margin-top:10px;"></div>`;
+      const footer = `<button class="btn" id="waCancel">Close</button><button class="btn btn-primary" id="waSave">Save</button>`;
+      openModal('WhatsApp Messages', body, footer);
+      const save = () => { localStorage.setItem(WA_CFG_KEY, JSON.stringify({ template: document.getElementById('waTpl').value.trim(), lang: document.getElementById('waLang').value.trim() })); };
+      document.getElementById('waCancel').addEventListener('click', closeModal);
+      document.getElementById('waSave').addEventListener('click', () => { save(); showToast('WhatsApp settings saved.', 'success'); closeModal(); });
+      document.getElementById('waAllBtn').addEventListener('click', () => { save(); waSendAllDue(); });
+      document.getElementById('waTestBtn').addEventListener('click', async () => {
+        if (!rgceRequireLogin()) return; save();
+        const to = waPhone(document.getElementById('waTest').value), m = document.getElementById('waMsg');
+        if (!to) { m.innerHTML = '<div class="warning-box">Enter a valid test number.</div>'; return; }
+        m.innerHTML = '<div class="info-box">Sending…</div>';
+        try { await waSend(to, waDuePayload({ name: 'Test', due: 0, paid: 0 })); m.innerHTML = '<div class="info-box">✅ Test message sent.</div>'; }
+        catch (e) { m.innerHTML = '<div class="warning-box">Failed: ' + escapeHtml(e.message) + '</div>'; }
+      });
+    }
+
     function openTelegramSetup() {
       rgceSetModal('telegram-backup');
       const body = `
@@ -7242,6 +7317,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
         case 'printReport': printFilteredReport(); break;
         case 'backupRestore': openBackupRestoreModal(); break;
         case 'telegramBackup': openTelegramSetup(); break;
+        case 'whatsapp': openWhatsAppPanel(); break;
         case 'googleSheets': openGoogleSheetsPanel(); break;
         case 'createInvoice': openInvoiceForm(); break;
         case 'allInvoices': openInvoiceListModal(); break;
@@ -7370,13 +7446,13 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
     var RGCE_SLUGS = {            // sidebar action  ->  URL name
       transactionTracking: 'transactions', advancedFilter: 'filter', liveStats: 'live-stats',
       summaryReport: 'summary-report', liveCharts: 'live-charts', backupRestore: 'backup',
-      telegramBackup: 'telegram-backup', googleSheets: 'google-sheets', createInvoice: 'invoice',
+      telegramBackup: 'telegram-backup', whatsapp: 'whatsapp', googleSheets: 'google-sheets', createInvoice: 'invoice',
       allInvoices: 'invoices', clearNotes: 'clear-notes', clearAmountsSource: 'clear-amounts-by-source',
       clearAllAmounts: 'clear-all-amounts', clearAllData: 'clear-all-data', shopDetails: 'shop-details',
       developerInfo: 'developer', help: 'help'
     };
     var RGCE_MODAL_ACTIONS = ['transactionTracking', 'liveStats', 'summaryReport', 'liveCharts', 'backupRestore',
-      'telegramBackup', 'googleSheets', 'allInvoices', 'clearNotes', 'clearAmountsSource', 'clearAllAmounts',
+      'telegramBackup', 'whatsapp', 'googleSheets', 'allInvoices', 'clearNotes', 'clearAmountsSource', 'clearAllAmounts',
       'clearAllData', 'shopDetails', 'developerInfo', 'help'];
     var RGCE_SLUG_TO_ACTION = {};
     Object.keys(RGCE_SLUGS).forEach(function (a) { RGCE_SLUG_TO_ACTION[RGCE_SLUGS[a]] = a; });
@@ -8013,6 +8089,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
     .sg-green  { --c1: #34d399; }
     .sg-amber  { --c1: #fbbf24; }
     .sg-red    { --c1: #fb7185; }
+    .sg-green  { --c1: #25d366; }
     .sg-violet { --c1: #a78bfa; }
     .sg-teal   { --c1: #2dd4bf; }
 
