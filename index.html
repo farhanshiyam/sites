@@ -1836,8 +1836,10 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
     <div class="wp-col">
       <div class="wp-card">
         <h2>New message</h2>
-        <div id="waSel" style="font-weight:600;font-size:14px;">Select a customer, or type a number</div>
-        <input type="text" id="waTo" placeholder="01XXXXXXXXX" autocomplete="off">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;"><div id="waSel" style="font-weight:600;font-size:14px;">Select a customer, or type a number</div><button type="button" class="wa-btn" id="waClear" style="display:none;">Clear</button></div>
+        <input type="text" id="waTo" placeholder="Phone number: 01XXXXXXXXX" autocomplete="off">
+        <label id="waSaveWrap" style="display:none;font-size:13px;gap:6px;align-items:center;"><input type="checkbox" id="waSave"> <span id="waSaveTxt"></span></label>
+        <div id="waManual" style="display:none;gap:8px;"><input type="text" id="waManName" placeholder="Name (for the message)"><input type="text" id="waManDue" inputmode="numeric" placeholder="Due amount"></div>
         <div class="wa-seg"><button type="button" class="on" data-mode="tpl">Due reminder</button><button type="button" data-mode="text">Custom message</button></div>
         <textarea id="waText" rows="4" placeholder="Write your message…" style="display:none;"></textarea>
         <p class="wa-note" id="waNote">Sends your approved reminder template with the customer's name and due amount.</p>
@@ -7238,7 +7240,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
         const d = getCurrentDue(c);
         return '<div class="wa-row' + (waSel && String(waSel.id) === String(c.id) ? ' sel' : '') + '" data-id="' + escapeHtml(String(c.id)) + '">' +
           '<div class="wa-av">' + escapeHtml(String(c.name || '?').trim().charAt(0).toUpperCase()) + '</div>' +
-          '<div class="wa-nm"><b>' + escapeHtml(c.name || '') + '</b><small>' + escapeHtml(c.phone || 'No phone') + '</small></div>' +
+          '<div class="wa-nm"><b>' + escapeHtml(c.name || '') + '</b><small>' + (c.phone ? escapeHtml(c.phone) : '<span style="color:#d97706">No number</span>') + '</small></div>' +
           '<div class="wa-due' + (d > 0 ? '' : ' z') + '">' + (d > 0 ? escapeHtml(String(formatMoney(d))) : 'No due') + '</div></div>';
       }).join('') + (all.length > shown.length ? '<div class="wa-empty">Showing 80 of ' + all.length + ' — type to narrow down</div>' : '')
         : '<div class="wa-empty">No customer found</div>';
@@ -7248,6 +7250,14 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       waEl('waLog').innerHTML = l.length ? l.map(r => '<div class="wa-log"><span>' + (r.ok ? '✅ ' : '❌ ') + escapeHtml(r.name || ('+' + r.to)) + '<br><small>' + escapeHtml(r.kind) + (r.ok ? '' : ' · ' + escapeHtml(r.err || 'failed')) + '</small></span><small>' + escapeHtml(new Date(r.t).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })) + '</small></div>').join('')
         : '<div class="wa-empty">No messages sent yet.</div>';
     }
+    function waUpdateUi() {
+      const sel = !!waSel, to = waPhone(waEl('waTo').value);
+      waEl('waClear').style.display = sel ? '' : 'none';
+      waEl('waManual').style.display = (!sel && waMode === 'tpl') ? 'flex' : 'none';
+      const diff = sel && to && to !== waPhone(waSel.phone);
+      waEl('waSaveWrap').style.display = diff ? 'flex' : 'none';
+      if (diff) waEl('waSaveTxt').textContent = waSel.phone ? 'Replace the saved number of this customer' : 'Save this number to the customer';
+    }
     function waInit() {
       if (waInited) return; waInited = true;
       const cfg = waCfg(); waEl('waTpl').value = cfg.template; waEl('waLang').value = cfg.lang;
@@ -7256,18 +7266,24 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       waEl('waList').addEventListener('click', (e) => {
         const row = e.target.closest('[data-id]'); if (!row) return;
         waSel = customers.find(x => String(x.id) === row.getAttribute('data-id')) || null;
-        if (waSel) { waEl('waTo').value = waSel.phone || ''; waEl('waSel').textContent = (waSel.name || '') + ' · due ' + getCurrentDue(waSel); }
-        waEl('waMsg').innerHTML = ''; waRenderList();
+        if (waSel) {
+          waEl('waTo').value = waSel.phone || ''; waEl('waSel').textContent = (waSel.name || '') + ' · due ' + getCurrentDue(waSel);
+          waEl('waSave').checked = !waSel.phone;
+        }
+        waEl('waMsg').innerHTML = '';
+        if (waSel && !waSel.phone) { waInfo('info-box', 'No number saved for this customer — type it above.'); waEl('waTo').focus(); }
+        waRenderList(); waUpdateUi();
       });
       waEl('waSearch').addEventListener('input', waRenderList);
       waEl('waDueOnly').addEventListener('click', () => { waDueOnly = !waDueOnly; waEl('waDueOnly').classList.toggle('on', waDueOnly); waRenderList(); });
       document.querySelectorAll('#rgceWa .wa-seg button').forEach(b => b.addEventListener('click', () => {
         waMode = b.getAttribute('data-mode');
         document.querySelectorAll('#rgceWa .wa-seg button').forEach(x => x.classList.toggle('on', x === b));
-        waEl('waText').style.display = waMode === 'text' ? '' : 'none';
+        waEl('waText').style.display = waMode === 'text' ? '' : 'none'; waUpdateUi();
         waEl('waNote').textContent = waMode === 'text' ? 'Free text works only if the customer messaged you in the last 24 hours.' : "Sends your approved reminder template with the customer's name and due amount.";
       }));
-      waEl('waTo').addEventListener('input', () => { if (waSel && waEl('waTo').value.trim() !== String(waSel.phone || '').trim()) { waSel = null; waEl('waSel').textContent = 'Manual number'; waRenderList(); } });
+      waEl('waTo').addEventListener('input', waUpdateUi);
+      waEl('waClear').addEventListener('click', () => { waSel = null; waEl('waTo').value = ''; waEl('waSel').textContent = 'Select a customer, or type a number'; waEl('waMsg').innerHTML = ''; waRenderList(); waUpdateUi(); });
       waEl('waSaveCfg').addEventListener('click', () => { saveCfg(); showToast('WhatsApp settings saved.', 'success'); });
       waEl('waAllBtn').addEventListener('click', () => { saveCfg(); waSendAllDue(); });
       waEl('waSendBtn').addEventListener('click', async () => {
@@ -7275,23 +7291,32 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
         saveCfg();
         const to = waPhone(waEl('waTo').value);
         if (!to) { waInfo('warning-box', 'Enter a valid phone number.'); return; }
-        let payload;
+        let payload, who = waSel;
         if (waMode === 'text') {
           const t = waEl('waText').value.trim();
           if (!t) { waInfo('warning-box', 'Write a message first.'); return; }
           payload = { type: 'text', text: t };
         } else {
-          if (!waSel) { waInfo('warning-box', 'Select a customer for the due reminder, or use Custom message.'); return; }
-          if (getCurrentDue(waSel) <= 0) { waInfo('warning-box', 'This customer has no due.'); return; }
-          payload = waDuePayload(waSel);
+          if (!who) {
+            const due = parseFloat(String(waEl('waManDue').value).replace(/[^\d.]/g, ''));
+            if (!(due > 0)) { waInfo('warning-box', 'Enter the due amount, or select a customer.'); return; }
+            who = { name: waEl('waManName').value.trim() || 'Customer', due: due, paid: 0 };
+          } else if (getCurrentDue(who) <= 0) { waInfo('warning-box', 'This customer has no due.'); return; }
+          payload = waDuePayload(who);
         }
-        if (!confirm('Send WhatsApp to +' + to + (waSel ? ' (' + (waSel.name || '') + ')' : '') + ' ?')) return;
+        if (!confirm('Send WhatsApp to +' + to + (who && who.name ? ' (' + who.name + ')' : '') + ' ?')) return;
         waInfo('info-box', 'Sending…');
         const kind = waMode === 'text' ? 'Custom message' : 'Due reminder';
-        try { await waSend(to, payload); waInfo('info-box', '✅ Sent to +' + to); waLogAdd({ t: Date.now(), to: to, name: waSel ? waSel.name : '', kind: kind, ok: true }); }
-        catch (e) { waInfo('warning-box', 'Failed: ' + escapeHtml(e.message)); waLogAdd({ t: Date.now(), to: to, name: waSel ? waSel.name : '', kind: kind, ok: false, err: e.message }); }
+        try {
+          await waSend(to, payload);
+          waInfo('info-box', '✅ Sent to +' + to); waLogAdd({ t: Date.now(), to: to, name: who ? who.name : '', kind: kind, ok: true });
+          if (waSel && waEl('waSaveWrap').style.display !== 'none' && waEl('waSave').checked) {
+            waSel.phone = waEl('waTo').value.trim(); saveData(); waRenderList(); waUpdateUi(); showToast('Number saved to ' + (waSel.name || 'customer') + '.', 'success');
+          }
+        } catch (e) { waInfo('warning-box', 'Failed: ' + escapeHtml(e.message)); waLogAdd({ t: Date.now(), to: to, name: who ? who.name : '', kind: kind, ok: false, err: e.message }); }
         waRenderLog();
       });
+      waUpdateUi();
     }
     function waPageShow() {
       waInit(); waRenderList(); waRenderLog();
