@@ -7328,6 +7328,11 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       }, 1000);
     }
     window.__waShow = waPageShow;
+    /* start the page by itself whenever the address is /whatsapp (refresh, direct link, back/forward) */
+    function waEnsure() { if (document.documentElement.getAttribute('data-dcu-view') === 'whatsapp') waPageShow(); }
+    try { new MutationObserver(waEnsure).observe(document.documentElement, { attributes: true, attributeFilter: ['data-dcu-view'] }); } catch (e) {}
+    setInterval(() => { if (!waInited && document.documentElement.getAttribute('data-dcu-view') === 'whatsapp') waPageShow(); }, 800);
+    waEnsure();
 
     function openTelegramSetup() {
       rgceSetModal('telegram-backup');
