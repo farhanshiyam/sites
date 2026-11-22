@@ -1771,6 +1771,95 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
     </div>
   </header>
 
+<section id="rgceWa" aria-label="WhatsApp" data-no-bn>
+<style>
+#rgceWa{display:none}
+html[data-dcu-view="whatsapp"] #rgceWa{display:block}
+html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official-header,html[data-dcu-view="whatsapp"] .sidebar,html[data-dcu-view="whatsapp"] .dcu-cta,html[data-dcu-view="whatsapp"] .dcu-home-grid,html[data-dcu-view="whatsapp"] .main-content{display:none!important}
+#rgceWa{color:var(--text)}
+#rgceWa .wp-wrap{max-width:1100px;margin:0 auto;padding:22px 16px 40px}
+#rgceWa .wp-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+#rgceWa .wp-head h1{margin:0;font-size:24px;display:flex;align-items:center;gap:10px}
+#rgceWa .wp-head h1 i{color:#25d366}
+#rgceWa .wp-head p{margin:2px 0 0;color:var(--muted);font-size:14px}
+#rgceWa .wp-back{padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--text);font:inherit;font-size:14px;cursor:pointer}
+#rgceWa .wp-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media(max-width:860px){#rgceWa .wp-grid{grid-template-columns:1fr}}
+#rgceWa .wp-col{display:flex;flex-direction:column;gap:16px;min-width:0}
+#rgceWa .wp-card{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--panel);display:flex;flex-direction:column;gap:10px}
+#rgceWa .wp-card h2{margin:0;font-size:15px}
+#rgceWa input[type=text],#rgceWa textarea{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--text);font:inherit;font-size:14px}
+#rgceWa input:focus,#rgceWa textarea:focus{outline:2px solid #25d366;outline-offset:-1px;border-color:#25d366}
+#rgceWa .wa-top{display:flex;gap:8px;align-items:center}
+#rgceWa .wa-top input{flex:1}
+#rgceWa .wa-chip{padding:8px 12px;border:1px solid var(--border);border-radius:999px;background:var(--panel);color:var(--muted);font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+#rgceWa .wa-chip.on{background:#25d366;border-color:#25d366;color:#fff}
+#rgceWa .wa-list{max-height:460px;overflow:auto;border:1px solid var(--border);border-radius:10px}
+#rgceWa .wa-row{display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:pointer;border-bottom:1px solid var(--border);border-left:3px solid transparent}
+#rgceWa .wa-row:last-child{border-bottom:0}
+#rgceWa .wa-row:hover{background:var(--panel-alt)}
+#rgceWa .wa-row.sel{background:rgba(37,211,102,.12);border-left-color:#25d366}
+#rgceWa .wa-av{width:34px;height:34px;border-radius:50%;background:var(--panel-alt);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex:none}
+#rgceWa .wa-nm{flex:1;min-width:0}
+#rgceWa .wa-nm b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#rgceWa .wa-nm small{color:var(--muted);font-size:12px}
+#rgceWa .wa-due{font-size:13px;font-weight:600;color:#e11d48;white-space:nowrap}
+#rgceWa .wa-due.z{color:var(--muted);font-weight:400}
+#rgceWa .wa-empty{padding:18px;text-align:center;color:var(--muted);font-size:13px}
+#rgceWa .wa-seg{display:flex;background:var(--panel-alt);border:1px solid var(--border);border-radius:8px;padding:3px;gap:3px}
+#rgceWa .wa-seg button{flex:1;padding:7px 8px;border:0;border-radius:6px;background:transparent;color:var(--muted);font:inherit;font-size:13px;cursor:pointer}
+#rgceWa .wa-seg button.on{background:var(--panel);color:var(--text);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.15)}
+#rgceWa .wa-send{width:100%;padding:11px;border:0;border-radius:8px;background:#25d366;color:#fff;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+#rgceWa .wa-send:hover{background:#1ebe5a}
+#rgceWa .wa-note{font-size:12px;color:var(--muted);margin:0}
+#rgceWa .wa-btn{padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--text);font:inherit;font-size:13px;cursor:pointer}
+#rgceWa .wa-log{display:flex;justify-content:space-between;gap:8px;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)}
+#rgceWa .wa-log:last-child{border-bottom:0}
+#rgceWa .wa-log small{color:var(--muted)}
+#rgceWa details summary{cursor:pointer;font-weight:600;font-size:15px}
+#rgceWa details>div{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+#rgceWa details label{font-size:12px;color:var(--muted)}
+</style>
+<div class="wp-wrap">
+  <div class="wp-head">
+    <button type="button" class="wp-back" id="waBack"><i class="fas fa-arrow-left" aria-hidden="true"></i> Home</button>
+    <div><h1><i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp</h1><p>Send due reminders and messages to your customers.</p></div>
+  </div>
+  <div class="wp-grid">
+    <div class="wp-col">
+      <div class="wp-card">
+        <h2>Customers</h2>
+        <div class="wa-top"><input type="text" id="waSearch" placeholder="Search name, phone or address" autocomplete="off"><button type="button" class="wa-chip" id="waDueOnly">Due only</button></div>
+        <div class="wa-list" id="waList"></div>
+      </div>
+    </div>
+    <div class="wp-col">
+      <div class="wp-card">
+        <h2>New message</h2>
+        <div id="waSel" style="font-weight:600;font-size:14px;">Select a customer, or type a number</div>
+        <input type="text" id="waTo" placeholder="01XXXXXXXXX" autocomplete="off">
+        <div class="wa-seg"><button type="button" class="on" data-mode="tpl">Due reminder</button><button type="button" data-mode="text">Custom message</button></div>
+        <textarea id="waText" rows="4" placeholder="Write your message…" style="display:none;"></textarea>
+        <p class="wa-note" id="waNote">Sends your approved reminder template with the customer's name and due amount.</p>
+        <button type="button" class="wa-send" id="waSendBtn">Send on WhatsApp</button>
+        <div id="waMsg"></div>
+      </div>
+      <div class="wp-card"><h2>Recent</h2><div id="waLog"></div></div>
+      <div class="wp-card">
+        <details>
+          <summary>Settings &amp; bulk send</summary>
+          <div>
+            <div><label>Template name</label><input type="text" id="waTpl"></div>
+            <div><label>Language code (bn, en …)</label><input type="text" id="waLang"></div>
+            <p class="wa-note">Template variables: {{1}} customer name, {{2}} current due.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;"><button type="button" class="wa-btn" id="waSaveCfg">Save settings</button><button type="button" class="wa-btn" id="waAllBtn">Send reminder to all with due</button></div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
 <section id="rgceHub" aria-label="Home">
 <section class="hero"><div class="in">
   <span class="eyebrow rv" style="--d:0">Welcome</span>
@@ -7106,7 +7195,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
     async function waSend(to, extra) {
       const res = await fetch(APPS_SCRIPT_URL, {
         method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: await rgceAuthBody(Object.assign({ action: 'sendWhatsApp', to: to }, extra)), redirect: 'follow'
+        body: await rgceAuthBody(Object.assign({ action: 'sendWhatsApp', spreadsheetId: SPREADSHEET_ID, to: to }, extra)), redirect: 'follow'
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const j = await res.json().catch(() => ({}));
@@ -7128,96 +7217,92 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
       }
       msg.innerHTML = '<div class="' + (bad ? 'warning-box' : 'info-box') + '">Done. ✅ ' + ok + ' sent · ❌ ' + bad + ' failed' + (last ? ' (' + escapeHtml(last) + ')' : '') + '</div>';
     }
-    function openWhatsAppPanel() {
-      rgceSetModal('whatsapp');   /* address bar: <base>whatsapp */
-      const cfg = waCfg();
-      const bx = 'border:1px solid rgba(128,128,128,.35);border-radius:10px;';
-      const body = `
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-            <input type="text" id="waSearch" placeholder="Search customer: name / phone / address" autocomplete="off" style="flex:1;min-width:200px;">
-            <label style="display:flex;gap:5px;align-items:center;font-size:13px;white-space:nowrap;"><input type="checkbox" id="waDueOnly"> Due only</label>
-          </div>
-          <div id="waList" style="max-height:240px;overflow:auto;${bx}"></div>
-          <div style="${bx}padding:10px;display:flex;flex-direction:column;gap:8px;">
-            <div id="waSel" style="font-weight:600;">Select a customer above, or type any number below</div>
-            <input type="text" id="waTo" placeholder="Phone: 01XXXXXXXXX" autocomplete="off">
-            <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px;">
-              <label><input type="radio" name="waMode" value="tpl" checked> Due reminder (template)</label>
-              <label><input type="radio" name="waMode" value="text"> Custom text (only if customer messaged you in last 24h)</label>
-            </div>
-            <textarea id="waText" rows="3" placeholder="Write message…" style="display:none;"></textarea>
-            <div><button class="btn btn-primary" id="waSendBtn"><i class="fab fa-whatsapp"></i> Send WhatsApp</button></div>
-          </div>
-          <details style="${bx}padding:8px 10px;">
-            <summary style="cursor:pointer;font-weight:600;">Settings &amp; bulk send</summary>
-            <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
-              <div class="form-group"><label>Approved template name</label><input type="text" id="waTpl" value="${escapeHtml(cfg.template)}"></div>
-              <div class="form-group"><label>Template language code (bn, en …)</label><input type="text" id="waLang" value="${escapeHtml(cfg.lang)}"></div>
-              <p style="font-size:12px;margin:0;">Template variables: {{1}} = customer name, {{2}} = current due.</p>
-              <div><button class="btn" id="waSaveCfg">Save settings</button> <button class="btn" id="waAllBtn">Send due reminder to all with due</button></div>
-            </div>
-          </details>
-          <div id="waMsg"></div>
-        </div>`;
-      openModal('WhatsApp Portal', body, '<button class="btn" id="waClose">Close</button>', true);
-      const $ = (id) => document.getElementById(id);
-      let sel = null;
-      const saveCfg = () => localStorage.setItem(WA_CFG_KEY, JSON.stringify({ template: $('waTpl').value.trim(), lang: $('waLang').value.trim() }));
-      const info = (cls, t) => { $('waMsg').innerHTML = '<div class="' + cls + '">' + t + '</div>'; };
-      const render = () => {
-        const q = $('waSearch').value.trim().toLowerCase(), qd = q.replace(/\D/g, ''), dueOnly = $('waDueOnly').checked;
-        const all = customers.filter(c => {
-          if (dueOnly && getCurrentDue(c) <= 0) return false;
-          if (!q) return true;
-          return String(c.name || '').toLowerCase().includes(q) || String(c.address || '').toLowerCase().includes(q) || (qd && String(c.phone || '').replace(/\D/g, '').includes(qd));
-        });
-        const shown = all.slice(0, 50);
-        $('waList').innerHTML = shown.length ? shown.map(c =>
-          '<div data-id="' + escapeHtml(String(c.id)) + '" style="padding:8px 10px;cursor:pointer;display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(128,128,128,.2);' + (sel && String(sel.id) === String(c.id) ? 'background:rgba(37,211,102,.18);' : '') + '">' +
-          '<span><b>' + escapeHtml(c.name || '') + '</b><br><small>' + escapeHtml(c.phone || 'No phone') + '</small></span>' +
-          '<span style="text-align:right;white-space:nowrap;">' + escapeHtml(String(formatMoney(getCurrentDue(c)))) + '</span></div>').join('') +
-          (all.length > shown.length ? '<div style="padding:8px 10px;font-size:12px;">Showing 50 of ' + all.length + ' — type to narrow down.</div>' : '')
-          : '<div style="padding:12px;">No customer found.</div>';
-      };
-      $('waList').addEventListener('click', (e) => {
-        const row = e.target.closest('[data-id]'); if (!row) return;
-        sel = customers.find(x => String(x.id) === row.getAttribute('data-id')) || null;
-        if (sel) { $('waTo').value = sel.phone || ''; $('waSel').textContent = (sel.name || '') + ' — due ' + getCurrentDue(sel); }
-        render();
+    /* ---- WhatsApp page (own address: <base>whatsapp) ---- */
+    const WA_LOG_KEY = 'rgce_wa_log';
+    function waLogGet() { try { return JSON.parse(localStorage.getItem(WA_LOG_KEY) || '[]'); } catch (e) { return []; } }
+    function waLogAdd(r) { const a = waLogGet(); a.unshift(r); try { localStorage.setItem(WA_LOG_KEY, JSON.stringify(a.slice(0, 30))); } catch (e) {} }
+    let waInited = false, waSel = null, waMode = 'tpl', waDueOnly = false, waTimer = null, waSeen = '';
+    const waEl = (id) => document.getElementById(id);
+    function waInfo(cls, t) { waEl('waMsg').innerHTML = '<div class="' + cls + '" style="margin:0;">' + t + '</div>'; }
+    function waRenderList() {
+      const list = waEl('waList'); if (!list) return;
+      if (!currentUser) { list.innerHTML = '<div class="wa-empty">Please login to see your customers.</div>'; return; }
+      const q = waEl('waSearch').value.trim().toLowerCase(), qd = q.replace(/\D/g, '');
+      const all = customers.filter(c => {
+        if (waDueOnly && getCurrentDue(c) <= 0) return false;
+        if (!q) return true;
+        return String(c.name || '').toLowerCase().includes(q) || String(c.address || '').toLowerCase().includes(q) || (qd && String(c.phone || '').replace(/\D/g, '').includes(qd));
       });
-      $('waSearch').addEventListener('input', render);
-      $('waDueOnly').addEventListener('change', render);
-      document.querySelectorAll('input[name="waMode"]').forEach(r => r.addEventListener('change', () => {
-        $('waText').style.display = document.querySelector('input[name="waMode"]:checked').value === 'text' ? '' : 'none';
+      const shown = all.slice(0, 80);
+      list.innerHTML = shown.length ? shown.map(c => {
+        const d = getCurrentDue(c);
+        return '<div class="wa-row' + (waSel && String(waSel.id) === String(c.id) ? ' sel' : '') + '" data-id="' + escapeHtml(String(c.id)) + '">' +
+          '<div class="wa-av">' + escapeHtml(String(c.name || '?').trim().charAt(0).toUpperCase()) + '</div>' +
+          '<div class="wa-nm"><b>' + escapeHtml(c.name || '') + '</b><small>' + escapeHtml(c.phone || 'No phone') + '</small></div>' +
+          '<div class="wa-due' + (d > 0 ? '' : ' z') + '">' + (d > 0 ? escapeHtml(String(formatMoney(d))) : 'No due') + '</div></div>';
+      }).join('') + (all.length > shown.length ? '<div class="wa-empty">Showing 80 of ' + all.length + ' — type to narrow down</div>' : '')
+        : '<div class="wa-empty">No customer found</div>';
+    }
+    function waRenderLog() {
+      const l = waLogGet().slice(0, 8);
+      waEl('waLog').innerHTML = l.length ? l.map(r => '<div class="wa-log"><span>' + (r.ok ? '✅ ' : '❌ ') + escapeHtml(r.name || ('+' + r.to)) + '<br><small>' + escapeHtml(r.kind) + (r.ok ? '' : ' · ' + escapeHtml(r.err || 'failed')) + '</small></span><small>' + escapeHtml(new Date(r.t).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })) + '</small></div>').join('')
+        : '<div class="wa-empty">No messages sent yet.</div>';
+    }
+    function waInit() {
+      if (waInited) return; waInited = true;
+      const cfg = waCfg(); waEl('waTpl').value = cfg.template; waEl('waLang').value = cfg.lang;
+      const saveCfg = () => localStorage.setItem(WA_CFG_KEY, JSON.stringify({ template: waEl('waTpl').value.trim(), lang: waEl('waLang').value.trim() }));
+      waEl('waBack').addEventListener('click', () => { if (window.__rgceGoView) window.__rgceGoView(''); });
+      waEl('waList').addEventListener('click', (e) => {
+        const row = e.target.closest('[data-id]'); if (!row) return;
+        waSel = customers.find(x => String(x.id) === row.getAttribute('data-id')) || null;
+        if (waSel) { waEl('waTo').value = waSel.phone || ''; waEl('waSel').textContent = (waSel.name || '') + ' · due ' + getCurrentDue(waSel); }
+        waEl('waMsg').innerHTML = ''; waRenderList();
+      });
+      waEl('waSearch').addEventListener('input', waRenderList);
+      waEl('waDueOnly').addEventListener('click', () => { waDueOnly = !waDueOnly; waEl('waDueOnly').classList.toggle('on', waDueOnly); waRenderList(); });
+      document.querySelectorAll('#rgceWa .wa-seg button').forEach(b => b.addEventListener('click', () => {
+        waMode = b.getAttribute('data-mode');
+        document.querySelectorAll('#rgceWa .wa-seg button').forEach(x => x.classList.toggle('on', x === b));
+        waEl('waText').style.display = waMode === 'text' ? '' : 'none';
+        waEl('waNote').textContent = waMode === 'text' ? 'Free text works only if the customer messaged you in the last 24 hours.' : "Sends your approved reminder template with the customer's name and due amount.";
       }));
-      $('waTo').addEventListener('input', () => { if (sel && $('waTo').value.trim() !== String(sel.phone || '').trim()) { sel = null; $('waSel').textContent = 'Manual number'; render(); } });
-      $('waClose').addEventListener('click', closeModal);
-      $('waSaveCfg').addEventListener('click', () => { saveCfg(); showToast('WhatsApp settings saved.', 'success'); });
-      $('waAllBtn').addEventListener('click', () => { saveCfg(); waSendAllDue(); });
-      $('waSendBtn').addEventListener('click', async () => {
+      waEl('waTo').addEventListener('input', () => { if (waSel && waEl('waTo').value.trim() !== String(waSel.phone || '').trim()) { waSel = null; waEl('waSel').textContent = 'Manual number'; waRenderList(); } });
+      waEl('waSaveCfg').addEventListener('click', () => { saveCfg(); showToast('WhatsApp settings saved.', 'success'); });
+      waEl('waAllBtn').addEventListener('click', () => { saveCfg(); waSendAllDue(); });
+      waEl('waSendBtn').addEventListener('click', async () => {
         if (!rgceRequireLogin()) return;
         saveCfg();
-        const to = waPhone($('waTo').value);
-        if (!to) { info('warning-box', 'Enter a valid phone number.'); return; }
-        const mode = document.querySelector('input[name="waMode"]:checked').value;
+        const to = waPhone(waEl('waTo').value);
+        if (!to) { waInfo('warning-box', 'Enter a valid phone number.'); return; }
         let payload;
-        if (mode === 'text') {
-          const t = $('waText').value.trim();
-          if (!t) { info('warning-box', 'Write a message first.'); return; }
+        if (waMode === 'text') {
+          const t = waEl('waText').value.trim();
+          if (!t) { waInfo('warning-box', 'Write a message first.'); return; }
           payload = { type: 'text', text: t };
         } else {
-          if (!sel) { info('warning-box', 'Select a customer for the due reminder (or use Custom text).'); return; }
-          if (getCurrentDue(sel) <= 0) { info('warning-box', 'This customer has no due.'); return; }
-          payload = waDuePayload(sel);
+          if (!waSel) { waInfo('warning-box', 'Select a customer for the due reminder, or use Custom message.'); return; }
+          if (getCurrentDue(waSel) <= 0) { waInfo('warning-box', 'This customer has no due.'); return; }
+          payload = waDuePayload(waSel);
         }
-        if (!confirm('Send WhatsApp to +' + to + (sel ? ' (' + (sel.name || '') + ')' : '') + ' ?')) return;
-        info('info-box', 'Sending…');
-        try { await waSend(to, payload); info('info-box', '✅ Sent to +' + to); }
-        catch (e) { info('warning-box', 'Failed: ' + escapeHtml(e.message)); }
+        if (!confirm('Send WhatsApp to +' + to + (waSel ? ' (' + (waSel.name || '') + ')' : '') + ' ?')) return;
+        waInfo('info-box', 'Sending…');
+        const kind = waMode === 'text' ? 'Custom message' : 'Due reminder';
+        try { await waSend(to, payload); waInfo('info-box', '✅ Sent to +' + to); waLogAdd({ t: Date.now(), to: to, name: waSel ? waSel.name : '', kind: kind, ok: true }); }
+        catch (e) { waInfo('warning-box', 'Failed: ' + escapeHtml(e.message)); waLogAdd({ t: Date.now(), to: to, name: waSel ? waSel.name : '', kind: kind, ok: false, err: e.message }); }
+        waRenderLog();
       });
-      render();
     }
+    function waPageShow() {
+      waInit(); waRenderList(); waRenderLog();
+      clearInterval(waTimer);
+      waTimer = setInterval(() => {   /* refresh the list when login / customer data arrives */
+        if (document.documentElement.getAttribute('data-dcu-view') !== 'whatsapp') { clearInterval(waTimer); return; }
+        const k = (currentUser ? '1' : '0') + ':' + customers.length;
+        if (k !== waSeen) { waSeen = k; waRenderList(); }
+      }, 1000);
+    }
+    window.__waShow = waPageShow;
 
     function openTelegramSetup() {
       rgceSetModal('telegram-backup');
@@ -7369,7 +7454,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
         case 'printReport': printFilteredReport(); break;
         case 'backupRestore': openBackupRestoreModal(); break;
         case 'telegramBackup': openTelegramSetup(); break;
-        case 'whatsapp': openWhatsAppPanel(); break;
+        case 'whatsapp': if (window.__rgceGoView) window.__rgceGoView('whatsapp'); break;
         case 'googleSheets': openGoogleSheetsPanel(); break;
         case 'createInvoice': openInvoiceForm(); break;
         case 'allInvoices': openInvoiceListModal(); break;
@@ -7498,13 +7583,13 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
     var RGCE_SLUGS = {            // sidebar action  ->  URL name
       transactionTracking: 'transactions', advancedFilter: 'filter', liveStats: 'live-stats',
       summaryReport: 'summary-report', liveCharts: 'live-charts', backupRestore: 'backup',
-      telegramBackup: 'telegram-backup', whatsapp: 'whatsapp', googleSheets: 'google-sheets', createInvoice: 'invoice',
+      telegramBackup: 'telegram-backup', googleSheets: 'google-sheets', createInvoice: 'invoice',
       allInvoices: 'invoices', clearNotes: 'clear-notes', clearAmountsSource: 'clear-amounts-by-source',
       clearAllAmounts: 'clear-all-amounts', clearAllData: 'clear-all-data', shopDetails: 'shop-details',
       developerInfo: 'developer', help: 'help'
     };
     var RGCE_MODAL_ACTIONS = ['transactionTracking', 'liveStats', 'summaryReport', 'liveCharts', 'backupRestore',
-      'telegramBackup', 'whatsapp', 'googleSheets', 'allInvoices', 'clearNotes', 'clearAmountsSource', 'clearAllAmounts',
+      'telegramBackup', 'googleSheets', 'allInvoices', 'clearNotes', 'clearAmountsSource', 'clearAllAmounts',
       'clearAllData', 'shopDetails', 'developerInfo', 'help'];
     var RGCE_SLUG_TO_ACTION = {};
     Object.keys(RGCE_SLUGS).forEach(function (a) { RGCE_SLUG_TO_ACTION[RGCE_SLUGS[a]] = a; });
@@ -7512,8 +7597,8 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
     var rgceModalPath = '', rgcePanelPath = '', rgceActual = '';
     /* page = Home or Customers (address: <base>customers). Modals/panels live under the page they were opened on. */
     var rgceView = '';
-    function rgceSetViewAttr() { try { document.documentElement.setAttribute('data-dcu-view', rgceView === 'customers' ? 'customers' : 'home'); } catch (e) {} }
-    function rgceUrl(p) { return RGCE_BASE + (rgceView === 'customers' ? (p ? 'customers/' + p : 'customers') : p); }
+    function rgceSetViewAttr() { try { document.documentElement.setAttribute('data-dcu-view', (rgceView === 'customers' || rgceView === 'whatsapp') ? rgceView : 'home'); } catch (e) {} }
+    function rgceUrl(p) { return RGCE_BASE + (rgceView === 'whatsapp' ? (p ? 'whatsapp/' + p : 'whatsapp') : rgceView === 'customers' ? (p ? 'customers/' + p : 'customers') : p); }
     rgceSetViewAttr();
     var rgcePushed = false, rgceRouting = false, rgceHold = false, rgceInitDone = false, rgceExpectBack = false, rgceTimer = null;
 
@@ -7523,7 +7608,8 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
       if (p.indexOf(RGCE_BASE) === 0) p = p.slice(RGCE_BASE.length); else p = p.replace(/^\/+/, '');
       p = p.replace(/\/+$/, '');
       if (/^index\.html?$/i.test(p)) p = '';
-      if (/^customers(\/|$)/.test(p)) { p = p.replace(/^customers\/?/, ''); rgceView = 'customers'; }
+      if (/^whatsapp(\/|$)/.test(p)) { p = p.replace(/^whatsapp\/?/, ''); rgceView = 'whatsapp'; }
+      else if (/^customers(\/|$)/.test(p)) { p = p.replace(/^customers\/?/, ''); rgceView = 'customers'; }
       else if (/^(customer|payment|edit|delete|print|filter)(\/|$)/.test(p)) rgceView = 'customers';
       else rgceView = '';
       rgceSetViewAttr();
@@ -7577,6 +7663,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
       var a = seg[0], ok = true;
       if (a === 'polls') return;
       rgceSetViewAttr();
+      if (rgceView === 'whatsapp' && window.__waShow) window.__waShow();
       rgceRouting = true;
       try {
         var ov = document.getElementById('modalOverlay');
@@ -7614,7 +7701,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
     }
     /* switch between the Home page and the Customers page (own address) */
     window.__rgceGoView = function (v) {
-      v = (v === 'customers') ? 'customers' : '';
+      v = (v === 'customers' || v === 'whatsapp') ? v : '';
       if (rgceView === v) return;
       rgceView = v; rgceSetViewAttr();
       if (RGCE_ROUTER_ON && !rgceRouting) {
@@ -7628,6 +7715,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
         rgceModalPath = ''; rgcePanelPath = ''; rgceActual = '';
         try { history.pushState({ p: '' }, '', rgceUrl('')); rgcePushed = false; } catch (e) {}
       }
+      if (v === 'whatsapp' && window.__waShow) window.__waShow();
       try { window.scrollTo(0, 0); } catch (e) {}
     };
     /* ---- Login address: shop-name based, survives refresh ---- */
@@ -9755,7 +9843,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   var MON={en:['January','February','March','April','May','June','July','August','September','October','November','December'],
            bn:['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর']};
   var T={
-    en:{notices:'Notices',welcome:'Welcome to Roza Gift Corner & Electric',menu:'Menu',custNav:'Customers',noticeNav:'Notices',shopNav:'Online Shop',shopTop:'Online Shop',svcH1:'Service',svcH2:'Details',svcH3:'Action',shopChip:'New \u00b7 Online Shop',shopT:'Shop Online with Roza',shopP:'Browse gifts, electrical items and more right from your phone. Your records here stay saved, so you can come back any time.',shopBtn:'Visit Our Shop',annT:'Our online shop is now open',annGo:'Visit',custBtn:'Customer register',
+    en:{notices:'Notices',welcome:'Welcome to Roza Gift Corner & Electric',menu:'Menu',custNav:'Customers',waNav:'WhatsApp',noticeNav:'Notices',shopNav:'Online Shop',shopTop:'Online Shop',svcH1:'Service',svcH2:'Details',svcH3:'Action',shopChip:'New \u00b7 Online Shop',shopT:'Shop Online with Roza',shopP:'Browse gifts, electrical items and more right from your phone. Your records here stay saved, so you can come back any time.',shopBtn:'Visit Our Shop',annT:'Our online shop is now open',annGo:'Visit',custBtn:'Customer register',
         tAll:'All',tDue:'Due',tPartial:'Partial paid',tPaid:'Paid',tHidden:'Hidden due',
         ctaT:'Everything for the shop, in one place',ctaP:'Add customers, create invoices and keep backups from this page. The customer register has its own page.',
         addC:'Add customer',newInv:'Create invoice',backup:'Backup / Restore',allInv:'All invoices',dark:'Dark',sysTools:'System tools',
@@ -9766,7 +9854,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
         hide:'Hide',show:'Show',edit:'Edit',del:'Delete',stPub:'Published',stHid:'Hidden',saved:'Notice saved and published.',needTitle:'Enter a notice title.',
         saveFail:'Could not save to the cloud. It is kept on this device only.',admLogin:'Log in first to publish notices.',confirmDel:'Delete this notice?',admNone:'No notices yet.',
         pNotice:'NOTICE',pDate:'Date',pSign:'Authorized Signature',pPage:'Page',pvTitle:'Latest notices',pvAll:'All notices',dueTitle:'Check your due balance',dueHelp:'Enter the mobile number you gave to the shop.',dueBtn:'Check',duePh:'01XXXXXXXXX',dueBad:'Enter a valid mobile number (01XXXXXXXXX).',dueNone:'No due record found for this number. Please contact the shop.',dueClear:'No due. Thank you!',dueAmt:'Current due',dueName:'Name',dueAddr:'Address',dueUpd:'Updated',dueWait:'Too many tries. Please wait a minute.',dueErr:'Could not check right now. Please try again later.',dueCall:'Shop phone',fabAdd:'New customer',fabInv:'New invoice',fabPay:'Receive payment',payTitle:'Receive payment: choose a customer',paySearch:'Search by name or phone',payNone:'No customers found.',dueAdmH:'Public due lookup',dueAdmNote:'Fully automatic: every change to a customer (due, payment, source, address) is published within seconds while a staff device is open. Customers can check their due by phone number on the home page. They see the customer\'s full name, address and the due amount. Anyone who knows a phone number can look it up.',dueAuto:'Auto-update while I am logged in (this device)',duePub:'Publish / update now',dueRem:'Remove all public due data',dueDone:'Done. Published records:',dueRemoved:'All public due records removed.',dueRules:'Firestore rules to add (once)',dueRulesFail:'Permission denied. Add the Firestore rules shown below, then try again.',dueNoData:'No customer data is loaded yet.',pubNoRule:'Saved. The public copy needs the Firestore rules shown in the due section below.'},
-    bn:{notices:'নোটিশ',welcome:'রোজা গিফট কর্নার অ্যান্ড ইলেকট্রিকে স্বাগতম',menu:'মেনু',custNav:'কাস্টমার',noticeNav:'নোটিশ',shopNav:'অনলাইন শপ',shopTop:'অনলাইন শপ',svcH1:'সেবা',svcH2:'বিস্তারিত',svcH3:'অ্যাকশন',shopChip:'নতুন · অনলাইন শপ',shopT:'ঘরে বসেই কিনুন, রোজা গিফট কর্নারে',shopP:'গিফট, ইলেকট্রিক ও আরও অনেক পণ্য এখন মোবাইলেই দেখুন। এখানকার রেকর্ড সংরক্ষিত থাকবে, যেকোনো সময় ফিরে আসতে পারবেন।',shopBtn:'শপ দেখুন',annT:'আমাদের অনলাইন শপ এখন চালু',annGo:'দেখুন',custBtn:'কাস্টমার রেজিস্টার',
+    bn:{notices:'নোটিশ',welcome:'রোজা গিফট কর্নার অ্যান্ড ইলেকট্রিকে স্বাগতম',menu:'মেনু',custNav:'কাস্টমার',waNav:'হোয়াটসঅ্যাপ',noticeNav:'নোটিশ',shopNav:'অনলাইন শপ',shopTop:'অনলাইন শপ',svcH1:'সেবা',svcH2:'বিস্তারিত',svcH3:'অ্যাকশন',shopChip:'নতুন · অনলাইন শপ',shopT:'ঘরে বসেই কিনুন, রোজা গিফট কর্নারে',shopP:'গিফট, ইলেকট্রিক ও আরও অনেক পণ্য এখন মোবাইলেই দেখুন। এখানকার রেকর্ড সংরক্ষিত থাকবে, যেকোনো সময় ফিরে আসতে পারবেন।',shopBtn:'শপ দেখুন',annT:'আমাদের অনলাইন শপ এখন চালু',annGo:'দেখুন',custBtn:'কাস্টমার রেজিস্টার',
         tAll:'সব',tDue:'বাকি',tPartial:'আংশিক পরিশোধ',tPaid:'পরিশোধিত',tHidden:'গোপন বাকি',
         ctaT:'দোকানের সব হিসাব, এক জায়গায়',ctaP:'এই পেজ থেকে কাস্টমার যোগ, ইনভয়েস তৈরি ও ব্যাকআপ করুন। কাস্টমার রেজিস্টারের আলাদা পেজ আছে।',
         addC:'কাস্টমার যোগ',newInv:'ইনভয়েস তৈরি',backup:'ব্যাকআপ / রিস্টোর',allInv:'সব ইনভয়েস',dark:'ডার্ক',sysTools:'সিস্টেম টুলস',
@@ -9815,6 +9903,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     var nav=$('#dcuNav'); if(!nav) return;
     var open=nav.classList.contains('open'); nav.innerHTML='';
     nav.appendChild(plainItem('custNav',function(){ go('customers'); }));
+    nav.appendChild(plainItem('waNav',function(){ go('whatsapp'); }));
     nav.appendChild(plainItem('noticeNav',function(){ openBoard(); }));
     nav.appendChild(plainItem('shopNav',function(){ if(window.__rzGoShop) window.__rzGoShop(); }));
     $$('.sidebar-group').forEach(function(g){
@@ -10335,7 +10424,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
 
   // skip the intro when returning within the same visit
   var qs=location.search||'', pub=/[?&](inv|rpt|report)=/.test(qs);
-  var showIntro=!pub&&document.documentElement.getAttribute('data-dcu-view')!=='customers';
+  var showIntro=!pub&&document.documentElement.getAttribute('data-dcu-view')==='home';
   var seen=false; try{ seen=sessionStorage.getItem(SEEN)==='1'; }catch(e){}
   if(seen||reduce||!showIntro){ splash.style.display='none'; HUB.classList.add('ready'); }
   else{
@@ -11367,7 +11456,7 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
   /* one-time announcement pill */
   function announce(){
     try{ if(localStorage.getItem(ANN)) return; }catch(e){}
-    if(document.documentElement.getAttribute('data-dcu-view')==='customers') return;
+    if(document.documentElement.getAttribute('data-dcu-view')!=='home') return;
     var bn=false; try{ bn=localStorage.getItem('rgce_lang')==='bn'; }catch(e){}
     var d=document.createElement('div'); d.className='rz-ann'; d.setAttribute('role','status'); d.setAttribute('data-no-bn','');
     d.innerHTML='<span data-dcu="annT">Our online shop is now open</span><a href="'+SHOP+'"><span data-dcu="annGo">Visit</span></a><button type="button" aria-label="Close">&times;</button>';
