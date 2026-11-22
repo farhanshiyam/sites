@@ -4544,7 +4544,6 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
           <td>${formatMoney(currentDue)}</td>
           <td class="actions-cell">
             <div class="seg-control" role="group" aria-label="Customer actions">
-              <button type="button" class="seg-btn sg-green"  data-act="wa"    title="WhatsApp due reminder" aria-label="WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></button>
               <button type="button" class="seg-btn sg-amber"  data-act="pay"   title="Pay"    aria-label="Pay"><svg><use href="#i-card"/></svg>Pay</button>
               <button type="button" class="seg-btn sg-violet" data-act="edit"  title="Edit"   aria-label="Edit"><svg><use href="#i-edit"/></svg>Edit</button>
               <button type="button" class="seg-btn sg-red"    data-act="del"   title="Delete" aria-label="Delete"><svg><use href="#i-trash"/></svg>Delete</button>
@@ -4555,7 +4554,6 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
           if (e.target.closest('.actions-cell')) return;
           openPreviewModal(c.id);
         });
-        tr.querySelector('[data-act="wa"]').addEventListener('click',    (e) => { e.stopPropagation(); waSendDue(c.id); });
         tr.querySelector('[data-act="pay"]').addEventListener('click',   (e) => { e.stopPropagation(); openPaymentModal(c.id); });
         tr.querySelector('[data-act="edit"]').addEventListener('click',  (e) => { e.stopPropagation(); openEditModal(c.id); });
         tr.querySelector('[data-act="del"]').addEventListener('click',   (e) => { e.stopPropagation(); openDeleteModal(c.id); });
@@ -7116,16 +7114,6 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
       return j;
     }
     function waDuePayload(c) { const cfg = waCfg(); return { type: 'template', template: cfg.template, lang: cfg.lang, params: [String(c.name || ''), String(getCurrentDue(c))] }; }
-    async function waSendDue(id) {
-      if (!rgceRequireLogin()) return;
-      const c = customers.find(x => String(x.id) === String(id)); if (!c) return;
-      const to = waPhone(c.phone);
-      if (!to) { showToast('Phone number missing or invalid.', 'error'); return; }
-      if (getCurrentDue(c) <= 0) { showToast('This customer has no due.', 'warning'); return; }
-      if (!confirm('Send WhatsApp due reminder to ' + (c.name || '') + ' (+' + to + ') for ' + getCurrentDue(c) + ' ?')) return;
-      try { await waSend(to, waDuePayload(c)); showToast('✅ WhatsApp sent to ' + (c.name || to), 'success'); }
-      catch (e) { showToast('WhatsApp failed: ' + e.message, 'error', 8000); }
-    }
     async function waSendAllDue() {
       if (!rgceRequireLogin()) return;
       const list = customers.filter(c => getCurrentDue(c) > 0 && waPhone(c.phone));
@@ -7141,30 +7129,94 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
       msg.innerHTML = '<div class="' + (bad ? 'warning-box' : 'info-box') + '">Done. ✅ ' + ok + ' sent · ❌ ' + bad + ' failed' + (last ? ' (' + escapeHtml(last) + ')' : '') + '</div>';
     }
     function openWhatsAppPanel() {
-      rgceSetModal('whatsapp');
+      rgceSetModal('whatsapp');   /* address bar: <base>whatsapp */
       const cfg = waCfg();
+      const bx = 'border:1px solid rgba(128,128,128,.35);border-radius:10px;';
       const body = `
-        <p style="margin-bottom:10px;">Messages are sent through your WhatsApp Cloud API. The access token and Phone Number ID are kept in your Apps Script (Script Properties), not in this page.</p>
-        <div class="form-group" style="margin-bottom:12px;"><label>Approved template name</label><input type="text" id="waTpl" value="${escapeHtml(cfg.template)}"></div>
-        <div class="form-group" style="margin-bottom:12px;"><label>Template language code (e.g. bn, en)</label><input type="text" id="waLang" value="${escapeHtml(cfg.lang)}"></div>
-        <div class="form-group" style="margin-bottom:12px;"><label>Test number</label><input type="text" id="waTest" placeholder="01XXXXXXXXX"></div>
-        <p style="font-size:12px;margin-bottom:10px;">Template body uses 2 variables: {{1}} = customer name, {{2}} = current due.</p>
-        <button class="btn" id="waTestBtn">Send test</button> <button class="btn btn-primary" id="waAllBtn">Send due reminder to all</button>
-        <div id="waMsg" style="margin-top:10px;"></div>`;
-      const footer = `<button class="btn" id="waCancel">Close</button><button class="btn btn-primary" id="waSave">Save</button>`;
-      openModal('WhatsApp Messages', body, footer);
-      const save = () => { localStorage.setItem(WA_CFG_KEY, JSON.stringify({ template: document.getElementById('waTpl').value.trim(), lang: document.getElementById('waLang').value.trim() })); };
-      document.getElementById('waCancel').addEventListener('click', closeModal);
-      document.getElementById('waSave').addEventListener('click', () => { save(); showToast('WhatsApp settings saved.', 'success'); closeModal(); });
-      document.getElementById('waAllBtn').addEventListener('click', () => { save(); waSendAllDue(); });
-      document.getElementById('waTestBtn').addEventListener('click', async () => {
-        if (!rgceRequireLogin()) return; save();
-        const to = waPhone(document.getElementById('waTest').value), m = document.getElementById('waMsg');
-        if (!to) { m.innerHTML = '<div class="warning-box">Enter a valid test number.</div>'; return; }
-        m.innerHTML = '<div class="info-box">Sending…</div>';
-        try { await waSend(to, waDuePayload({ name: 'Test', due: 0, paid: 0 })); m.innerHTML = '<div class="info-box">✅ Test message sent.</div>'; }
-        catch (e) { m.innerHTML = '<div class="warning-box">Failed: ' + escapeHtml(e.message) + '</div>'; }
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <input type="text" id="waSearch" placeholder="Search customer: name / phone / address" autocomplete="off" style="flex:1;min-width:200px;">
+            <label style="display:flex;gap:5px;align-items:center;font-size:13px;white-space:nowrap;"><input type="checkbox" id="waDueOnly"> Due only</label>
+          </div>
+          <div id="waList" style="max-height:240px;overflow:auto;${bx}"></div>
+          <div style="${bx}padding:10px;display:flex;flex-direction:column;gap:8px;">
+            <div id="waSel" style="font-weight:600;">Select a customer above, or type any number below</div>
+            <input type="text" id="waTo" placeholder="Phone: 01XXXXXXXXX" autocomplete="off">
+            <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px;">
+              <label><input type="radio" name="waMode" value="tpl" checked> Due reminder (template)</label>
+              <label><input type="radio" name="waMode" value="text"> Custom text (only if customer messaged you in last 24h)</label>
+            </div>
+            <textarea id="waText" rows="3" placeholder="Write message…" style="display:none;"></textarea>
+            <div><button class="btn btn-primary" id="waSendBtn"><i class="fab fa-whatsapp"></i> Send WhatsApp</button></div>
+          </div>
+          <details style="${bx}padding:8px 10px;">
+            <summary style="cursor:pointer;font-weight:600;">Settings &amp; bulk send</summary>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+              <div class="form-group"><label>Approved template name</label><input type="text" id="waTpl" value="${escapeHtml(cfg.template)}"></div>
+              <div class="form-group"><label>Template language code (bn, en …)</label><input type="text" id="waLang" value="${escapeHtml(cfg.lang)}"></div>
+              <p style="font-size:12px;margin:0;">Template variables: {{1}} = customer name, {{2}} = current due.</p>
+              <div><button class="btn" id="waSaveCfg">Save settings</button> <button class="btn" id="waAllBtn">Send due reminder to all with due</button></div>
+            </div>
+          </details>
+          <div id="waMsg"></div>
+        </div>`;
+      openModal('WhatsApp Portal', body, '<button class="btn" id="waClose">Close</button>', true);
+      const $ = (id) => document.getElementById(id);
+      let sel = null;
+      const saveCfg = () => localStorage.setItem(WA_CFG_KEY, JSON.stringify({ template: $('waTpl').value.trim(), lang: $('waLang').value.trim() }));
+      const info = (cls, t) => { $('waMsg').innerHTML = '<div class="' + cls + '">' + t + '</div>'; };
+      const render = () => {
+        const q = $('waSearch').value.trim().toLowerCase(), qd = q.replace(/\D/g, ''), dueOnly = $('waDueOnly').checked;
+        const all = customers.filter(c => {
+          if (dueOnly && getCurrentDue(c) <= 0) return false;
+          if (!q) return true;
+          return String(c.name || '').toLowerCase().includes(q) || String(c.address || '').toLowerCase().includes(q) || (qd && String(c.phone || '').replace(/\D/g, '').includes(qd));
+        });
+        const shown = all.slice(0, 50);
+        $('waList').innerHTML = shown.length ? shown.map(c =>
+          '<div data-id="' + escapeHtml(String(c.id)) + '" style="padding:8px 10px;cursor:pointer;display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(128,128,128,.2);' + (sel && String(sel.id) === String(c.id) ? 'background:rgba(37,211,102,.18);' : '') + '">' +
+          '<span><b>' + escapeHtml(c.name || '') + '</b><br><small>' + escapeHtml(c.phone || 'No phone') + '</small></span>' +
+          '<span style="text-align:right;white-space:nowrap;">' + escapeHtml(String(formatMoney(getCurrentDue(c)))) + '</span></div>').join('') +
+          (all.length > shown.length ? '<div style="padding:8px 10px;font-size:12px;">Showing 50 of ' + all.length + ' — type to narrow down.</div>' : '')
+          : '<div style="padding:12px;">No customer found.</div>';
+      };
+      $('waList').addEventListener('click', (e) => {
+        const row = e.target.closest('[data-id]'); if (!row) return;
+        sel = customers.find(x => String(x.id) === row.getAttribute('data-id')) || null;
+        if (sel) { $('waTo').value = sel.phone || ''; $('waSel').textContent = (sel.name || '') + ' — due ' + getCurrentDue(sel); }
+        render();
       });
+      $('waSearch').addEventListener('input', render);
+      $('waDueOnly').addEventListener('change', render);
+      document.querySelectorAll('input[name="waMode"]').forEach(r => r.addEventListener('change', () => {
+        $('waText').style.display = document.querySelector('input[name="waMode"]:checked').value === 'text' ? '' : 'none';
+      }));
+      $('waTo').addEventListener('input', () => { if (sel && $('waTo').value.trim() !== String(sel.phone || '').trim()) { sel = null; $('waSel').textContent = 'Manual number'; render(); } });
+      $('waClose').addEventListener('click', closeModal);
+      $('waSaveCfg').addEventListener('click', () => { saveCfg(); showToast('WhatsApp settings saved.', 'success'); });
+      $('waAllBtn').addEventListener('click', () => { saveCfg(); waSendAllDue(); });
+      $('waSendBtn').addEventListener('click', async () => {
+        if (!rgceRequireLogin()) return;
+        saveCfg();
+        const to = waPhone($('waTo').value);
+        if (!to) { info('warning-box', 'Enter a valid phone number.'); return; }
+        const mode = document.querySelector('input[name="waMode"]:checked').value;
+        let payload;
+        if (mode === 'text') {
+          const t = $('waText').value.trim();
+          if (!t) { info('warning-box', 'Write a message first.'); return; }
+          payload = { type: 'text', text: t };
+        } else {
+          if (!sel) { info('warning-box', 'Select a customer for the due reminder (or use Custom text).'); return; }
+          if (getCurrentDue(sel) <= 0) { info('warning-box', 'This customer has no due.'); return; }
+          payload = waDuePayload(sel);
+        }
+        if (!confirm('Send WhatsApp to +' + to + (sel ? ' (' + (sel.name || '') + ')' : '') + ' ?')) return;
+        info('info-box', 'Sending…');
+        try { await waSend(to, payload); info('info-box', '✅ Sent to +' + to); }
+        catch (e) { info('warning-box', 'Failed: ' + escapeHtml(e.message)); }
+      });
+      render();
     }
 
     function openTelegramSetup() {
@@ -8089,7 +8141,6 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
     .sg-green  { --c1: #34d399; }
     .sg-amber  { --c1: #fbbf24; }
     .sg-red    { --c1: #fb7185; }
-    .sg-green  { --c1: #25d366; }
     .sg-violet { --c1: #a78bfa; }
     .sg-teal   { --c1: #2dd4bf; }
 
