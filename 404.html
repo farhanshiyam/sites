@@ -7655,7 +7655,8 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       if (/^index\.html?$/i.test(p)) p = '';
       if (/^whatsapp(\/|$)/.test(p)) { p = p.replace(/^whatsapp\/?/, ''); rgceView = 'whatsapp'; }
       else if (/^customers(\/|$)/.test(p)) { p = p.replace(/^customers\/?/, ''); rgceView = 'customers'; }
-      else if (/^(customer|payment|edit|delete|print|filter)(\/|$)/.test(p)) rgceView = 'customers';
+      else if (/^payment$/.test(p)) rgceView = '';   /* Payment Portal lives on the Home hub: must NOT switch to Customers (refresh bug) */
+      else if (/^(customer|payment|edit|delete|print|filter)(\/|$)/.test(p)) rgceView = 'customers';   /* /payment/<customerId> = customer payment modal */
       else rgceView = '';
       rgceSetViewAttr();
       return p;
@@ -11524,12 +11525,12 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
   var COL = { bkash: '#e2136e', nagad: '#f6921e', rocket: '#8c3494', upay: '#d9a400', bank: '#1f4e79', other: '#546e7a' };
   var TXT = {
     en: { h: 'Payment Portal', sub: 'Pay the shop by bKash, Nagad, Rocket, Upay or bank, then submit your TrxID.', back: 'Back', load: 'Loading payment details...', err: 'Payment details could not be loaded right now. Please try again later.', retry: 'Try again', off: 'Online payment submission is not open right now. Please contact the shop.', none: 'No payment method is available yet. Please contact the shop.',
-      s1: '1. Send your payment', s2: '2. Submit your TrxID', s3: 'My submitted payments', copy: 'Copy', copied: 'Copied', holder: 'Account name', bank: 'Bank', branch: 'Branch', routing: 'Routing', acc: 'Account number', num: 'Number', qr: 'Tap the QR to enlarge',
+      s1: '1. Send your payment', s2: '2. Submit your TrxID', s3: 'My submitted payments', copy: 'Copy', copied: 'Copied', tMethod: 'Method', tNumber: 'Payment number', tName: 'Account name', tDetails: 'Details', tCopy: 'Copy', holder: 'Account name', bank: 'Bank', branch: 'Branch', routing: 'Routing', acc: 'Account number', num: 'Number', qr: 'Tap the QR to enlarge',
       method: 'Paid with', amount: 'Amount (৳)', trx: 'Transaction ID (TrxID)', sender: 'Number you paid from', senderOpt: 'Number you paid from (optional)', name: 'Your name', phone: 'Your mobile number', note: 'Note (optional)', submit: 'Submit payment', sending: 'Sending...',
       eMethod: 'Choose how you paid.', eAmt: 'Enter the amount you paid.', eMin: 'Minimum amount is ৳{n}.', eTrx: 'Enter a valid TrxID (6 to 30 letters or numbers).', eSender: 'Enter the number you paid from.', eName: 'Enter your name.', ePhone: 'Enter a valid mobile number (01XXXXXXXXX).', eDup: 'You already submitted this TrxID.', eRate: 'Too many submissions. Please try again later.', eNet: 'Could not send. Check your connection and try again.', ePerm: 'Sending is not allowed right now. Please contact the shop.',
       okH: 'Payment submitted', okP: 'Your payment is waiting for verification. The shop will approve it after checking your TrxID.', ref: 'Reference', another: 'Submit another payment', pending: 'Pending', approved: 'Approved', rejected: 'Rejected', refresh: 'Refresh status', none2: 'No payment submitted from this device yet.', adm: 'Shop note' },
     bn: { h: 'পেমেন্ট পোর্টাল', sub: 'বিকাশ, নগদ, রকেট, উপায় বা ব্যাংকে টাকা পাঠিয়ে আপনার TrxID জমা দিন।', back: 'ফিরে যান', load: 'পেমেন্টের তথ্য লোড হচ্ছে...', err: 'এখন পেমেন্টের তথ্য লোড করা যাচ্ছে না। একটু পরে আবার চেষ্টা করুন।', retry: 'আবার চেষ্টা করুন', off: 'অনলাইন পেমেন্ট জমা এখন বন্ধ আছে। দোকানে যোগাযোগ করুন।', none: 'এখনো কোনো পেমেন্ট মেথড দেওয়া হয়নি। দোকানে যোগাযোগ করুন।',
-      s1: '১. পেমেন্ট পাঠান', s2: '২. TrxID জমা দিন', s3: 'আমার জমা দেওয়া পেমেন্ট', copy: 'কপি', copied: 'কপি হয়েছে', holder: 'অ্যাকাউন্টের নাম', bank: 'ব্যাংক', branch: 'শাখা', routing: 'রাউটিং', acc: 'অ্যাকাউন্ট নম্বর', num: 'নম্বর', qr: 'বড় করতে QR এ ট্যাপ করুন',
+      s1: '১. পেমেন্ট পাঠান', s2: '২. TrxID জমা দিন', s3: 'আমার জমা দেওয়া পেমেন্ট', copy: 'কপি', copied: 'কপি হয়েছে', tMethod: 'মেথড', tNumber: 'পেমেন্ট নম্বর', tName: 'অ্যাকাউন্টের নাম', tDetails: 'বিবরণ', tCopy: 'কপি', holder: 'অ্যাকাউন্টের নাম', bank: 'ব্যাংক', branch: 'শাখা', routing: 'রাউটিং', acc: 'অ্যাকাউন্ট নম্বর', num: 'নম্বর', qr: 'বড় করতে QR এ ট্যাপ করুন',
       method: 'যেভাবে পেমেন্ট করেছেন', amount: 'টাকার পরিমাণ (৳)', trx: 'ট্রানজ্যাকশন আইডি (TrxID)', sender: 'যে নম্বর থেকে পাঠিয়েছেন', senderOpt: 'যে নম্বর থেকে পাঠিয়েছেন (ঐচ্ছিক)', name: 'আপনার নাম', phone: 'আপনার মোবাইল নম্বর', note: 'নোট (ঐচ্ছিক)', submit: 'পেমেন্ট জমা দিন', sending: 'পাঠানো হচ্ছে...',
       eMethod: 'কীভাবে পেমেন্ট করেছেন তা বেছে নিন।', eAmt: 'কত টাকা পাঠিয়েছেন তা লিখুন।', eMin: 'সর্বনিম্ন পরিমাণ ৳{n}।', eTrx: 'সঠিক TrxID লিখুন (৬ থেকে ৩০টি অক্ষর বা সংখ্যা)।', eSender: 'যে নম্বর থেকে পাঠিয়েছেন তা লিখুন।', eName: 'আপনার নাম লিখুন।', ePhone: 'সঠিক মোবাইল নম্বর লিখুন (01XXXXXXXXX)।', eDup: 'এই TrxID আপনি আগেই জমা দিয়েছেন।', eRate: 'অনেকবার জমা দেওয়া হয়েছে। পরে আবার চেষ্টা করুন।', eNet: 'পাঠানো যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।', ePerm: 'এখন জমা নেওয়া যাচ্ছে না। দোকানে যোগাযোগ করুন।',
       okH: 'পেমেন্ট জমা হয়েছে', okP: 'আপনার পেমেন্ট যাচাইয়ের অপেক্ষায় আছে। TrxID মিলিয়ে দোকান অ্যাপ্রুভ করবে।', ref: 'রেফারেন্স', another: 'আরেকটি পেমেন্ট জমা দিন', pending: 'পেন্ডিং', approved: 'অ্যাপ্রুভড', rejected: 'বাতিল', refresh: 'স্ট্যাটাস রিফ্রেশ', none2: 'এই ডিভাইস থেকে এখনো কোনো পেমেন্ট জমা হয়নি।', adm: 'দোকানের নোট' }
@@ -11577,6 +11578,16 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
       '#rzPayOv .mc .no{font-size:21px;font-weight:800;letter-spacing:.3px;overflow-wrap:anywhere}#rzPayOv .mc .kv{font-size:13.5px;color:var(--pm)}#rzPayOv .mc .kv b{color:var(--pt)}',
       '#rzPayOv .mc img.qr{width:140px;height:140px;object-fit:contain;background:#fff;border:1px solid var(--pl);border-radius:10px;cursor:zoom-in;align-self:flex-start}',
       '#rzPayOv .cp{appearance:none;border:2px solid var(--c);background:transparent;color:var(--c);border-radius:9px;padding:5px 12px;font:inherit;font-weight:700;font-size:13px;cursor:pointer;margin-left:auto}#rzPayOv .cp.ok{background:var(--c);color:#fff}',
+      '#rzPayOv .wtw{overflow-x:auto;-webkit-overflow-scrolling:touch;color-scheme:light;background:#fff!important;border-radius:4px}',
+      '#rzPayOv table.wt{border-collapse:collapse!important;width:100%;min-width:620px;background:#fff!important;color:#000!important;font:11pt/1.25 Calibri,"Segoe UI",Carlito,Arial,sans-serif!important;color-scheme:light}',
+      '#rzPayOv table.wt th,#rzPayOv table.wt td{border:1px solid #000!important;padding:5px 8px;text-align:left;vertical-align:top;background:#fff!important;color:#000!important;font:inherit!important}',
+      '#rzPayOv table.wt th{font-weight:700!important}',
+      '#rzPayOv table.wt td.no{font-weight:700!important;font-size:12pt!important;white-space:nowrap;letter-spacing:.2px}',
+      '#rzPayOv table.wt td.cc{width:1%;white-space:nowrap;text-align:center}',
+      '#rzPayOv table.wt .wd{display:block;font-size:10pt!important}#rzPayOv table.wt .wd b{font-weight:700!important}',
+      '#rzPayOv table.wt img.qr{display:block;width:72px;height:72px;margin-top:6px;object-fit:contain;background:#fff!important;border:1px solid #000;cursor:zoom-in}',
+      '#rzPayOv table.wt button.cp{appearance:none;margin:0;border:1px solid #7a7a7a!important;background:#f0f0f0!important;color:#000!important;border-radius:2px;padding:3px 12px;font:10.5pt Calibri,"Segoe UI",Arial,sans-serif!important;font-weight:400;cursor:pointer}',
+      '#rzPayOv table.wt button.cp:hover{background:#e1e1e1!important}#rzPayOv table.wt button.cp.ok{background:#c6efce!important;border-color:#2e7d32!important;color:#006100!important}',
       '#rzPayOv label.f{display:block;font-weight:700;font-size:14px;margin:12px 0 4px}#rzPayOv .two{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}',
       '#rzPayOv input.t,#rzPayOv textarea.t{width:100%;padding:12px 13px;border:2px solid var(--pl);border-radius:12px;background:var(--pi);color:var(--pt);font:inherit;font-size:16px}#rzPayOv input.t:focus,#rzPayOv textarea.t:focus{outline:none;border-color:var(--ac)}',
       '#rzPayOv .seg{display:flex;flex-wrap:wrap;gap:8px}#rzPayOv .seg button{appearance:none;flex:1 1 120px;border:2px solid var(--pl);background:var(--pi);color:var(--pt);border-radius:12px;padding:10px 12px;font:inherit;font-weight:700;cursor:pointer}#rzPayOv .seg button.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--pi))}',
@@ -11629,6 +11640,21 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
       + (m.note ? '<div class="kv">' + esc(m.note) + '</div>' : '')
       + (m.qr && /^data:image\//.test(m.qr) ? '<img class="qr" alt="QR" data-qr="1" src="' + esc(m.qr) + '"><div class="kv">' + esc(tx('qr')) + '</div>' : '') + '</div>';
   }
+  function methodTable(list) {
+    var rows = list.map(function (m) {
+      var bank = m.type === 'bank', d = '';
+      var kv = function (l, v) { return v ? '<span class="wd">' + esc(l) + ': <b>' + esc(v) + '</b></span>' : ''; };
+      if (bank) d += kv(tx('bank'), m.bank) + kv(tx('branch'), m.branch) + kv(tx('routing'), m.routing);
+      if (m.note) d += '<span class="wd">' + esc(m.note) + '</span>';
+      if (m.qr && /^data:image\//.test(m.qr)) d += '<img class="qr" alt="QR" data-qr="1" src="' + esc(m.qr) + '" title="' + esc(tx('qr')) + '">';
+      return '<tr><td>' + esc(m.label || m.type) + (!bank && m.kind ? ' <span class="wd">' + esc(m.kind) + '</span>' : '') + '</td>'
+        + '<td class="no">' + esc(m.number) + '</td>'
+        + '<td>' + esc(m.holder || '') + '</td>'
+        + '<td>' + d + '</td>'
+        + '<td class="cc"><button type="button" class="cp" data-cp="' + esc(m.number) + '">' + esc(tx('copy')) + '</button></td></tr>';
+    }).join('');
+    return '<div class="wtw"><table class="wt"><thead><tr><th>' + esc(tx('tMethod')) + '</th><th>' + esc(tx('tNumber')) + '</th><th>' + esc(tx('tName')) + '</th><th>' + esc(tx('tDetails')) + '</th><th>' + esc(tx('tCopy')) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+  }
   function draw() {
     if (!ov) return;
     var h = '<div class="sh"><div class="hd"><div class="ht"><h2>' + esc(tx('h')) + '</h2><p>' + esc(tx('sub')) + '</p></div><button type="button" class="bk" data-x="close">' + esc(tx('back')) + '</button></div><div class="bd">';
@@ -11639,7 +11665,7 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     else {
       if (st.notice) h += '<div class="nt">' + esc(st.notice) + '</div>';
       h += '<h3 id="pyS1">' + esc(tx('s1')) + '</h3>';
-      h += st.methods.length ? '<div class="gr">' + st.methods.map(methodCard).join('') + '</div>' : '<p class="mu">' + esc(tx('none')) + '</p>';
+      h += st.methods.length ? methodTable(st.methods) : '<p class="mu">' + esc(tx('none')) + '</p>';
       if (st.manualOn && st.methods.length) h += formView();
       else if (!st.manualOn) h += '<p class="mu" style="margin-top:16px">' + esc(tx('off')) + '</p>';
       h += mineView();
