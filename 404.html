@@ -1747,7 +1747,6 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
       </div>
       <div class="hdr2-group hdr2-right">
         <button type="button" class="hdr-link top-lang" id="langToggleTab" style="display:none !important" tabindex="-1" title="Language, contact &amp; backup" aria-label="Language" aria-expanded="false"><i class="fas fa-language hdr-ic" aria-hidden="true"></i><span>EN / বাংলা</span><i class="fas fa-chevron-down hdr-chev" aria-hidden="true"></i></button>
-        <button type="button" class="hdr-pill" id="rzTopPay" title="Payment portal" data-no-bn><i class="fas fa-wallet" aria-hidden="true"></i><span data-dcu="payTop">Payment</span></button>
         <a class="hdr-pill" id="rzTopShop" href="https://farhanshiyam.github.io/shop/" title="Our online shop" data-no-bn><i class="fas fa-store" aria-hidden="true"></i><span data-dcu="shopTop">Online Shop</span></a>
         <button type="button" class="hdr-pill hdr-pill-solid top-add" id="addCustomerTopBtn" title="Add customer" aria-label="Add customer" aria-expanded="false"><i class="fas fa-user-plus" aria-hidden="true"></i><span>Add Customer</span></button>
         <button type="button" class="hdr-pill hdr-pill-solid top-login" id="headerLoginBtn" data-open-login title="Login" aria-label="Login"><i class="fas fa-right-to-bracket" aria-hidden="true"></i><span>Login</span></button>
@@ -1899,6 +1898,11 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       <p data-dcu="payP">See our payment numbers, pay, then submit your TrxID. We verify and approve it.</p>
     </div>
     <button type="button" class="rzy-go nbtn" id="rzpGoPay"><span data-dcu="payBtn">Open Payment Portal</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    <div class="rzy-qa" role="group" aria-label="Payment shortcuts">
+      <button type="button" data-pay-go="methods"><i class="fas fa-wallet" aria-hidden="true"></i><span data-dcu="payQ1">Payment methods</span></button>
+      <button type="button" data-pay-go="submit"><i class="fas fa-receipt" aria-hidden="true"></i><span data-dcu="payQ2">Submit TrxID</span></button>
+      <button type="button" data-pay-go="status"><i class="fas fa-circle-check" aria-hidden="true"></i><span data-dcu="payQ3">Verify my payment</span></button>
+    </div>
   </section>
   <section class="rv" style="--d:5" id="rhShop" aria-labelledby="rzsTitle" data-no-bn>
     <span class="rzs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
@@ -9884,7 +9888,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   var MON={en:['January','February','March','April','May','June','July','August','September','October','November','December'],
            bn:['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর']};
   var T={
-    en:{notices:'Notices',welcome:'Welcome to Roza Gift Corner & Electric',menu:'Menu',custNav:'Customers',waNav:'WhatsApp',noticeNav:'Notices',shopNav:'Online Shop',shopTop:'Online Shop',payNav:'Payment',payTop:'Payment',payChip:'Payment Portal',payT:'Pay by bKash, Nagad, Rocket, Upay or Bank',payP:'See our payment numbers, pay, then submit your TrxID. We verify and approve it.',payBtn:'Open Payment Portal',svcH1:'Service',svcH2:'Details',svcH3:'Action',shopChip:'New \u00b7 Online Shop',shopT:'Shop Online with Roza',shopP:'Browse gifts, electrical items and more right from your phone. Your records here stay saved, so you can come back any time.',shopBtn:'Visit Our Shop',annT:'Our online shop is now open',annGo:'Visit',custBtn:'Customer register',
+    en:{notices:'Notices',welcome:'Welcome to Roza Gift Corner & Electric',menu:'Menu',custNav:'Customers',waNav:'WhatsApp',noticeNav:'Notices',shopNav:'Online Shop',shopTop:'Online Shop',payNav:'Payment',payTop:'Payment',payChip:'Payment Portal',payT:'Pay by bKash, Nagad, Rocket, Upay or Bank',payP:'See our payment numbers, pay, then submit your TrxID. We verify and approve it.',payBtn:'Open Payment Portal',payQ1:'Payment methods',payQ2:'Submit TrxID',payQ3:'Verify my payment',svcH1:'Service',svcH2:'Details',svcH3:'Action',shopChip:'New \u00b7 Online Shop',shopT:'Shop Online with Roza',shopP:'Browse gifts, electrical items and more right from your phone. Your records here stay saved, so you can come back any time.',shopBtn:'Visit Our Shop',annT:'Our online shop is now open',annGo:'Visit',custBtn:'Customer register',
         tAll:'All',tDue:'Due',tPartial:'Partial paid',tPaid:'Paid',tHidden:'Hidden due',
         ctaT:'Everything for the shop, in one place',ctaP:'Add customers, create invoices and keep backups from this page. The customer register has its own page.',
         addC:'Add customer',newInv:'Create invoice',backup:'Backup / Restore',allInv:'All invoices',dark:'Dark',sysTools:'System tools',
@@ -9895,7 +9899,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
         hide:'Hide',show:'Show',edit:'Edit',del:'Delete',stPub:'Published',stHid:'Hidden',saved:'Notice saved and published.',needTitle:'Enter a notice title.',
         saveFail:'Could not save to the cloud. It is kept on this device only.',admLogin:'Log in first to publish notices.',confirmDel:'Delete this notice?',admNone:'No notices yet.',
         pNotice:'NOTICE',pDate:'Date',pSign:'Authorized Signature',pPage:'Page',pvTitle:'Latest notices',pvAll:'All notices',dueTitle:'Check your due balance',dueHelp:'Enter the mobile number you gave to the shop.',dueBtn:'Check',duePh:'01XXXXXXXXX',dueBad:'Enter a valid mobile number (01XXXXXXXXX).',dueNone:'No due record found for this number. Please contact the shop.',dueClear:'No due. Thank you!',dueAmt:'Current due',dueName:'Name',dueAddr:'Address',dueUpd:'Updated',dueWait:'Too many tries. Please wait a minute.',dueErr:'Could not check right now. Please try again later.',dueCall:'Shop phone',fabAdd:'New customer',fabInv:'New invoice',fabPay:'Receive payment',payTitle:'Receive payment: choose a customer',paySearch:'Search by name or phone',payNone:'No customers found.',dueAdmH:'Public due lookup',dueAdmNote:'Fully automatic: every change to a customer (due, payment, source, address) is published within seconds while a staff device is open. Customers can check their due by phone number on the home page. They see the customer\'s full name, address and the due amount. Anyone who knows a phone number can look it up.',dueAuto:'Auto-update while I am logged in (this device)',duePub:'Publish / update now',dueRem:'Remove all public due data',dueDone:'Done. Published records:',dueRemoved:'All public due records removed.',dueRules:'Firestore rules to add (once)',dueRulesFail:'Permission denied. Add the Firestore rules shown below, then try again.',dueNoData:'No customer data is loaded yet.',pubNoRule:'Saved. The public copy needs the Firestore rules shown in the due section below.'},
-    bn:{notices:'নোটিশ',welcome:'রোজা গিফট কর্নার অ্যান্ড ইলেকট্রিকে স্বাগতম',menu:'মেনু',custNav:'কাস্টমার',waNav:'হোয়াটসঅ্যাপ',noticeNav:'নোটিশ',shopNav:'অনলাইন শপ',shopTop:'অনলাইন শপ',payNav:'পেমেন্ট',payTop:'পেমেন্ট',payChip:'পেমেন্ট পোর্টাল',payT:'বিকাশ, নগদ, রকেট, উপায় বা ব্যাংকে পেমেন্ট করুন',payP:'আমাদের পেমেন্ট নম্বর দেখুন, টাকা পাঠান, তারপর TrxID জমা দিন। আমরা যাচাই করে অ্যাপ্রুভ করব।',payBtn:'পেমেন্ট পোর্টাল খুলুন',svcH1:'সেবা',svcH2:'বিস্তারিত',svcH3:'অ্যাকশন',shopChip:'নতুন · অনলাইন শপ',shopT:'ঘরে বসেই কিনুন, রোজা গিফট কর্নারে',shopP:'গিফট, ইলেকট্রিক ও আরও অনেক পণ্য এখন মোবাইলেই দেখুন। এখানকার রেকর্ড সংরক্ষিত থাকবে, যেকোনো সময় ফিরে আসতে পারবেন।',shopBtn:'শপ দেখুন',annT:'আমাদের অনলাইন শপ এখন চালু',annGo:'দেখুন',custBtn:'কাস্টমার রেজিস্টার',
+    bn:{notices:'নোটিশ',welcome:'রোজা গিফট কর্নার অ্যান্ড ইলেকট্রিকে স্বাগতম',menu:'মেনু',custNav:'কাস্টমার',waNav:'হোয়াটসঅ্যাপ',noticeNav:'নোটিশ',shopNav:'অনলাইন শপ',shopTop:'অনলাইন শপ',payNav:'পেমেন্ট',payTop:'পেমেন্ট',payChip:'পেমেন্ট পোর্টাল',payT:'বিকাশ, নগদ, রকেট, উপায় বা ব্যাংকে পেমেন্ট করুন',payP:'আমাদের পেমেন্ট নম্বর দেখুন, টাকা পাঠান, তারপর TrxID জমা দিন। আমরা যাচাই করে অ্যাপ্রুভ করব।',payBtn:'পেমেন্ট পোর্টাল খুলুন',payQ1:'পেমেন্ট মেথড',payQ2:'TrxID জমা দিন',payQ3:'পেমেন্ট যাচাই দেখুন',svcH1:'সেবা',svcH2:'বিস্তারিত',svcH3:'অ্যাকশন',shopChip:'নতুন · অনলাইন শপ',shopT:'ঘরে বসেই কিনুন, রোজা গিফট কর্নারে',shopP:'গিফট, ইলেকট্রিক ও আরও অনেক পণ্য এখন মোবাইলেই দেখুন। এখানকার রেকর্ড সংরক্ষিত থাকবে, যেকোনো সময় ফিরে আসতে পারবেন।',shopBtn:'শপ দেখুন',annT:'আমাদের অনলাইন শপ এখন চালু',annGo:'দেখুন',custBtn:'কাস্টমার রেজিস্টার',
         tAll:'সব',tDue:'বাকি',tPartial:'আংশিক পরিশোধ',tPaid:'পরিশোধিত',tHidden:'গোপন বাকি',
         ctaT:'দোকানের সব হিসাব, এক জায়গায়',ctaP:'এই পেজ থেকে কাস্টমার যোগ, ইনভয়েস তৈরি ও ব্যাকআপ করুন। কাস্টমার রেজিস্টারের আলাদা পেজ আছে।',
         addC:'কাস্টমার যোগ',newInv:'ইনভয়েস তৈরি',backup:'ব্যাকআপ / রিস্টোর',allInv:'সব ইনভয়েস',dark:'ডার্ক',sysTools:'সিস্টেম টুলস',
@@ -11591,8 +11595,8 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
       '#rgceHub #rhPay .nbtn{appearance:none;display:inline-flex;align-items:stretch;gap:0;padding:0;margin:0;font:inherit;font-weight:700;font-size:14.5px;line-height:1.2;white-space:nowrap;cursor:pointer;color:var(--rc);background:transparent;border:2px solid var(--rc);border-radius:10px;overflow:hidden;transition:background .15s,color .15s}',
       '#rgceHub #rhPay .nbtn span{display:inline-flex;align-items:center;padding:9px 16px}#rgceHub #rhPay .nbtn svg{box-sizing:content-box;width:18px;height:auto;align-self:stretch;padding:0 12px;background:var(--rc);fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}',
       '#rgceHub #rhPay .nbtn:hover{background:var(--rc);color:#fff}#rgceHub #rhPay .nbtn:hover svg{background:rgba(0,0,0,.28)}body.dark-mode #rgceHub #rhPay .nbtn svg{stroke:#0b1117}',
-      '@keyframes rzPayIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}',
-      '@media(max-width:600px){#rzPayOv .sh{border-radius:16px}#rzPayOv .hd{padding:14px;border-radius:15px 15px 0 0}#rzPayOv .bd{padding:14px}#rzPayOv .two{grid-template-columns:1fr}#rgceHub #rhPay{padding:20px 18px}#rgceHub #rhPay .nbtn{width:100%;justify-content:space-between}}'
+      '#rhPay .rzy-qa{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:8px;padding-top:14px;border-top:1px solid var(--border,#e3e8ef)}#rhPay .rzy-qa button{appearance:none;display:inline-flex;align-items:center;gap:8px;border:2px solid var(--rc);background:transparent;color:var(--rc);border-radius:999px;padding:8px 14px;font:inherit;font-weight:700;font-size:13.5px;cursor:pointer}#rhPay .rzy-qa button:hover{background:var(--rc);color:#fff}body.dark-mode #rhPay .rzy-qa button:hover{color:#0b1117}','@keyframes rzPayIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}',
+      '@media(max-width:600px){#rhPay .rzy-qa button{flex:1 1 100%;justify-content:center}#rzPayOv .sh{border-radius:16px}#rzPayOv .hd{padding:14px;border-radius:15px 15px 0 0}#rzPayOv .bd{padding:14px}#rzPayOv .two{grid-template-columns:1fr}#rgceHub #rhPay{padding:20px 18px}#rgceHub #rhPay .nbtn{width:100%;justify-content:space-between}}'
     ].join('\n');
     document.head.appendChild(s);
   }
@@ -11633,17 +11637,18 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     else if (S.done) h += doneView();
     else {
       if (st.notice) h += '<div class="nt">' + esc(st.notice) + '</div>';
-      h += '<h3>' + esc(tx('s1')) + '</h3>';
+      h += '<h3 id="pyS1">' + esc(tx('s1')) + '</h3>';
       h += st.methods.length ? '<div class="gr">' + st.methods.map(methodCard).join('') + '</div>' : '<p class="mu">' + esc(tx('none')) + '</p>';
       if (st.manualOn && st.methods.length) h += formView();
       else if (!st.manualOn) h += '<p class="mu" style="margin-top:16px">' + esc(tx('off')) + '</p>';
       h += mineView();
     }
     ov.innerHTML = h + '</div></div>';
+    if (S.go && !S.loading && (S.st || S.err)) { var gid = S.go === 'methods' ? 'pyS1' : S.go === 'status' ? 'pyS3' : 'pyS2'; var gel = $(gid) || $('pyS2') || $('pyS1'); S.go = ''; if (gel) setTimeout(function () { try { gel.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { gel.scrollIntoView(); } }, 60); }
   }
   function formView() {
     var st = S.st, f = S.f, cur0 = st.methods.filter(function (m) { return m.id === S.method; })[0], bank = cur0 && cur0.type === 'bank';
-    var h = '<h3>' + esc(tx('s2')) + '</h3><label class="f">' + esc(tx('method')) + '</label><div class="seg">' + st.methods.map(function (m) { return '<button type="button" data-m="' + esc(m.id) + '" class="' + (S.method === m.id ? 'on' : '') + '" style="--c:' + (COL[m.type] || COL.other) + '">' + esc(m.label || m.type) + '</button>'; }).join('') + '</div>'
+    var h = '<h3 id="pyS2">' + esc(tx('s2')) + '</h3><label class="f">' + esc(tx('method')) + '</label><div class="seg">' + st.methods.map(function (m) { return '<button type="button" data-m="' + esc(m.id) + '" class="' + (S.method === m.id ? 'on' : '') + '" style="--c:' + (COL[m.type] || COL.other) + '">' + esc(m.label || m.type) + '</button>'; }).join('') + '</div>'
       + '<div class="two"><div><label class="f" for="pyA">' + esc(tx('amount')) + '</label><input class="t" id="pyA" data-f="amount" type="text" inputmode="decimal" autocomplete="off" value="' + esc(f.amount) + '"></div>'
       + '<div><label class="f" for="pyT">' + esc(tx('trx')) + '</label><input class="t" id="pyT" data-f="trx" type="text" autocapitalize="characters" autocomplete="off" maxlength="30" value="' + esc(f.trx) + '"></div></div>'
       + '<label class="f" for="pyS">' + esc(st.needSender && !bank ? tx('sender') : tx('senderOpt')) + '</label><input class="t" id="pyS" data-f="sender" type="text" inputmode="tel" autocomplete="off" maxlength="30" value="' + esc(f.sender) + '">'
@@ -11655,7 +11660,7 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
   }
   function mineView() {
     var m = mine(); if (!m.length) return '';
-    return '<h3>' + esc(tx('s3')) + '</h3>' + m.slice(0, 10).map(function (x) {
+    return '<h3 id="pyS3">' + esc(tx('s3')) + '</h3>' + m.slice(0, 10).map(function (x) {
       var s = S.stat[x.id] || { s: 'pending', n: '' };
       return '<div class="pr"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><span class="a">৳' + esc(money(x.amt)) + '</span><span class="st ' + esc(s.s) + '">' + esc(stLabel(s.s)) + '</span></div><div class="mu">PAY-' + esc(String(x.id).slice(0, 6).toUpperCase()) + ' • TrxID ' + esc(x.trx) + (s.n ? '<br>' + esc(tx('adm')) + ': ' + esc(s.n) : '') + '</div></div>';
     }).join('') + '<button type="button" class="go ghost" data-x="refresh">' + esc(tx('refresh')) + '</button>';
@@ -11728,7 +11733,8 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     var hub = $('rgceHub'); ov.hidden = true; ov.innerHTML = ''; ov = null; if (hub) hub.classList.remove('rzpay-open');
     try { window.scrollTo(0, 0); } catch (e) {}
   }
-  function open() {
+  function open(sec) {
+    S.go = typeof sec === 'string' ? sec : '';
     if (document.documentElement.getAttribute('data-dcu-view') && window.__rgceGoView) { try { window.__rgceGoView(''); } catch (e) {} }
     mount();
     if (location.hash !== '#payment') { try { history.pushState({ rzpay: 1 }, '', location.pathname + location.search + '#payment'); } catch (e) {} }
@@ -11737,12 +11743,12 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     if (!ov) return; closeDom();
     if (location.hash === '#payment') { if (history.state && history.state.rzpay) { try { history.back(); return; } catch (e) {} } try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} }
   }
-  window.__rzPayOpen = open;
+  window.__rzPayOpen = function () { open(); };
   function sync() { if (location.hash === '#payment') { if (!ov) mount(); } else if (ov) closeDom(); }
   window.addEventListener('hashchange', sync); window.addEventListener('popstate', sync);
   document.addEventListener('click', function (e) {
-    var a = e.target && e.target.closest ? e.target.closest('#rzTopPay,#rzpGoPay') : null;
-    if (a) { e.preventDefault(); open(); }
+    var a = e.target && e.target.closest ? e.target.closest('#rzpGoPay,[data-pay-go]') : null;
+    if (a) { e.preventDefault(); open(a.getAttribute('data-pay-go') || ''); }
   });
   try { new MutationObserver(function () { if (ov) draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] }); } catch (e) {}
   window.addEventListener('storage', function (e) { if (e.key === 'rgce_lang' && ov) draw(); });
