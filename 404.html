@@ -11526,14 +11526,14 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
   var TXT = {
     en: { h: 'Payment Portal', sub: 'Pay the shop by bKash, Nagad, Rocket, Upay or bank, then submit your TrxID.', back: 'Back', load: 'Loading payment details...', err: 'Payment details could not be loaded right now. Please try again later.', retry: 'Try again', off: 'Online payment submission is not open right now. Please contact the shop.', none: 'No payment method is available yet. Please contact the shop.',
       s1: '1. Send your payment', s2: '2. Submit your TrxID', s3: 'My submitted payments', copy: 'Copy', copied: 'Copied', tMethod: 'Method', tNumber: 'Payment number', tName: 'Account name', tDetails: 'Details', tCopy: 'Copy', holder: 'Account name', bank: 'Bank', branch: 'Branch', routing: 'Routing', acc: 'Account number', num: 'Number', qr: 'Tap the QR to enlarge',
-      method: 'Paid with', choose: 'Select payment method', amount: 'Amount (৳)', trx: 'Transaction ID (TrxID)', sender: 'Number you paid from', senderOpt: 'Number you paid from (optional)', name: 'Your name', phone: 'Your mobile number', note: 'Note (optional)', submit: 'Submit payment', sending: 'Sending...',
+      method: 'Paid with', choose: 'Select payment method', amount: 'Amount (৳)', trx: 'Transaction ID (TrxID)', sender: 'Number you paid from', senderOpt: 'Number you paid from', name: 'Your name', phone: 'Your mobile number', note: 'Note', submit: 'Submit payment', sending: 'Sending...',
       eMethod: 'Choose how you paid.', eAmt: 'Enter the amount you paid.', eMin: 'Minimum amount is ৳{n}.', eTrx: 'Enter a valid TrxID (6 to 30 letters or numbers).', eSender: 'Enter the number you paid from.', eName: 'Enter your name.', ePhone: 'Enter a valid mobile number (01XXXXXXXXX).', eDup: 'You already submitted this TrxID.', eRate: 'Too many submissions. Please try again later.', eNet: 'Could not send. Check your connection and try again.', ePerm: 'Sending is not allowed right now. Please contact the shop.',
-      okH: 'Payment submitted', okP: 'Your payment is waiting for verification. The shop will approve it after checking your TrxID.', ref: 'Reference', another: 'Submit another payment', pending: 'Pending', approved: 'Approved', rejected: 'Rejected', refresh: 'Refresh status', none2: 'No payment submitted from this device yet.', adm: 'Shop note' },
+      okH: 'Payment submitted', okP: 'Your payment is waiting for verification. The shop will approve it after checking your TrxID.', ref: 'Reference', another: 'Submit another payment', pending: 'Pending', approved: 'Approved', rejected: 'Rejected', refresh: 'Refresh status', checking: 'Checking...', sOk: 'Status updated.', sErr: 'Could not check the status right now. Please try again.', none2: 'No payment submitted from this device yet.', adm: 'Shop note' },
     bn: { h: 'পেমেন্ট পোর্টাল', sub: 'বিকাশ, নগদ, রকেট, উপায় বা ব্যাংকে টাকা পাঠিয়ে আপনার TrxID জমা দিন।', back: 'ফিরে যান', load: 'পেমেন্টের তথ্য লোড হচ্ছে...', err: 'এখন পেমেন্টের তথ্য লোড করা যাচ্ছে না। একটু পরে আবার চেষ্টা করুন।', retry: 'আবার চেষ্টা করুন', off: 'অনলাইন পেমেন্ট জমা এখন বন্ধ আছে। দোকানে যোগাযোগ করুন।', none: 'এখনো কোনো পেমেন্ট মেথড দেওয়া হয়নি। দোকানে যোগাযোগ করুন।',
       s1: '১. পেমেন্ট পাঠান', s2: '২. TrxID জমা দিন', s3: 'আমার জমা দেওয়া পেমেন্ট', copy: 'কপি', copied: 'কপি হয়েছে', tMethod: 'মেথড', tNumber: 'পেমেন্ট নম্বর', tName: 'অ্যাকাউন্টের নাম', tDetails: 'বিবরণ', tCopy: 'কপি', holder: 'অ্যাকাউন্টের নাম', bank: 'ব্যাংক', branch: 'শাখা', routing: 'রাউটিং', acc: 'অ্যাকাউন্ট নম্বর', num: 'নম্বর', qr: 'বড় করতে QR এ ট্যাপ করুন',
-      method: 'যেভাবে পেমেন্ট করেছেন', choose: 'পেমেন্ট মেথড বেছে নিন', amount: 'টাকার পরিমাণ (৳)', trx: 'ট্রানজ্যাকশন আইডি (TrxID)', sender: 'যে নম্বর থেকে পাঠিয়েছেন', senderOpt: 'যে নম্বর থেকে পাঠিয়েছেন (ঐচ্ছিক)', name: 'আপনার নাম', phone: 'আপনার মোবাইল নম্বর', note: 'নোট (ঐচ্ছিক)', submit: 'পেমেন্ট জমা দিন', sending: 'পাঠানো হচ্ছে...',
+      method: 'যেভাবে পেমেন্ট করেছেন', choose: 'পেমেন্ট মেথড বেছে নিন', amount: 'টাকার পরিমাণ (৳)', trx: 'ট্রানজ্যাকশন আইডি (TrxID)', sender: 'যে নম্বর থেকে পাঠিয়েছেন', senderOpt: 'যে নম্বর থেকে পাঠিয়েছেন', name: 'আপনার নাম', phone: 'আপনার মোবাইল নম্বর', note: 'নোট', submit: 'পেমেন্ট জমা দিন', sending: 'পাঠানো হচ্ছে...',
       eMethod: 'কীভাবে পেমেন্ট করেছেন তা বেছে নিন।', eAmt: 'কত টাকা পাঠিয়েছেন তা লিখুন।', eMin: 'সর্বনিম্ন পরিমাণ ৳{n}।', eTrx: 'সঠিক TrxID লিখুন (৬ থেকে ৩০টি অক্ষর বা সংখ্যা)।', eSender: 'যে নম্বর থেকে পাঠিয়েছেন তা লিখুন।', eName: 'আপনার নাম লিখুন।', ePhone: 'সঠিক মোবাইল নম্বর লিখুন (01XXXXXXXXX)।', eDup: 'এই TrxID আপনি আগেই জমা দিয়েছেন।', eRate: 'অনেকবার জমা দেওয়া হয়েছে। পরে আবার চেষ্টা করুন।', eNet: 'পাঠানো যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।', ePerm: 'এখন জমা নেওয়া যাচ্ছে না। দোকানে যোগাযোগ করুন।',
-      okH: 'পেমেন্ট জমা হয়েছে', okP: 'আপনার পেমেন্ট যাচাইয়ের অপেক্ষায় আছে। TrxID মিলিয়ে দোকান অ্যাপ্রুভ করবে।', ref: 'রেফারেন্স', another: 'আরেকটি পেমেন্ট জমা দিন', pending: 'পেন্ডিং', approved: 'অ্যাপ্রুভড', rejected: 'বাতিল', refresh: 'স্ট্যাটাস রিফ্রেশ', none2: 'এই ডিভাইস থেকে এখনো কোনো পেমেন্ট জমা হয়নি।', adm: 'দোকানের নোট' }
+      okH: 'পেমেন্ট জমা হয়েছে', okP: 'আপনার পেমেন্ট যাচাইয়ের অপেক্ষায় আছে। TrxID মিলিয়ে দোকান অ্যাপ্রুভ করবে।', ref: 'রেফারেন্স', another: 'আরেকটি পেমেন্ট জমা দিন', pending: 'পেন্ডিং', approved: 'অ্যাপ্রুভড', rejected: 'বাতিল', refresh: 'স্ট্যাটাস রিফ্রেশ', checking: 'চেক করা হচ্ছে...', sOk: 'স্ট্যাটাস আপডেট হয়েছে।', sErr: 'এখন স্ট্যাটাস চেক করা যাচ্ছে না। আবার চেষ্টা করুন।', none2: 'এই ডিভাইস থেকে এখনো কোনো পেমেন্ট জমা হয়নি।', adm: 'দোকানের নোট' }
   };
   function cur() { try { return localStorage.getItem('rgce_lang') === 'bn' ? 'bn' : 'en'; } catch (e) { return document.documentElement.lang === 'bn' ? 'bn' : 'en'; } }
   function tx(k, r) { var s = (TXT[cur()][k] != null ? TXT[cur()][k] : TXT.en[k]) || k; if (r) for (var x in r) s = s.split('{' + x + '}').join(r[x]); return s; }
@@ -11625,21 +11625,20 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     S.loading = false; draw();
   }
   function stLabel(s) { return tx(s === 'approved' || s === 'rejected' ? s : 'pending'); }
-  async function loadStatus() {
-    var m = mine().slice(0, 10);
+  async function loadStatus(manual) {
+    var m = mine().slice(0, 10); if (!m.length || S.chk) return;
+    S.chk = true; S.sm = ''; if (manual && ov) draw();
+    var ok = 0, fail = 0;
     await Promise.all(m.map(async function (x) {
-      try { var r = await fetch(FSB + '/payments/' + encodeURIComponent(x.id) + '?key=' + KEY, { cache: 'no-store' }); if (r.ok) { var o = toObj(await r.json()); S.stat[x.id] = { s: o.status || 'pending', n: o.adminNote || '' }; } } catch (e) {}
+      try {
+        var r = await fetch(FSB + '/payments/' + encodeURIComponent(x.id) + '?key=' + KEY, { cache: 'no-store' });
+        if (r.ok) { var o = toObj(await r.json()); S.stat[x.id] = { s: o.status || 'pending', n: o.adminNote || '' }; ok++; }
+        else if (r.status === 404) ok++; else fail++;
+      } catch (e) { fail++; }
     }));
-    if (ov && !S.done) draw();
-  }
-  function methodCard(m) {
-    var c = COL[m.type] || COL.other, bank = m.type === 'bank';
-    var kv = function (l, v) { return v ? '<div class="kv">' + esc(l) + ': <b>' + esc(v) + '</b></div>' : ''; };
-    return '<div class="mc" style="--c:' + c + '"><div class="tp"><span class="bg">' + esc(m.label || m.type) + '</span>' + (!bank && m.kind ? '<span class="kv">' + esc(m.kind) + '</span>' : '') + '<button type="button" class="cp" data-cp="' + esc(m.number) + '">' + esc(tx('copy')) + '</button></div>'
-      + '<div class="kv">' + esc(bank ? tx('acc') : tx('num')) + '</div><div class="no">' + esc(m.number) + '</div>'
-      + kv(tx('holder'), m.holder) + (bank ? kv(tx('bank'), m.bank) + kv(tx('branch'), m.branch) + kv(tx('routing'), m.routing) : '')
-      + (m.note ? '<div class="kv">' + esc(m.note) + '</div>' : '')
-      + (m.qr && /^data:image\//.test(m.qr) ? '<img class="qr" alt="QR" data-qr="1" src="' + esc(m.qr) + '"><div class="kv">' + esc(tx('qr')) + '</div>' : '') + '</div>';
+    S.chk = false;
+    if (manual) S.sm = (fail && !ok) ? 'sErr' : 'sOk';
+    if (ov) draw();
   }
   function methodTable(list) {
     var rows = list.map(function (m) {
@@ -11679,7 +11678,7 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     var h = '<h3 id="pyS2">' + esc(tx('s2')) + '</h3><label class="f" for="pyM">' + esc(tx('method')) + '</label><select class="t sel" id="pyM" data-sel="method"><option value="">' + esc(tx('choose')) + '</option>' + st.methods.map(function (m) { return '<option value="' + esc(m.id) + '"' + (S.method === m.id ? ' selected' : '') + '>' + esc((m.label || m.type) + (m.number ? ' - ' + m.number : '')) + '</option>'; }).join('') + '</select>'
       + '<div class="two"><div><label class="f" for="pyA">' + esc(tx('amount')) + '</label><input class="t" id="pyA" data-f="amount" type="text" inputmode="decimal" autocomplete="off" value="' + esc(f.amount) + '"></div>'
       + '<div><label class="f" for="pyT">' + esc(tx('trx')) + '</label><input class="t" id="pyT" data-f="trx" type="text" autocapitalize="characters" autocomplete="off" maxlength="30" value="' + esc(f.trx) + '"></div></div>'
-      + '<label class="f" for="pyS">' + esc(st.needSender && !bank ? tx('sender') : tx('senderOpt')) + '</label><input class="t" id="pyS" data-f="sender" type="text" inputmode="tel" autocomplete="off" maxlength="30" value="' + esc(f.sender) + '">'
+      + '<label class="f" for="pyS">' + esc(tx('sender')) + '</label><input class="t" id="pyS" data-f="sender" type="text" inputmode="tel" autocomplete="off" maxlength="30" value="' + esc(f.sender) + '">'
       + '<div class="two"><div><label class="f" for="pyN">' + esc(tx('name')) + '</label><input class="t" id="pyN" data-f="name" type="text" autocomplete="name" maxlength="80" value="' + esc(f.name) + '"></div>'
       + '<div><label class="f" for="pyP">' + esc(tx('phone')) + '</label><input class="t" id="pyP" data-f="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="14" placeholder="01XXXXXXXXX" value="' + esc(f.phone) + '"></div></div>'
       + '<label class="f" for="pyO">' + esc(tx('note')) + '</label><input class="t" id="pyO" data-f="note" type="text" maxlength="200" value="' + esc(f.note) + '">'
@@ -11690,12 +11689,12 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     var m = mine(); if (!m.length) return '';
     return '<h3 id="pyS3">' + esc(tx('s3')) + '</h3>' + m.slice(0, 10).map(function (x) {
       var s = S.stat[x.id] || { s: 'pending', n: '' };
-      return '<div class="pr"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><span class="a">৳' + esc(money(x.amt)) + '</span><span class="st ' + esc(s.s) + '">' + esc(stLabel(s.s)) + '</span></div><div class="mu">PAY-' + esc(String(x.id).slice(0, 6).toUpperCase()) + ' • TrxID ' + esc(x.trx) + (s.n ? '<br>' + esc(tx('adm')) + ': ' + esc(s.n) : '') + '</div></div>';
-    }).join('') + '<button type="button" class="go ghost" data-x="refresh">' + esc(tx('refresh')) + '</button>';
+      return '<div class="pr"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><span class="a">' + (x.amt ? '৳' + esc(money(x.amt)) : '') + '</span><span class="st ' + esc(s.s) + '">' + esc(stLabel(s.s)) + '</span></div><div class="mu">PAY-' + esc(String(x.id).slice(0, 6).toUpperCase()) + ' • TrxID ' + esc(x.trx) + (s.n ? '<br>' + esc(tx('adm')) + ': ' + esc(s.n) : '') + '</div></div>';
+    }).join('') + '<button type="button" class="go ghost" data-x="refresh"' + (S.chk ? ' disabled' : '') + '>' + esc(S.chk ? tx('checking') : tx('refresh')) + '</button>' + (S.sm ? '<p class="' + (S.sm === 'sErr' ? 'er' : 'mu') + '" role="status" style="margin-top:8px">' + esc(tx(S.sm)) + '</p>' : '');
   }
   function doneView() {
     var d = S.done;
-    return '<div class="ok-box"><div class="ck">✓</div><h3 style="margin:0">' + esc(tx('okH')) + '</h3><p class="mu">' + esc(tx('okP')) + '</p><div class="mu">' + esc(tx('ref')) + '</div><div class="rf">' + esc(d.ref) + '</div><div class="mu">৳' + esc(money(d.amt)) + ' • TrxID ' + esc(d.trx) + '</div>'
+    return '<div class="ok-box"><div class="ck">✓</div><h3 style="margin:0">' + esc(tx('okH')) + '</h3><p class="mu">' + esc(tx('okP')) + '</p><div class="mu">' + esc(tx('ref')) + '</div><div class="rf">' + esc(d.ref) + '</div><div class="mu">' + (d.amt ? '৳' + esc(money(d.amt)) + ' • ' : '') + 'TrxID ' + esc(d.trx) + '</div>'
       + '<button type="button" class="go" data-x="another">' + esc(tx('another')) + '</button></div>' + mineView();
   }
   function showErr(k, r) { S.msg = tx(k, r); var e = $('pyE'); if (e) e.textContent = S.msg; }
@@ -11704,12 +11703,9 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     var st = S.st, f = S.f, m = st.methods.filter(function (x) { return x.id === S.method; })[0];
     var amt = parseFloat(bnDigits(f.amount).replace(/[,\s]/g, '')), trx = String(f.trx || '').toUpperCase().replace(/\s+/g, ''), phone = bnDigits(f.phone).replace(/[\s-]/g, '').replace(/^\+?88/, ''), name = String(f.name || '').trim(), sender = bnDigits(f.sender).trim();
     if (!m) return showErr('eMethod');
-    if (!(amt > 0) || amt > 10000000) return showErr('eAmt');
-    if (st.minAmount && amt < st.minAmount) return showErr('eMin', { n: st.minAmount });
+    if (String(f.amount || '').trim() !== '') { if (!(amt > 0) || amt > 10000000) return showErr('eAmt'); if (st.minAmount && amt < st.minAmount) return showErr('eMin', { n: st.minAmount }); } else amt = 0;
     if (!/^[A-Z0-9]{6,30}$/.test(trx)) return showErr('eTrx');
-    if (st.needSender && m.type !== 'bank' && sender.length < 6) return showErr('eSender');
-    if (!name) return showErr('eName');
-    if (!/^01[0-9]{9}$/.test(phone)) return showErr('ePhone');
+    if (phone && !/^01[0-9]{9}$/.test(phone)) return showErr('ePhone');
     var list = mine();
     if (list.some(function (x) { return String(x.trx).toUpperCase() === trx; })) return showErr('eDup');
     var rl = []; try { rl = JSON.parse(ls('rgce_pay_rl') || '[]').filter(function (t) { return Date.now() - t < 3600000; }); } catch (e) {}
@@ -11740,7 +11736,7 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     b = t.closest('[data-x]'); if (!b) return;
     var x = b.getAttribute('data-x');
     if (x === 'close') close(); else if (x === 'retry') loadSettings(); else if (x === 'submit') submit();
-    else if (x === 'another') { S.done = null; draw(); } else if (x === 'refresh') loadStatus();
+    else if (x === 'another') { S.done = null; draw(); } else if (x === 'refresh') loadStatus(true);
   }
   function onChange(e) { var s = e.target && e.target.getAttribute && e.target.getAttribute('data-sel'); if (s === 'method') { S.method = e.target.value; S.msg = ''; draw(); } }
   function onInput(e) { var k = e.target && e.target.getAttribute && e.target.getAttribute('data-f'); if (k) S.f[k] = e.target.value; }
