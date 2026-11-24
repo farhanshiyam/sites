@@ -7706,7 +7706,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
     function rgceApplyPath(p) {
       var seg = p.split('/').map(function (x) { try { return decodeURIComponent(x); } catch (e) { return x; } });
       var a = seg[0], ok = true;
-      if (a === 'polls') return;
+      if (a === 'polls' || a === 'payment') return;
       rgceSetViewAttr();
       if (rgceView === 'whatsapp' && window.__waShow) window.__waShow();
       rgceRouting = true;
@@ -7800,12 +7800,12 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
     }
     if (RGCE_ROUTER_ON) {
       rgceActual = rgceParse();
-      if (/^polls(\/|$)/.test(rgceActual)) rgceActual = '';   // /polls... is handled by the polls module
+      if (/^(polls|payment)(\/|$)/.test(rgceActual)) rgceActual = '';   // /polls and /payment are handled by their own modules
       if (rgceActual === RGCE_LOGIN_SLUG) { rgceStartOnLogin = true; rgceActual = ''; }
       rgceHold = rgceActual !== '';          // keep the typed URL until login + data are ready
       window.addEventListener('popstate', function () {
         var prev = rgceActual, p = rgceParse();
-        if (/^polls(\/|$)/.test(p)) { rgceActual = ''; return; }   // polls module handles it
+        if (/^(polls|payment)(\/|$)/.test(p)) { rgceActual = ''; return; }   // polls / payment modules handle it
         if (p === RGCE_LOGIN_SLUG) {                      // back/forward onto the login address
           if (window.__currentUser) { try { history.replaceState({ p: '' }, '', RGCE_BASE); } catch (e) {} return; }
           rgceOnLogin = true; if (window.__rgceLogin) window.__rgceLogin.show(); return;
@@ -9512,9 +9512,8 @@ body.dark-mode .dcu-seal-sm{color:#0e1218}
 .dcu-nav-item{position:relative}
 .dcu-nav-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 8px;border:0;border-radius:8px;background:transparent;color:var(--muted);font:500 14px/1.2 inherit;font-family:inherit;cursor:pointer;white-space:nowrap}
 .dcu-nav-btn::after{content:"";width:6px;height:6px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:.7}
-.dcu-nav-btn.plain::after{display:none}
 .dcu-nav-item:hover>.dcu-nav-btn,.dcu-nav-item.open>.dcu-nav-btn,.dcu-nav-btn:focus-visible{background:var(--panel-alt);color:var(--text)}
-html[data-dcu-view="customers"] .dcu-nav-btn.plain{background:var(--primary-light);color:var(--primary)}
+html[data-dcu-view="customers"] .dcu-svc>.dcu-nav-btn{background:var(--primary-light);color:var(--primary)}
 .dcu-menu{display:none;position:absolute;left:0;top:calc(100% + 2px);min-width:250px;padding:8px;background:var(--panel);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow-lg);z-index:700}
 .dcu-nav-item:hover>.dcu-menu,.dcu-nav-item.open>.dcu-menu,.dcu-nav-item:focus-within>.dcu-menu{display:block}
 .dcu-menu button{display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;border:0;border-radius:8px;background:transparent;color:var(--text);font:500 14px/1.3 inherit;font-family:inherit;text-align:left;cursor:pointer}
@@ -9524,7 +9523,7 @@ html[data-dcu-view="customers"] .dcu-nav-btn.plain{background:var(--primary-ligh
 .dcu-nav-item:last-child>.dcu-menu{left:auto;right:0}
 .hdr2 .dcu-menu-btn{display:none}
 @media(max-width:1440px){.dcu-brand small{display:none}}
-@media(max-width:1200px){
+@media(max-width:1439px){
   .hdr2{position:relative;top:0}
   .hdr2-top{flex-wrap:wrap}
   .hdr2 .dcu-menu-btn{display:inline-flex}
@@ -9888,7 +9887,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   var MON={en:['January','February','March','April','May','June','July','August','September','October','November','December'],
            bn:['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর']};
   var T={
-    en:{notices:'Notices',welcome:'Welcome to Roza Gift Corner & Electric',menu:'Menu',custNav:'Customers',waNav:'WhatsApp',noticeNav:'Notices',shopNav:'Online Shop',shopTop:'Online Shop',payNav:'Payment',payTop:'Payment',payChip:'Payment Portal',payT:'Pay by bKash, Nagad, Rocket, Upay or Bank',payP:'See our payment numbers, pay, then submit your TrxID. We verify and approve it.',payBtn:'Open Payment Portal',payQ1:'Payment methods',payQ2:'Submit TrxID',payQ3:'Verify my payment',svcH1:'Service',svcH2:'Details',svcH3:'Action',shopChip:'New \u00b7 Online Shop',shopT:'Shop Online with Roza',shopP:'Browse gifts, electrical items and more right from your phone. Your records here stay saved, so you can come back any time.',shopBtn:'Visit Our Shop',annT:'Our online shop is now open',annGo:'Visit',custBtn:'Customer register',
+    en:{notices:'Notices',welcome:'Welcome to Roza Gift Corner & Electric',menu:'Menu',custNav:'Customers',waNav:'WhatsApp',noticeNav:'Notices',shopNav:'Online Shop',shopTop:'Online Shop',servNav:'Services',payNav:'Payment',payChip:'Payment Portal',payT:'Pay by bKash, Nagad, Rocket, Upay or Bank',payP:'See our payment numbers, pay, then submit your TrxID. We verify and approve it.',payBtn:'Open Payment Portal',payQ1:'Payment methods',payQ2:'Submit TrxID',payQ3:'Verify my payment',svcH1:'Service',svcH2:'Details',svcH3:'Action',shopChip:'New \u00b7 Online Shop',shopT:'Shop Online with Roza',shopP:'Browse gifts, electrical items and more right from your phone. Your records here stay saved, so you can come back any time.',shopBtn:'Visit Our Shop',annT:'Our online shop is now open',annGo:'Visit',custBtn:'Customer register',
         tAll:'All',tDue:'Due',tPartial:'Partial paid',tPaid:'Paid',tHidden:'Hidden due',
         ctaT:'Everything for the shop, in one place',ctaP:'Add customers, create invoices and keep backups from this page. The customer register has its own page.',
         addC:'Add customer',newInv:'Create invoice',backup:'Backup / Restore',allInv:'All invoices',dark:'Dark',sysTools:'System tools',
@@ -9899,7 +9898,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
         hide:'Hide',show:'Show',edit:'Edit',del:'Delete',stPub:'Published',stHid:'Hidden',saved:'Notice saved and published.',needTitle:'Enter a notice title.',
         saveFail:'Could not save to the cloud. It is kept on this device only.',admLogin:'Log in first to publish notices.',confirmDel:'Delete this notice?',admNone:'No notices yet.',
         pNotice:'NOTICE',pDate:'Date',pSign:'Authorized Signature',pPage:'Page',pvTitle:'Latest notices',pvAll:'All notices',dueTitle:'Check your due balance',dueHelp:'Enter the mobile number you gave to the shop.',dueBtn:'Check',duePh:'01XXXXXXXXX',dueBad:'Enter a valid mobile number (01XXXXXXXXX).',dueNone:'No due record found for this number. Please contact the shop.',dueClear:'No due. Thank you!',dueAmt:'Current due',dueName:'Name',dueAddr:'Address',dueUpd:'Updated',dueWait:'Too many tries. Please wait a minute.',dueErr:'Could not check right now. Please try again later.',dueCall:'Shop phone',fabAdd:'New customer',fabInv:'New invoice',fabPay:'Receive payment',payTitle:'Receive payment: choose a customer',paySearch:'Search by name or phone',payNone:'No customers found.',dueAdmH:'Public due lookup',dueAdmNote:'Fully automatic: every change to a customer (due, payment, source, address) is published within seconds while a staff device is open. Customers can check their due by phone number on the home page. They see the customer\'s full name, address and the due amount. Anyone who knows a phone number can look it up.',dueAuto:'Auto-update while I am logged in (this device)',duePub:'Publish / update now',dueRem:'Remove all public due data',dueDone:'Done. Published records:',dueRemoved:'All public due records removed.',dueRules:'Firestore rules to add (once)',dueRulesFail:'Permission denied. Add the Firestore rules shown below, then try again.',dueNoData:'No customer data is loaded yet.',pubNoRule:'Saved. The public copy needs the Firestore rules shown in the due section below.'},
-    bn:{notices:'নোটিশ',welcome:'রোজা গিফট কর্নার অ্যান্ড ইলেকট্রিকে স্বাগতম',menu:'মেনু',custNav:'কাস্টমার',waNav:'হোয়াটসঅ্যাপ',noticeNav:'নোটিশ',shopNav:'অনলাইন শপ',shopTop:'অনলাইন শপ',payNav:'পেমেন্ট',payTop:'পেমেন্ট',payChip:'পেমেন্ট পোর্টাল',payT:'বিকাশ, নগদ, রকেট, উপায় বা ব্যাংকে পেমেন্ট করুন',payP:'আমাদের পেমেন্ট নম্বর দেখুন, টাকা পাঠান, তারপর TrxID জমা দিন। আমরা যাচাই করে অ্যাপ্রুভ করব।',payBtn:'পেমেন্ট পোর্টাল খুলুন',payQ1:'পেমেন্ট মেথড',payQ2:'TrxID জমা দিন',payQ3:'পেমেন্ট যাচাই দেখুন',svcH1:'সেবা',svcH2:'বিস্তারিত',svcH3:'অ্যাকশন',shopChip:'নতুন · অনলাইন শপ',shopT:'ঘরে বসেই কিনুন, রোজা গিফট কর্নারে',shopP:'গিফট, ইলেকট্রিক ও আরও অনেক পণ্য এখন মোবাইলেই দেখুন। এখানকার রেকর্ড সংরক্ষিত থাকবে, যেকোনো সময় ফিরে আসতে পারবেন।',shopBtn:'শপ দেখুন',annT:'আমাদের অনলাইন শপ এখন চালু',annGo:'দেখুন',custBtn:'কাস্টমার রেজিস্টার',
+    bn:{notices:'নোটিশ',welcome:'রোজা গিফট কর্নার অ্যান্ড ইলেকট্রিকে স্বাগতম',menu:'মেনু',custNav:'কাস্টমার',waNav:'হোয়াটসঅ্যাপ',noticeNav:'নোটিশ',shopNav:'অনলাইন শপ',shopTop:'অনলাইন শপ',servNav:'সেবা',payNav:'পেমেন্ট',payChip:'পেমেন্ট পোর্টাল',payT:'বিকাশ, নগদ, রকেট, উপায় বা ব্যাংকে পেমেন্ট করুন',payP:'আমাদের পেমেন্ট নম্বর দেখুন, টাকা পাঠান, তারপর TrxID জমা দিন। আমরা যাচাই করে অ্যাপ্রুভ করব।',payBtn:'পেমেন্ট পোর্টাল খুলুন',payQ1:'পেমেন্ট মেথড',payQ2:'TrxID জমা দিন',payQ3:'পেমেন্ট যাচাই দেখুন',svcH1:'সেবা',svcH2:'বিস্তারিত',svcH3:'অ্যাকশন',shopChip:'নতুন · অনলাইন শপ',shopT:'ঘরে বসেই কিনুন, রোজা গিফট কর্নারে',shopP:'গিফট, ইলেকট্রিক ও আরও অনেক পণ্য এখন মোবাইলেই দেখুন। এখানকার রেকর্ড সংরক্ষিত থাকবে, যেকোনো সময় ফিরে আসতে পারবেন।',shopBtn:'শপ দেখুন',annT:'আমাদের অনলাইন শপ এখন চালু',annGo:'দেখুন',custBtn:'কাস্টমার রেজিস্টার',
         tAll:'সব',tDue:'বাকি',tPartial:'আংশিক পরিশোধ',tPaid:'পরিশোধিত',tHidden:'গোপন বাকি',
         ctaT:'দোকানের সব হিসাব, এক জায়গায়',ctaP:'এই পেজ থেকে কাস্টমার যোগ, ইনভয়েস তৈরি ও ব্যাকআপ করুন। কাস্টমার রেজিস্টারের আলাদা পেজ আছে।',
         addC:'কাস্টমার যোগ',newInv:'ইনভয়েস তৈরি',backup:'ব্যাকআপ / রিস্টোর',allInv:'সব ইনভয়েস',dark:'ডার্ক',sysTools:'সিস্টেম টুলস',
@@ -9938,20 +9937,21 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   /* ================= header menu: every item presses the real button ================= */
   function closeMenus(){ $$('.dcu-nav-item.open').forEach(function(i){i.classList.remove('open');}); }
   function syncMenuBtn(){ var b=$('#dcuMenuBtn'),n=$('#dcuNav'); if(b&&n) b.setAttribute('aria-expanded',n.classList.contains('open')?'true':'false'); }
-  function plainItem(key,fn){
-    var it=D.createElement('div'); it.className='dcu-nav-item';
-    var b=D.createElement('button'); b.type='button'; b.className='dcu-nav-btn plain'; b.setAttribute('data-dcu',key); b.textContent=tt(key);
-    b.addEventListener('click',function(){ closeMenus(); var n=$('#dcuNav'); if(n) n.classList.remove('open'); syncMenuBtn(); fn(); });
-    it.appendChild(b); return it;
-  }
   function buildNav(){
     var nav=$('#dcuNav'); if(!nav) return;
     var open=nav.classList.contains('open'); nav.innerHTML='';
-    nav.appendChild(plainItem('custNav',function(){ go('customers'); }));
-    nav.appendChild(plainItem('waNav',function(){ go('whatsapp'); }));
-    nav.appendChild(plainItem('noticeNav',function(){ openBoard(); }));
-    nav.appendChild(plainItem('payNav',function(){ if(window.__rzPayOpen) window.__rzPayOpen(); }));
-    nav.appendChild(plainItem('shopNav',function(){ if(window.__rzGoShop) window.__rzGoShop(); }));
+    (function(){
+      var item=D.createElement('div'); item.className='dcu-nav-item dcu-svc';
+      var b=D.createElement('button'); b.type='button'; b.className='dcu-nav-btn'; b.setAttribute('aria-haspopup','true'); b.setAttribute('data-dcu','servNav'); b.textContent=tt('servNav');
+      var menu=D.createElement('div'); menu.className='dcu-menu';
+      [['custNav','fa-users',function(){ go('customers'); }],['waNav','fa-brands fa-whatsapp',function(){ go('whatsapp'); }],['noticeNav','fa-bell',function(){ openBoard(); }],['payNav','fa-wallet',function(){ if(window.__rzPayOpen) window.__rzPayOpen(); }]].forEach(function(r){
+        var mb=D.createElement('button'); mb.type='button'; mb.innerHTML='<i class="fas '+r[1]+'" aria-hidden="true"></i><span data-dcu="'+r[0]+'"></span>'; $('span',mb).textContent=tt(r[0]);
+        mb.addEventListener('click',function(){ closeMenus(); nav.classList.remove('open'); syncMenuBtn(); r[2](); });
+        menu.appendChild(mb);
+      });
+      b.addEventListener('click',function(e){ e.stopPropagation(); var was=item.classList.contains('open'); closeMenus(); if(!was) item.classList.add('open'); });
+      item.appendChild(b); item.appendChild(menu); nav.appendChild(item);
+    })();
     $$('.sidebar-group').forEach(function(g){
       var tEl=$('.sidebar-section-title',g), dash=$('.sidebar-item[data-action="dashboard"] .sidebar-label');
       var label=tEl?tEl.textContent.trim():(dash?dash.textContent.trim():'Dashboard');
@@ -11109,6 +11109,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   }
   function hasRes(p) { return !!(p.showResults && p.pubCounts); }
   /* console helper: console.table(__rzPollDebug()) shows why a poll is listed the way it is */
+  window.__rzPollsClose = function () { if (ov) close(); };
   window.__rzPollDebug = function () { return (state.polls || []).map(function (p) { return { id: p.id, title: p.title, status: p.status, shownAs: eff(p), startAt: p.startAt, endAt: p.endAt, options: (p.options || []).length, showResults: !!p.showResults, hasPublishedCounts: !!p.pubCounts }; }); };
 
   /* ---- overlay ---- */
@@ -11733,23 +11734,37 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     var hub = $('rgceHub'); ov.hidden = true; ov.innerHTML = ''; ov = null; if (hub) hub.classList.remove('rzpay-open');
     try { window.scrollTo(0, 0); } catch (e) {}
   }
+  var ON = !!(window.history && history.pushState) && /^https?:$/.test(location.protocol);
+  var BASE = (typeof window.__APP_BASE === 'string' && window.__APP_BASE) ? window.__APP_BASE : '/';
+  function isPayPath() {
+    var p = location.pathname || '/';
+    if (p.indexOf(BASE) === 0) p = p.slice(BASE.length); else p = p.replace(/^\/+/, '');
+    return /^payment\/?$/.test(p);
+  }
   function open(sec) {
     S.go = typeof sec === 'string' ? sec : '';
-    if (document.documentElement.getAttribute('data-dcu-view') && window.__rgceGoView) { try { window.__rgceGoView(''); } catch (e) {} }
+    if (window.__rzPollsClose) { try { window.__rzPollsClose(); } catch (e) {} }
+    if (window.__rgceGoView) { try { window.__rgceGoView(''); } catch (e) {} }
     mount();
-    if (location.hash !== '#payment') { try { history.pushState({ rzpay: 1 }, '', location.pathname + location.search + '#payment'); } catch (e) {} }
+    if (ON && !isPayPath()) { try { history.pushState({ rzpay: 1 }, '', BASE + 'payment'); } catch (e) {} }
   }
   function close() {
     if (!ov) return; closeDom();
-    if (location.hash === '#payment') { if (history.state && history.state.rzpay) { try { history.back(); return; } catch (e) {} } try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} }
+    if (ON && isPayPath()) { if (history.state && history.state.rzpay) { try { history.back(); return; } catch (e) {} } try { history.replaceState(null, '', BASE); } catch (e) {} }
   }
   window.__rzPayOpen = function () { open(); };
-  function sync() { if (location.hash === '#payment') { if (!ov) mount(); } else if (ov) closeDom(); }
-  window.addEventListener('hashchange', sync); window.addEventListener('popstate', sync);
+  function sync() { if (isPayPath()) { if (!ov) mount(); } else if (ov) closeDom(); }
+  window.addEventListener('popstate', sync);
   document.addEventListener('click', function (e) {
     var a = e.target && e.target.closest ? e.target.closest('#rzpGoPay,[data-pay-go]') : null;
     if (a) { e.preventDefault(); open(a.getAttribute('data-pay-go') || ''); }
   });
+  document.addEventListener('click', function (e) {
+    if (!(e.target && e.target.closest && e.target.closest('.dcu-brand'))) return;
+    if (window.__rzPollsClose) { try { window.__rzPollsClose(); } catch (x) {} }
+    if (ov) { closeDom(); if (ON && isPayPath()) { try { history.replaceState(null, '', BASE); } catch (x) {} } }
+    try { window.scrollTo(0, 0); } catch (x) {}
+  }, true);
   try { new MutationObserver(function () { if (ov) draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] }); } catch (e) {}
   window.addEventListener('storage', function (e) { if (e.key === 'rgce_lang' && ov) draw(); });
   css();
