@@ -2598,7 +2598,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       fail: 'কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।', created: 'অ্যাকাউন্ট খোলা হয়েছে। স্বাগতম!',
       hi: 'স্বাগতম, {n}', lblName: 'নাম', lblPhone: 'ফোন', chg: 'পিন পরিবর্তন', cur: 'বর্তমান পিন', nw: 'নতুন পিন',
       save: 'নতুন পিন সংরক্ষণ', ok: 'পিন পরিবর্তন হয়েছে।', part: 'পিন পরিবর্তন হয়েছে, কিন্তু দোকানের কপি আপডেট হয়নি। অনুগ্রহ করে একবার আবার সাইন ইন করুন।',
-      rep: 'নতুন পিন আবার লিখুন', mism: 'পিন দুটি মিলছে না।', verify: 'যাচাই করুন', cancel: 'বাতিল', contact: 'দোকানের সাথে যোগাযোগ', call: 'কল করুন', wa: 'হোয়াটসঅ্যাপ', wrongCur: 'বর্তমান পিন ভুল।', same: 'নতুন পিন আলাদা হতে হবে।', out: 'সাইন আউট', close: 'বন্ধ করুন', wait: 'অপেক্ষা করুন...'
+      rep: 'নতুন পিন আবার লিখুন', mism: 'পিন দুটি মিলছে না।', verify: 'যাচাই করুন', cancel: 'বাতিল', contact: 'দোকানের সাথে যোগাযোগ', call: 'কল', wa: 'হোয়াটসঅ্যাপ', wrongCur: 'বর্তমান পিন ভুল।', same: 'নতুন পিন আলাদা হতে হবে।', out: 'সাইন আউট', close: 'বন্ধ করুন', wait: 'অপেক্ষা করুন...'
     }
   };
   function lang() { try { return localStorage.getItem('rgce_lang') === 'bn' ? 'bn' : 'en'; } catch (e) { return 'en'; } }
@@ -2655,9 +2655,9 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
             + '<button class="auth-btn primary" type="submit"' + (S.busy ? ' disabled' : '') + '>' + esc(S.busy ? t('wait') : t('save')) + '</button></form><div class="cust-foot" style="margin:0 0 14px"><button type="button" class="cust-link" data-pin="cancel">' + esc(t('cancel')) + '</button></div>';
           return '<button class="auth-btn secondary" type="button" data-pin="start" style="margin-bottom:18px">' + esc(t('chg')) + '</button>';
         })()
-        + '<h3>' + esc(t('contact')) + '</h3><div class="cust-note" style="margin:-4px 0 12px">' + esc(SUPPORT_PHONE) + '</div>'
-        + '<a class="auth-btn primary" style="text-decoration:none" href="tel:' + esc(SUPPORT_PHONE) + '">' + esc(t('call')) + '</a>'
-        + '<a class="auth-btn secondary" style="text-decoration:none;margin-top:10px" target="_blank" rel="noopener" href="https://wa.me/88' + esc(SUPPORT_PHONE) + '">' + esc(t('wa')) + '</a>'
+        + '<h3>' + esc(t('contact')) + '</h3><div style="font-size:14px;line-height:1.9;margin:0 0 18px">'
+        + esc(t('call')) + ': <a href="tel:' + esc(SUPPORT_PHONE) + '">' + esc(SUPPORT_PHONE) + '</a><br>'
+        + esc(t('wa')) + ': <a href="https://wa.me/88' + esc(SUPPORT_PHONE) + '" target="_blank" rel="noopener">' + esc(SUPPORT_PHONE) + '</a></div>'
         + '<button class="auth-btn secondary" type="button" id="custOut" style="margin-top:10px">' + esc(t('out')) + '</button>';
     } else {
       var up = S.mode === 'up';
