@@ -1653,6 +1653,132 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
 #modalOverlay.open,#fbmOverlay.open,#rgceSafePanel{min-height:calc(100vh - 150px);cursor:default}
 #rgceSafePanel{align-items:flex-start}
 </style>
+<style id="rgce-customer-css">
+#custOverlay{
+      position: fixed; inset: 0; background: #ffffff; z-index: 99999;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px; font-family: inherit; overflow-y: auto;
+      transition: background 0.15s ease;
+    }
+body.dark-mode #custOverlay{ background: #14181f; }
+#custOverlay .auth-container{ width: 100%; max-width: 440px; display: flex; flex-direction: column; align-items: center; margin: auto; }
+#custOverlay .auth-brand{ display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+#custOverlay .auth-brand-mark{
+      width: 44px; height: 44px; background: #1f4e79; color: #ffffff;
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 20px; box-shadow: 0 4px 12px rgba(31, 78, 121, 0.18);
+    }
+body.dark-mode #custOverlay .auth-brand-mark{ background: #4a90c4; box-shadow: 0 4px 12px rgba(74, 144, 196, 0.25); }
+#custOverlay .auth-brand-text{ display: flex; flex-direction: column; line-height: 1.1; }
+#custOverlay .auth-brand-name{ font-size: 18px; font-weight: 700; color: #1f2328; letter-spacing: -0.3px; }
+body.dark-mode #custOverlay .auth-brand-name{ color: #e6edf3; }
+#custOverlay .auth-brand-tag{ font-size: 12px; color: #6e7781; font-weight: 500; margin-top: 2px; }
+body.dark-mode #custOverlay .auth-brand-tag{ color: #9ca7b3; }
+#custOverlay .auth-card{
+      width: 100%; background: #ffffff; border: 1px solid #e5e7eb;
+      border-radius: 12px; padding: 36px 32px 28px;
+      box-shadow: 0 1px 3px rgba(31, 35, 40, 0.04), 0 8px 24px rgba(31, 35, 40, 0.06);
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+body.dark-mode #custOverlay .auth-card{ background: #1a1e26; border-color: #2b3038; box-shadow: 0 1px 3px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.5); }
+#custOverlay .auth-card h2{ font-size: 22px; font-weight: 700; color: #1f2328; letter-spacing: -0.3px; margin: 0 0 6px 0; text-align: left; }
+body.dark-mode #custOverlay .auth-card h2{ color: #e6edf3; }
+#custOverlay .auth-sub{ font-size: 14px; color: #6e7781; margin: 0 0 28px 0; text-align: left; line-height: 1.5; }
+body.dark-mode #custOverlay .auth-sub{ color: #9ca7b3; }
+#custOverlay .form-group{ margin-bottom: 18px; display: flex; flex-direction: column; gap: 6px; }
+#custOverlay label{ display: block; font-size: 13px; font-weight: 600; color: #1f2328; letter-spacing: 0; text-transform: none; margin: 0; }
+body.dark-mode #custOverlay label{ color: #e6edf3; }
+#custOverlay input{
+      width: 100%; padding: 11px 14px; border: 1px solid #d0d7de; border-radius: 8px;
+      font-size: 14px; background: #ffffff; color: #1f2328; outline: none;
+      font-family: inherit; transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+#custOverlay input::placeholder{ color: #8c959f; }
+#custOverlay input:hover{ border-color: #9ca3af; }
+#custOverlay input:focus{ border-color: #1f4e79; box-shadow: 0 0 0 3px rgba(31, 78, 121, 0.12); }
+body.dark-mode #custOverlay input{ background: #14181f; border-color: #2b3038; color: #e6edf3; }
+body.dark-mode #custOverlay input::placeholder{ color: #6e7781; }
+body.dark-mode #custOverlay input:hover{ border-color: #434a54; }
+body.dark-mode #custOverlay input:focus{ border-color: #7cb8e8; box-shadow: 0 0 0 3px rgba(124, 184, 232, 0.15); }
+#custOverlay .auth-btn{
+      width: 100%; padding: 12px 16px; font-size: 14px; font-weight: 600;
+      border-radius: 8px; border: 1px solid transparent; cursor: pointer;
+      font-family: inherit; margin-bottom: 10px;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+#custOverlay .auth-btn.primary{ background: #1f4e79; color: #ffffff; border-color: #1f4e79; }
+#custOverlay .auth-btn.primary:hover{ background: #163d5e; border-color: #163d5e; }
+#custOverlay .auth-btn.primary:disabled{ opacity: 0.6; cursor: not-allowed; }
+body.dark-mode #custOverlay .auth-btn.primary{ background: #4a90c4; border-color: #4a90c4; color: #ffffff; }
+body.dark-mode #custOverlay .auth-btn.primary:hover{ background: #5da1d4; border-color: #5da1d4; }
+#custOverlay .auth-btn.secondary{ background: #ffffff; color: #1f2328; border-color: #d0d7de; margin-bottom: 0; }
+#custOverlay .auth-btn.secondary:hover{ background: #f6f8fa; border-color: #9ca3af; }
+body.dark-mode #custOverlay .auth-btn.secondary{ background: #20252d; color: #e6edf3; border-color: #2b3038; }
+body.dark-mode #custOverlay .auth-btn.secondary:hover{ background: #2a2f38; border-color: #434a54; }
+#custOverlay .auth-btn i{ font-size: 13px; margin: 0; }
+#custMsg{ margin-top: 16px; font-size: 13px; text-align: center; min-height: 18px; color: #6e7781; line-height: 1.5; }
+body.dark-mode #custMsg{ color: #9ca7b3; }
+#custMsg.error{ color: #cf222e; background: #ffebe9; border: 1px solid #ffcecb; padding: 10px 12px; border-radius: 6px; margin-top: 14px; }
+body.dark-mode #custMsg.error{ color: #e57373; background: #2e1c1d; border-color: #4a2a2b; }
+#custMsg.success{ color: #1a7f37; background: #dafbe1; border: 1px solid #b6f0c2; padding: 10px 12px; border-radius: 6px; margin-top: 14px; }
+body.dark-mode #custMsg.success{ color: #5cb87a; background: #17271e; border-color: #234a32; }
+#custOverlay .auth-divider{
+      display: flex; align-items: center; gap: 12px; margin: 20px 0 16px;
+      color: #8c959f; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+#custOverlay .auth-divider::before, #custOverlay .auth-divider::after{ content: ''; flex: 1; height: 1px; background: #e5e7eb; }
+body.dark-mode #custOverlay .auth-divider{ color: #6e7781; }
+body.dark-mode #custOverlay .auth-divider::before, body.dark-mode #custOverlay .auth-divider::after{ background: #2b3038; }
+#custOverlay .auth-copyright{ margin-top: 24px; font-size: 12px; color: #8c959f; text-align: center; line-height: 1.6; }
+#custOverlay .auth-copyright a{ color: #1f4e79; font-weight: 600; text-decoration: none; }
+#custOverlay .auth-copyright a:hover{ text-decoration: underline; }
+body.dark-mode #custOverlay .auth-copyright{ color: #9ca7b3; }
+body.dark-mode #custOverlay .auth-copyright a{ color: #7cb8e8; }
+@media (max-width: 520px) {#custOverlay{ padding: 16px; }}
+@media (max-width: 520px) {#custOverlay .auth-card{ padding: 28px 22px 22px; }}
+@media (max-width: 520px) {#custOverlay .auth-card h2{ font-size: 20px; }}
+@media (max-width: 520px) {#custOverlay .auth-brand{ margin-bottom: 22px; }}
+#custOverlay .auth-close{ position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border: 0; border-radius: 50%; background: transparent; color: var(--muted, #6b7280); font-size: 15px; cursor: pointer; }
+#custOverlay .auth-close:hover{ background: rgba(122,26,26,.12); color: #7a1a1a; }
+#custOverlay .auth-brand-mark.rgce-logo{width:48px;height:48px;font-size:13px}
+html:not(.rz-logo-fail) #custOverlay .auth-brand{flex-direction:column;align-items:center;text-align:center;gap:12px}
+html:not(.rz-logo-fail) #custOverlay .auth-brand-text{align-items:center}
+#custOverlay .rz-auth{height:76px;border-radius:14px}
+
+#custOverlay{display:none}
+#custOverlay .cust-tabs{display:flex;gap:6px;margin:0 0 20px;padding:4px;background:#f0f2f5;border-radius:10px}
+body.dark-mode #custOverlay .cust-tabs{background:#14181f}
+#custOverlay .cust-tabs button{flex:1;padding:9px 10px;border:0;border-radius:8px;background:transparent;font:600 14px inherit;font-family:inherit;color:#6e7781;cursor:pointer}
+#custOverlay .cust-tabs button.on{background:#fff;color:#1f4e79;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+body.dark-mode #custOverlay .cust-tabs button.on{background:#2a2f38;color:#7cb8e8}
+#custOverlay .cust-pinrow{position:relative}
+#custOverlay .cust-pinrow input{padding-right:70px}
+#custOverlay .cust-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#1f4e79;font:600 13px inherit;font-family:inherit;cursor:pointer;padding:6px 8px}
+body.dark-mode #custOverlay .cust-eye{color:#7cb8e8}
+#custOverlay .cust-link{background:none;border:0;color:#1f4e79;font:600 13px inherit;font-family:inherit;cursor:pointer;padding:6px;text-decoration:underline}
+body.dark-mode #custOverlay .cust-link{color:#7cb8e8}
+#custOverlay .cust-note{font-size:12.5px;color:#6e7781;line-height:1.5;margin:-6px 0 14px}
+body.dark-mode #custOverlay .cust-note{color:#9ca7b3}
+#custOverlay .cust-me{border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;margin-bottom:18px;line-height:1.7;font-size:14px;color:#1f2328}
+body.dark-mode #custOverlay .cust-me{border-color:#2b3038;color:#e6edf3}
+#custOverlay .cust-me b{display:inline-block;min-width:64px;color:#6e7781;font-weight:600}
+#custOverlay h3{font-size:16px;margin:0 0 12px;color:#1f2328}
+body.dark-mode #custOverlay h3{color:#e6edf3}
+#custOverlay .cust-foot{text-align:center;margin-top:14px}
+body.is-authed .top-cust, html.rgce-hint-authed .top-cust{display:none !important}
+
+/* ---- owner login is hidden from customers; admin controls appear only after owner login ---- */
+.top-login{display:none !important}
+html:not(.rgce-hint-authed) body:not(.is-authed) #addCustomerTopBtn,
+html:not(.rgce-hint-authed) body:not(.is-authed) #refreshFromCloudBtn,
+html:not(.rgce-hint-authed) body:not(.is-authed) #lastSyncTop,
+html:not(.rgce-hint-authed) body:not(.is-authed) #forceCloudSyncBtn,
+html:not(.rgce-hint-authed) body:not(.is-authed) #downloadBackupTop,
+html:not(.rgce-hint-authed) body:not(.is-authed) .telegram-status-box,
+html:not(.rgce-hint-authed) body:not(.is-authed) .dcu-nav-item:not(.dcu-svc),
+html:not(.rgce-hint-authed) body:not(.is-authed) .dcu-svc .dcu-menu button:nth-child(-n+2){display:none !important}
+</style>
 </head>
 <body>
 <div id="rgceSplash" aria-live="polite">
@@ -1679,6 +1805,8 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
   <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
 </svg>
 
+
+  <div id="custOverlay" data-no-bn style="display:none" role="dialog" aria-modal="true"></div>
 
   <div id="authOverlay" style="display:none">
     <div class="auth-container">
@@ -1712,6 +1840,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
           <i class="fas fa-key"></i> Forgot password?
         </button>
         <div id="authMsg"></div>
+        <div class="cust-foot" style="text-align:center;margin-top:14px"><button type="button" id="authCustLink" style="background:none;border:0;cursor:pointer;color:#1f4e79;font-weight:600;font-size:13px;text-decoration:underline;font-family:inherit">Customer? Create account / sign in</button></div>
       </div>
       <div class="auth-copyright">
         © <span id="authYear">2026</span> Roza Gift Corner &amp; Electric
@@ -1750,6 +1879,7 @@ body.dark-mode #rgceHub .rzp-hero{color:#ffd27a}
         <a class="hdr-pill" id="rzTopShop" href="https://farhanshiyam.github.io/shop/" title="Our online shop" data-no-bn><i class="fas fa-store" aria-hidden="true"></i><span data-dcu="shopTop">Online Shop</span></a>
         <button type="button" class="hdr-pill hdr-pill-solid top-add" id="addCustomerTopBtn" title="Add customer" aria-label="Add customer" aria-expanded="false"><i class="fas fa-user-plus" aria-hidden="true"></i><span>Add Customer</span></button>
         <button type="button" class="hdr-pill hdr-pill-solid top-login" id="headerLoginBtn" data-open-login title="Login" aria-label="Login"><i class="fas fa-right-to-bracket" aria-hidden="true"></i><span>Login</span></button>
+        <button type="button" class="hdr-pill hdr-pill-outline top-cust" id="custHeaderBtn" data-no-bn title="Customer account" aria-label="Customer account"><i class="fas fa-user" aria-hidden="true"></i><span id="custHeaderTxt">Customer</span></button>
         <button type="button" class="hdr-pill hdr-pill-outline top-logout" id="logoutBtn" title="Logout" aria-label="Logout"><i class="fas fa-right-from-bracket" aria-hidden="true"></i><span>Logout</span></button>
       </div>
     </div>
@@ -2424,10 +2554,245 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
   <div class="print-area" id="printArea"></div>
   <div id="printMeasure" aria-hidden="true"></div>
 
+  <script id="rgce-customer-js">
+/* ===== Customer accounts: create account / sign in with phone + 6-digit PIN =====
+   - Firebase Auth user = c<phone>@rgce-customer.invalid with the PIN as password.
+   - A copy {name, phone, pin} is saved in Firestore customer_accounts/<uid> so the shop (Admin panel > Customer accounts)
+     can help when a customer forgets the PIN. Publish the rules shown in the Admin panel first. */
+(function () {
+  'use strict';
+  var SUFFIX = '@rgce-customer.invalid';
+  var COL = 'customer_accounts';
+  var SUPPORT_PHONE = '+8801340561000';          /* shown under "Forgot PIN?" */
+  var S = { user: null, busy: false, mode: 'in', msg: '', type: '', show: false };
+  var TX = {
+    en: {
+      btn: 'Customer', btnMe: 'My Account', tag: 'Roza Gift Corner & Electric', title: 'Customer account',
+      sub: 'Sign in with your phone number and 6-digit PIN, or create a new account in a few seconds.',
+      tabIn: 'Sign in', tabUp: 'Create account', name: 'Your name', phone: 'Phone number', pin: '6-digit PIN',
+      show: 'Show', hide: 'Hide', btnIn: 'Sign in', btnUp: 'Create account', forgot: 'Forgot PIN?',
+      forgotMsg: 'Please contact Roza Gift Corner & Electric - we will help you get back in. Phone: {p}',
+      keep: 'Keep your PIN safe. If you forget it, the shop can help you.', owner: 'Shop owner? Owner login',
+      badName: 'Please enter your name.', badPhone: 'Enter a valid mobile number (like 01712345678).',
+      badPin: 'PIN must be exactly 6 digits.', exists: 'This phone number already has an account. Please sign in.',
+      wrong: 'Wrong phone number or PIN.', many: 'Too many attempts. Please wait a few minutes.',
+      net: 'Network error. Check your internet.', off: 'Customer sign-up is not switched on yet. Please contact the shop.',
+      saveFail: 'Could not create the account right now. Please try again, or contact the shop.',
+      fail: 'Something went wrong. Please try again.', created: 'Account created. Welcome!',
+      hi: 'Welcome, {n}', lblName: 'Name', lblPhone: 'Phone', chg: 'Change PIN', cur: 'Current PIN', nw: 'New PIN',
+      save: 'Save new PIN', ok: 'PIN changed.', part: 'PIN changed, but the shop copy could not be updated. Please sign in again once.',
+      wrongCur: 'Current PIN is wrong.', same: 'New PIN must be different.', out: 'Sign out', close: 'Close', wait: 'Please wait...'
+    },
+    bn: {
+      btn: 'কাস্টমার', btnMe: 'আমার অ্যাকাউন্ট', tag: 'রোজা গিফট কর্নার অ্যান্ড ইলেকট্রিক', title: 'কাস্টমার অ্যাকাউন্ট',
+      sub: 'ফোন নম্বর ও ৬ সংখ্যার পিন দিয়ে সাইন ইন করুন, অথবা কয়েক সেকেন্ডে নতুন অ্যাকাউন্ট খুলুন।',
+      tabIn: 'সাইন ইন', tabUp: 'অ্যাকাউন্ট খুলুন', name: 'আপনার নাম', phone: 'ফোন নম্বর', pin: '৬ সংখ্যার পিন',
+      show: 'দেখান', hide: 'লুকান', btnIn: 'সাইন ইন', btnUp: 'অ্যাকাউন্ট খুলুন', forgot: 'পিন ভুলে গেছেন?',
+      forgotMsg: 'অনুগ্রহ করে রোজা গিফট কর্নার অ্যান্ড ইলেকট্রিকে যোগাযোগ করুন - আমরা সাহায্য করব। ফোন: {p}',
+      keep: 'আপনার পিন নিরাপদে রাখুন। ভুলে গেলে দোকান আপনাকে সাহায্য করবে।', owner: 'দোকানের মালিক? মালিকের লগইন',
+      badName: 'অনুগ্রহ করে আপনার নাম লিখুন।', badPhone: 'সঠিক মোবাইল নম্বর দিন (যেমন 01712345678)।',
+      badPin: 'পিন অবশ্যই ৬ সংখ্যার হতে হবে।', exists: 'এই ফোন নম্বরে আগেই অ্যাকাউন্ট আছে। অনুগ্রহ করে সাইন ইন করুন।',
+      wrong: 'ফোন নম্বর বা পিন ভুল।', many: 'অনেকবার চেষ্টা হয়েছে। কয়েক মিনিট অপেক্ষা করুন।',
+      net: 'নেটওয়ার্ক সমস্যা। ইন্টারনেট চেক করুন।', off: 'কাস্টমার সাইন-আপ এখনো চালু হয়নি। দোকানের সাথে যোগাযোগ করুন।',
+      saveFail: 'এখন অ্যাকাউন্ট খোলা যায়নি। আবার চেষ্টা করুন বা দোকানে যোগাযোগ করুন।',
+      fail: 'কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।', created: 'অ্যাকাউন্ট খোলা হয়েছে। স্বাগতম!',
+      hi: 'স্বাগতম, {n}', lblName: 'নাম', lblPhone: 'ফোন', chg: 'পিন পরিবর্তন', cur: 'বর্তমান পিন', nw: 'নতুন পিন',
+      save: 'নতুন পিন সংরক্ষণ', ok: 'পিন পরিবর্তন হয়েছে।', part: 'পিন পরিবর্তন হয়েছে, কিন্তু দোকানের কপি আপডেট হয়নি। অনুগ্রহ করে একবার আবার সাইন ইন করুন।',
+      wrongCur: 'বর্তমান পিন ভুল।', same: 'নতুন পিন আলাদা হতে হবে।', out: 'সাইন আউট', close: 'বন্ধ করুন', wait: 'অপেক্ষা করুন...'
+    }
+  };
+  function lang() { try { return localStorage.getItem('rgce_lang') === 'bn' ? 'bn' : 'en'; } catch (e) { return 'en'; } }
+  function t(k) { var L = TX[lang()]; return (L && L[k]) || TX.en[k] || k; }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function digits(v) { return String(v || '').replace(/[\u09E6-\u09EF]/g, function (c) { return String(c.charCodeAt(0) - 0x09E6); }).replace(/\D/g, ''); }
+  function normPhone(v) { var d = digits(v); if (d.indexOf('880') === 0 && d.length === 13) d = '0' + d.slice(3); return /^01[0-9]{9}$/.test(d) ? d : ''; }
+  function emailOf(p) { return 'c' + p + SUFFIX; }
+  function isCust(u) { return !!(u && u.email && String(u.email).toLowerCase().slice(-SUFFIX.length) === SUFFIX); }
+  function phoneOf(u) { return String(u.email || '').split('@')[0].slice(1); }
+  function withTimeout(p, ms) { return Promise.race([p, new Promise(function (_, rej) { setTimeout(function () { rej({ code: 'timeout' }); }, ms); })]); }
+  function $(id) { return document.getElementById(id); }
+  function ov() { return $('custOverlay'); }
+  function isOpen() { var o = ov(); return !!o && o.style.display !== 'none'; }
+
+  function errKey(e) {
+    var c = (e && e.code) || '';
+    if (c === 'auth/email-already-in-use') return 'exists';
+    if (c === 'auth/weak-password') return 'badPin';
+    if (c === 'auth/operation-not-allowed') return 'off';
+    if (c === 'auth/too-many-requests') return 'many';
+    if (c === 'auth/network-request-failed' || c === 'timeout') return 'net';
+    if (c === 'auth/invalid-credential' || c === 'auth/wrong-password' || c === 'auth/user-not-found' || c === 'auth/invalid-email') return 'wrong';
+    return 'fail';
+  }
+  function say(key, type, vars) {
+    var m = t(key); if (vars) for (var k in vars) m = m.replace('{' + k + '}', vars[k]);
+    S.msg = m; S.type = type || 'error';
+    var el = $('custMsg'); if (el) { el.textContent = m; el.className = S.type; }
+  }
+  function headerTxt() {
+    var b = $('custHeaderTxt'); if (b) b.textContent = S.user ? t('btnMe') : t('btn');
+  }
+
+  function render() {
+    var o = ov(); if (!o) return;
+    headerTxt();
+    var logo = '<img class="rz-img rz-auth" data-fc="auth-brand-mark rgce-logo" alt="Roza" src="' + esc(window.RZ_LOGO || '') + '" onerror="rzLogoFail(this)">';
+    var h = '<div class="auth-container"><div class="auth-brand">' + logo + '<div class="auth-brand-text"><div class="auth-brand-name">RGCE SparkDesk</div><div class="auth-brand-tag">' + esc(t('tag')) + '</div></div></div>'
+      + '<div class="auth-card"><button type="button" class="auth-close" id="custClose" aria-label="' + esc(t('close')) + '" title="' + esc(t('close')) + '">&times;</button>';
+    var eye = '<button type="button" class="cust-eye" data-eye>' + esc(S.show ? t('hide') : t('show')) + '</button>';
+    var pinAttr = 'type="' + (S.show ? 'text' : 'password') + '" inputmode="numeric" pattern="[0-9]*" maxlength="6"';
+    if (S.user) {
+      var u = S.user;
+      h += '<h2>' + esc(t('hi').replace('{n}', u.displayName || '')) + '</h2><p class="auth-sub">' + esc(t('title')) + '</p>'
+        + '<div class="cust-me"><div><b>' + esc(t('lblName')) + '</b>' + esc(u.displayName || '-') + '</div><div><b>' + esc(t('lblPhone')) + '</b>' + esc(phoneOf(u)) + '</div></div>'
+        + '<h3>' + esc(t('chg')) + '</h3><form id="custForm" autocomplete="off">'
+        + '<div class="form-group"><label for="cuCur">' + esc(t('cur')) + '</label><div class="cust-pinrow"><input id="cuCur" ' + pinAttr + ' autocomplete="current-password">' + eye + '</div></div>'
+        + '<div class="form-group"><label for="cuNew">' + esc(t('nw')) + '</label><input id="cuNew" ' + pinAttr + ' autocomplete="new-password"></div>'
+        + '<button class="auth-btn primary" type="submit"' + (S.busy ? ' disabled' : '') + '>' + esc(S.busy ? t('wait') : t('save')) + '</button></form>'
+        + '<button class="auth-btn secondary" type="button" id="custOut" style="margin-top:10px">' + esc(t('out')) + '</button>';
+    } else {
+      var up = S.mode === 'up';
+      h += '<h2>' + esc(t('title')) + '</h2><p class="auth-sub">' + esc(t('sub')) + '</p>'
+        + '<div class="cust-tabs"><button type="button" data-mode="in" class="' + (up ? '' : 'on') + '">' + esc(t('tabIn')) + '</button><button type="button" data-mode="up" class="' + (up ? 'on' : '') + '">' + esc(t('tabUp')) + '</button></div>'
+        + '<form id="custForm" autocomplete="on">'
+        + (up ? '<div class="form-group"><label for="cuName">' + esc(t('name')) + '</label><input id="cuName" type="text" maxlength="60" autocomplete="name"></div>' : '')
+        + '<div class="form-group"><label for="cuPhone">' + esc(t('phone')) + '</label><input id="cuPhone" type="tel" inputmode="tel" maxlength="16" placeholder="01XXXXXXXXX" autocomplete="username"></div>'
+        + '<div class="form-group"><label for="cuPin">' + esc(t('pin')) + '</label><div class="cust-pinrow"><input id="cuPin" ' + pinAttr + ' autocomplete="' + (up ? 'new-password' : 'current-password') + '">' + eye + '</div></div>'
+        + (up ? '<div class="cust-note">' + esc(t('keep')) + '</div>' : '')
+        + '<button class="auth-btn primary" type="submit"' + (S.busy ? ' disabled' : '') + '>' + esc(S.busy ? t('wait') : (up ? t('btnUp') : t('btnIn'))) + '</button></form>'
+        + (up ? '' : '<div class="cust-foot"><button type="button" class="cust-link" id="custForgot">' + esc(t('forgot')) + '</button></div>');
+    }
+    h += '<div id="custMsg" class="' + esc(S.type) + '">' + esc(S.msg) + '</div>'
+      + '</div></div>';
+    o.innerHTML = h;
+    var f = $('custForm'); if (f) f.addEventListener('submit', onSubmit);
+    ['cuPin', 'cuCur', 'cuNew'].forEach(function (id) { var e = $(id); if (e) e.addEventListener('input', function () { var v = digits(e.value).slice(0, 6); if (e.value !== v) e.value = v; }); });
+  }
+  function keepVals(fn) {
+    var ids = ['cuName', 'cuPhone', 'cuPin', 'cuCur', 'cuNew'], v = {};
+    ids.forEach(function (i) { var e = $(i); if (e) v[i] = e.value; });
+    fn();
+    ids.forEach(function (i) { var e = $(i); if (e && v[i] != null) e.value = v[i]; });
+  }
+  function open() { S.msg = ''; S.type = ''; render(); ov().style.display = 'flex'; var f = $('cuPhone') || $('cuCur'); if (f) setTimeout(function () { f.focus(); }, 120); }
+  function close() { var o = ov(); if (o) o.style.display = 'none'; }
+
+  function fbReady() { return window.FB && window.FB.auth; }
+
+  async function syncCopy(u, pin) {
+    try {
+      var F = window.FB, ref = F.doc(F.db, COL, u.uid), snap = await withTimeout(F.getDoc(ref), 12000);
+      if (!snap.exists()) {
+        await F.setDoc(ref, { uid: u.uid, name: u.displayName || '', phone: phoneOf(u), pin: pin, email: u.email, createdAt: F.serverTimestamp(), updatedAt: F.serverTimestamp() });
+      } else if ((snap.data() || {}).pin !== pin) {
+        await F.setDoc(ref, { pin: pin, updatedAt: F.serverTimestamp() }, { merge: true });
+      }
+    } catch (e) { console.warn('customer copy sync', e && e.code); }
+  }
+
+  async function signUp(name, phoneRaw, pin) {
+    var F = window.FB; name = String(name || '').replace(/\s+/g, ' ').trim();
+    var phone = normPhone(phoneRaw);
+    if (!name) return say('badName');
+    if (!phone) return say('badPhone');
+    if (!/^[0-9]{6}$/.test(pin)) return say('badPin');
+    S.busy = true; render(); fill({ cuName: name, cuPhone: phoneRaw, cuPin: pin });
+    var u;
+    try { u = (await withTimeout(F.createUserWithEmailAndPassword(F.auth, emailOf(phone), pin), 20000)).user; }
+    catch (e) { S.busy = false; render(); fill({ cuName: name, cuPhone: phoneRaw, cuPin: pin }); return say(errKey(e)); }
+    try { await F.updateProfile(u, { displayName: name }); } catch (e) {}
+    try {
+      await withTimeout(F.setDoc(F.doc(F.db, COL, u.uid), { uid: u.uid, name: name, phone: phone, pin: pin, email: u.email, createdAt: F.serverTimestamp(), updatedAt: F.serverTimestamp() }), 15000);
+    } catch (e) {
+      console.warn('customer copy save failed', e && e.code);
+      try { await u.delete(); } catch (x) {}        /* no account without a recoverable copy */
+      try { await F.signOut(F.auth); } catch (x) {}
+      S.busy = false; render(); fill({ cuName: name, cuPhone: phoneRaw, cuPin: pin });
+      return say('saveFail');
+    }
+    S.busy = false; S.user = F.auth.currentUser || u; S.msg = t('created'); S.type = 'success'; render(); headerTxt();
+  }
+  function fill(v) { for (var k in v) { var e = $(k); if (e) e.value = v[k]; } }
+
+  async function signIn(phoneRaw, pin) {
+    var F = window.FB, phone = normPhone(phoneRaw);
+    if (!phone) return say('badPhone');
+    if (!/^[0-9]{6}$/.test(pin)) return say('badPin');
+    S.busy = true; render(); fill({ cuPhone: phoneRaw, cuPin: pin });
+    try {
+      var r = await withTimeout(F.custSignIn(F.auth, emailOf(phone), pin), 20000);
+      S.busy = false; S.user = r.user; S.msg = ''; S.type = ''; render(); headerTxt();
+      syncCopy(r.user, pin);
+    } catch (e) { S.busy = false; render(); fill({ cuPhone: phoneRaw, cuPin: pin }); say(errKey(e)); }
+  }
+
+  async function changePin(cur, nw) {
+    var F = window.FB, u = F.auth.currentUser;
+    if (!u) return;
+    if (!/^[0-9]{6}$/.test(cur) || !/^[0-9]{6}$/.test(nw)) return say('badPin');
+    if (cur === nw) return say('same');
+    S.busy = true; render(); fill({ cuCur: cur, cuNew: nw });
+    try { await F.reauthenticateWithCredential(u, F.EmailAuthProvider.credential(u.email, cur)); }
+    catch (e) { S.busy = false; render(); say(errKey(e) === 'wrong' ? 'wrongCur' : errKey(e)); return; }
+    try { await F.updatePassword(u, nw); }
+    catch (e) { S.busy = false; render(); say(errKey(e)); return; }
+    var saved = false;
+    for (var i = 0; i < 2 && !saved; i++) {
+      try { await withTimeout(F.setDoc(F.doc(F.db, COL, u.uid), { pin: nw, updatedAt: F.serverTimestamp() }, { merge: true }), 12000); saved = true; } catch (e) { console.warn('pin copy', e && e.code); }
+    }
+    S.busy = false; S.show = false; render(); say(saved ? 'ok' : 'part', saved ? 'success' : 'error');
+  }
+
+  function onSubmit(ev) {
+    ev.preventDefault(); if (S.busy || !fbReady()) return;
+    var g = function (id) { var e = $(id); return e ? e.value : ''; };
+    if (S.user) changePin(digits(g('cuCur')), digits(g('cuNew')));
+    else if (S.mode === 'up') signUp(g('cuName'), g('cuPhone'), digits(g('cuPin')));
+    else signIn(g('cuPhone'), digits(g('cuPin')));
+  }
+
+  document.addEventListener('click', function (ev) {
+    var tg = ev.target.closest ? ev.target : ev.target.parentElement; if (!tg || !tg.closest) return;
+    if (tg.closest('#custHeaderBtn') || tg.closest('[data-open-cust]')) { ev.preventDefault(); open(); return; }
+    if (tg.closest('#authCustLink')) { var c = $('authCloseBtn'); if (c) c.click(); open(); return; }
+    if (!tg.closest('#custOverlay')) return;
+    if (tg.closest('#custClose')) { close(); return; }
+    var m = tg.closest('[data-mode]'); if (m) { S.mode = m.getAttribute('data-mode'); S.msg = ''; S.type = ''; render(); return; }
+    if (tg.closest('[data-eye]')) { keepVals(function () { S.show = !S.show; render(); }); return; }
+    if (tg.closest('#custForgot')) { say('forgotMsg', '', { p: SUPPORT_PHONE }); return; }
+    if (tg.closest('#custOut')) {
+      Promise.resolve(window.FB.signOut(window.FB.auth)).then(function () { S.user = null; S.mode = 'in'; S.msg = ''; S.type = ''; render(); headerTxt(); });
+    }
+  });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && isOpen()) close(); });
+  /* Hidden owner entry: tap the shop logo in the header 5 times quickly (or open the secret login address). */
+  var taps = [];
+  document.addEventListener('click', function (ev) {
+    var b = ev.target.closest && ev.target.closest('.dcu-brand'); if (!b) return;
+    var now = Date.now(); taps = taps.filter(function (x) { return now - x < 2500; }); taps.push(now);
+    if (taps.length >= 5) { taps = []; ev.preventDefault(); ev.stopPropagation(); var lb = $('headerLoginBtn'); if (lb) lb.click(); }
+  }, true);
+  try { new MutationObserver(function () { headerTxt(); if (isOpen() && !S.busy) keepVals(render); }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] }); } catch (e) {}
+  document.addEventListener('DOMContentLoaded', headerTxt);
+
+  window.__rgceCust = {
+    isCust: isCust,
+    onUser: function (u) {
+      if (S.busy) return;
+      S.user = u || null;
+      if (!u) { S.msg = S.msg && S.type === 'success' ? '' : S.msg; }
+      headerTxt(); if (isOpen()) keepVals(render);
+    }
+  };
+})();
+
+  </script>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import {
       getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged,
+      createUserWithEmailAndPassword, updateProfile, updatePassword, EmailAuthProvider, reauthenticateWithCredential,
       sendPasswordResetEmail, setPersistence, browserLocalPersistence,
       GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -2484,6 +2849,8 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       auth, db,
       signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail,
       signInWithGoogle, isAllowedUser, OWNER_UID,
+      custSignIn: signInWithEmailAndPassword,   /* raw copy for customer logins (not logged as owner activity) */
+      createUserWithEmailAndPassword, updateProfile, updatePassword, EmailAuthProvider, reauthenticateWithCredential,
       doc, setDoc, getDoc, getDocFromServer, serverTimestamp
     };
     window.dispatchEvent(new Event('firebase-ready'));
@@ -3489,6 +3856,13 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       });
 
       window.FB.onAuthStateChanged(window.FB.auth, async (user) => {
+        /* Customer accounts (phone + PIN) are NOT the owner: hand them to the customer module,
+           and let the owner side behave exactly as if nobody is signed in. */
+        try {
+          const isC = !!(user && window.__rgceCust && window.__rgceCust.isCust(user));
+          if (window.__rgceCust) window.__rgceCust.onUser(isC ? user : null);
+          if (isC) user = null;
+        } catch (e) { console.warn('customer hook', e); }
         if (user && !window.FB.isAllowedUser(user)) {
           // নিবন্ধিত অ্যাকাউন্ট ছাড়া অন্য কেউ: সাইন-আউট, নতুন তৈরি হওয়া অ্যাকাউন্ট মুছে ফেলা
           const badEmail = user.email || 'this account';
@@ -4573,8 +4947,8 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
         <tr><td colspan="9">
           <div class="cloud-loader">
             <i class="fas fa-lock"></i>
-            <div class="cloud-loader-text">Please login to view your data.</div>
-            <div class="cloud-loader-sub"><button type="button" class="btn btn-primary" data-open-login>Login</button></div>
+            <div class="cloud-loader-text">Welcome to Roza Gift Corner & Electric</div>
+            <div class="cloud-loader-sub"><button type="button" class="btn btn-primary" data-open-cust><i class="fas fa-user" aria-hidden="true"></i> Sign in</button></div>
           </div>
         </td></tr>`;
     }
@@ -8689,6 +9063,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       if (typeof fb.onAuthStateChanged === 'function') {
         try {
           fb.onAuthStateChanged(fb.auth, function (u) {
+            if (u && /@rgce-customer\.invalid$/i.test(u.email || '')) u = null;   /* customer session: not owner activity */
             if (u) { S.user = { uid: u.uid, email: u.email }; if (!S.wasUser) log('auth', 'session_active', 'Session active for ' + maskEmail(u.email) + ' on ' + DEVICE.label, 'info', { dedupe: true }); S.wasUser = true; }
             else { S.user = null; S.wasUser = false; }
             toggleButton(); refreshBadgeSoon(); setTimeout(flush, 2500);
