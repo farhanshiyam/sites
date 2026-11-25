@@ -2616,9 +2616,10 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
 
   function errKey(e) {
     var c = (e && e.code) || '';
+    window.__custLastErr = c || (e && e.message) || String(e); try { console.error('[customer auth]', e); } catch (x) {}
     if (c === 'auth/email-already-in-use') return 'exists';
     if (c === 'auth/weak-password') return 'badPin';
-    if (c === 'auth/operation-not-allowed') return 'off';
+    if (c === 'auth/operation-not-allowed' || c === 'auth/admin-restricted-operation' || c === 'auth/configuration-not-found') return 'off';
     if (c === 'auth/too-many-requests') return 'many';
     if (c === 'auth/network-request-failed' || c === 'timeout') return 'net';
     if (c === 'auth/invalid-credential' || c === 'auth/wrong-password' || c === 'auth/user-not-found' || c === 'auth/invalid-email') return 'wrong';
@@ -2626,6 +2627,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
   }
   function say(key, type, vars) {
     var m = t(key); if (vars) for (var k in vars) m = m.replace('{' + k + '}', vars[k]);
+    if (key === 'fail' && window.__custLastErr) m += ' (' + window.__custLastErr + ')';
     S.msg = m; S.type = type || 'error';
     var el = $('custMsg'); if (el) { el.textContent = m; el.className = S.type; }
   }
