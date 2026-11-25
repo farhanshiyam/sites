@@ -2557,12 +2557,12 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
   <script id="rgce-customer-js">
 /* ===== Customer accounts: create account / sign in with phone + 6-digit PIN =====
    - Firebase Auth user = c<phone>@rgce-customer.invalid with the PIN as password.
-   - A copy {name, phone, pin} is saved in Firestore customer_accounts/<uid> so the shop (Admin panel > Customer accounts)
+   - A copy {name, phone, pin} is saved in Firestore customer_logins/<uid> so the shop (Admin panel > Customer accounts)
      can help when a customer forgets the PIN. Publish the rules shown in the Admin panel first. */
 (function () {
   'use strict';
   var SUFFIX = '@rgce-customer.invalid';
-  var COL = 'customer_accounts';
+  var COL = 'customer_logins';
   var SUPPORT_PHONE = '+8801340561000';          /* shown under "Forgot PIN?" */
   var S = { user: null, busy: false, mode: 'in', msg: '', type: '', show: false };
   var TX = {
