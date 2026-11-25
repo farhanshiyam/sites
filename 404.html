@@ -2563,8 +2563,8 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
   'use strict';
   var SUFFIX = '@rgce-customer.invalid';
   var COL = 'customer_logins';
-  var SUPPORT_PHONE = '+8801340561000';          /* shown under "Forgot PIN?" */
-  var S = { user: null, busy: false, mode: 'in', msg: '', type: '', show: false };
+  var SUPPORT_PHONE = '01319362189';          /* shown under "Forgot PIN?" */
+  var S = { user: null, busy: false, mode: 'in', msg: '', type: '', show: false, pinStep: 0, curPin: '' };
   var TX = {
     en: {
       btn: 'Customer', btnMe: 'My Account', tag: 'Roza Gift Corner & Electric', title: 'Customer account',
@@ -2581,7 +2581,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       fail: 'Something went wrong. Please try again.', created: 'Account created. Welcome!',
       hi: 'Welcome, {n}', lblName: 'Name', lblPhone: 'Phone', chg: 'Change PIN', cur: 'Current PIN', nw: 'New PIN',
       save: 'Save new PIN', ok: 'PIN changed.', part: 'PIN changed, but the shop copy could not be updated. Please sign in again once.',
-      wrongCur: 'Current PIN is wrong.', same: 'New PIN must be different.', out: 'Sign out', close: 'Close', wait: 'Please wait...'
+      rep: 'Repeat new PIN', mism: 'The two PINs do not match.', verify: 'Verify', cancel: 'Cancel', contact: 'Contact the shop', call: 'Call', wa: 'WhatsApp', wrongCur: 'Current PIN is wrong.', same: 'New PIN must be different.', out: 'Sign out', close: 'Close', wait: 'Please wait...'
     },
     bn: {
       btn: 'কাস্টমার', btnMe: 'আমার অ্যাকাউন্ট', tag: 'রোজা গিফট কর্নার অ্যান্ড ইলেকট্রিক', title: 'কাস্টমার অ্যাকাউন্ট',
@@ -2598,7 +2598,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       fail: 'কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।', created: 'অ্যাকাউন্ট খোলা হয়েছে। স্বাগতম!',
       hi: 'স্বাগতম, {n}', lblName: 'নাম', lblPhone: 'ফোন', chg: 'পিন পরিবর্তন', cur: 'বর্তমান পিন', nw: 'নতুন পিন',
       save: 'নতুন পিন সংরক্ষণ', ok: 'পিন পরিবর্তন হয়েছে।', part: 'পিন পরিবর্তন হয়েছে, কিন্তু দোকানের কপি আপডেট হয়নি। অনুগ্রহ করে একবার আবার সাইন ইন করুন।',
-      wrongCur: 'বর্তমান পিন ভুল।', same: 'নতুন পিন আলাদা হতে হবে।', out: 'সাইন আউট', close: 'বন্ধ করুন', wait: 'অপেক্ষা করুন...'
+      rep: 'নতুন পিন আবার লিখুন', mism: 'পিন দুটি মিলছে না।', verify: 'যাচাই করুন', cancel: 'বাতিল', contact: 'দোকানের সাথে যোগাযোগ', call: 'কল করুন', wa: 'হোয়াটসঅ্যাপ', wrongCur: 'বর্তমান পিন ভুল।', same: 'নতুন পিন আলাদা হতে হবে।', out: 'সাইন আউট', close: 'বন্ধ করুন', wait: 'অপেক্ষা করুন...'
     }
   };
   function lang() { try { return localStorage.getItem('rgce_lang') === 'bn' ? 'bn' : 'en'; } catch (e) { return 'en'; } }
@@ -2647,10 +2647,17 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       var u = S.user;
       h += '<h2>' + esc(t('hi').replace('{n}', u.displayName || '')) + '</h2><p class="auth-sub">' + esc(t('title')) + '</p>'
         + '<div class="cust-me"><div><b>' + esc(t('lblName')) + '</b>' + esc(u.displayName || '-') + '</div><div><b>' + esc(t('lblPhone')) + '</b>' + esc(phoneOf(u)) + '</div></div>'
-        + '<h3>' + esc(t('chg')) + '</h3><form id="custForm" autocomplete="off">'
-        + '<div class="form-group"><label for="cuCur">' + esc(t('cur')) + '</label><div class="cust-pinrow"><input id="cuCur" ' + pinAttr + ' autocomplete="current-password">' + eye + '</div></div>'
-        + '<div class="form-group"><label for="cuNew">' + esc(t('nw')) + '</label><input id="cuNew" ' + pinAttr + ' autocomplete="new-password"></div>'
-        + '<button class="auth-btn primary" type="submit"' + (S.busy ? ' disabled' : '') + '>' + esc(S.busy ? t('wait') : t('save')) + '</button></form>'
+        + (function () {
+          if (S.pinStep === 1) return '<h3>' + esc(t('chg')) + '</h3><form id="custForm" autocomplete="off"><div class="form-group"><label for="cuCur">' + esc(t('cur')) + '</label><div class="cust-pinrow"><input id="cuCur" ' + pinAttr + ' autocomplete="current-password">' + eye + '</div></div>'
+            + '<button class="auth-btn primary" type="submit"' + (S.busy ? ' disabled' : '') + '>' + esc(S.busy ? t('wait') : t('verify')) + '</button></form><div class="cust-foot" style="margin:0 0 14px"><button type="button" class="cust-link" data-pin="cancel">' + esc(t('cancel')) + '</button></div>';
+          if (S.pinStep === 2) return '<h3>' + esc(t('chg')) + '</h3><form id="custForm" autocomplete="off"><div class="form-group"><label for="cuNew">' + esc(t('nw')) + '</label><div class="cust-pinrow"><input id="cuNew" ' + pinAttr + ' autocomplete="new-password">' + eye + '</div></div>'
+            + '<div class="form-group"><label for="cuRep">' + esc(t('rep')) + '</label><input id="cuRep" ' + pinAttr + ' autocomplete="new-password"></div>'
+            + '<button class="auth-btn primary" type="submit"' + (S.busy ? ' disabled' : '') + '>' + esc(S.busy ? t('wait') : t('save')) + '</button></form><div class="cust-foot" style="margin:0 0 14px"><button type="button" class="cust-link" data-pin="cancel">' + esc(t('cancel')) + '</button></div>';
+          return '<button class="auth-btn secondary" type="button" data-pin="start" style="margin-bottom:18px">' + esc(t('chg')) + '</button>';
+        })()
+        + '<h3>' + esc(t('contact')) + '</h3><div class="cust-note" style="margin:-4px 0 12px">' + esc(SUPPORT_PHONE) + '</div>'
+        + '<a class="auth-btn primary" style="text-decoration:none" href="tel:' + esc(SUPPORT_PHONE) + '">' + esc(t('call')) + '</a>'
+        + '<a class="auth-btn secondary" style="text-decoration:none;margin-top:10px" target="_blank" rel="noopener" href="https://wa.me/88' + esc(SUPPORT_PHONE) + '">' + esc(t('wa')) + '</a>'
         + '<button class="auth-btn secondary" type="button" id="custOut" style="margin-top:10px">' + esc(t('out')) + '</button>';
     } else {
       var up = S.mode === 'up';
@@ -2668,16 +2675,16 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       + '</div></div>';
     o.innerHTML = h;
     var f = $('custForm'); if (f) f.addEventListener('submit', onSubmit);
-    ['cuPin', 'cuCur', 'cuNew'].forEach(function (id) { var e = $(id); if (e) e.addEventListener('input', function () { var v = digits(e.value).slice(0, 6); if (e.value !== v) e.value = v; }); });
+    ['cuPin', 'cuCur', 'cuNew', 'cuRep'].forEach(function (id) { var e = $(id); if (e) e.addEventListener('input', function () { var v = digits(e.value).slice(0, 6); if (e.value !== v) e.value = v; }); });
   }
   function keepVals(fn) {
-    var ids = ['cuName', 'cuPhone', 'cuPin', 'cuCur', 'cuNew'], v = {};
+    var ids = ['cuName', 'cuPhone', 'cuPin', 'cuCur', 'cuNew', 'cuRep'], v = {};
     ids.forEach(function (i) { var e = $(i); if (e) v[i] = e.value; });
     fn();
     ids.forEach(function (i) { var e = $(i); if (e && v[i] != null) e.value = v[i]; });
   }
   function open() { S.msg = ''; S.type = ''; render(); ov().style.display = 'flex'; var f = $('cuPhone') || $('cuCur'); if (f) setTimeout(function () { f.focus(); }, 120); }
-  function close() { var o = ov(); if (o) o.style.display = 'none'; }
+  function close() { var o = ov(); if (o) o.style.display = 'none'; S.pinStep = 0; S.curPin = ''; }
 
   function fbReady() { return window.FB && window.FB.auth; }
 
@@ -2728,27 +2735,34 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
     } catch (e) { S.busy = false; render(); fill({ cuPhone: phoneRaw, cuPin: pin }); say(errKey(e)); }
   }
 
-  async function changePin(cur, nw) {
-    var F = window.FB, u = F.auth.currentUser;
-    if (!u) return;
-    if (!/^[0-9]{6}$/.test(cur) || !/^[0-9]{6}$/.test(nw)) return say('badPin');
-    if (cur === nw) return say('same');
-    S.busy = true; render(); fill({ cuCur: cur, cuNew: nw });
-    try { await F.reauthenticateWithCredential(u, F.EmailAuthProvider.credential(u.email, cur)); }
-    catch (e) { S.busy = false; render(); say(errKey(e) === 'wrong' ? 'wrongCur' : errKey(e)); return; }
-    try { await F.updatePassword(u, nw); }
-    catch (e) { S.busy = false; render(); say(errKey(e)); return; }
+  async function verifyCur(cur) {
+    var F = window.FB, u = F.auth.currentUser; if (!u) return;
+    if (!/^[0-9]{6}$/.test(cur)) return say('badPin');
+    S.busy = true; render();
+    try {
+      await withTimeout(F.reauthenticateWithCredential(u, F.EmailAuthProvider.credential(u.email, cur)), 20000);
+      S.busy = false; S.curPin = cur; S.pinStep = 2; S.msg = ''; S.type = ''; render();
+    } catch (e) { S.busy = false; render(); say(errKey(e) === 'wrong' ? 'wrongCur' : errKey(e)); }
+  }
+  async function savePin(nw, rep) {
+    var F = window.FB, u = F.auth.currentUser; if (!u || S.pinStep !== 2) return;
+    if (!/^[0-9]{6}$/.test(nw)) return say('badPin');
+    if (nw !== rep) return say('mism');
+    if (nw === S.curPin) return say('same');
+    S.busy = true; render();
+    try { await withTimeout(F.updatePassword(u, nw), 20000); }
+    catch (e) { S.busy = false; render(); return say(errKey(e)); }
     var saved = false;
     for (var i = 0; i < 2 && !saved; i++) {
       try { await withTimeout(F.setDoc(F.doc(F.db, COL, u.uid), { pin: nw, updatedAt: F.serverTimestamp() }, { merge: true }), 12000); saved = true; } catch (e) { console.warn('pin copy', e && e.code); }
     }
-    S.busy = false; S.show = false; render(); say(saved ? 'ok' : 'part', saved ? 'success' : 'error');
+    S.busy = false; S.pinStep = 0; S.curPin = ''; S.show = false; render(); say(saved ? 'ok' : 'part', saved ? 'success' : 'error');
   }
 
   function onSubmit(ev) {
     ev.preventDefault(); if (S.busy || !fbReady()) return;
     var g = function (id) { var e = $(id); return e ? e.value : ''; };
-    if (S.user) changePin(digits(g('cuCur')), digits(g('cuNew')));
+    if (S.user) { if (S.pinStep === 1) verifyCur(digits(g('cuCur'))); else if (S.pinStep === 2) savePin(digits(g('cuNew')), digits(g('cuRep'))); }
     else if (S.mode === 'up') signUp(g('cuName'), g('cuPhone'), digits(g('cuPin')));
     else signIn(g('cuPhone'), digits(g('cuPin')));
   }
@@ -2759,11 +2773,12 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
     if (tg.closest('#authCustLink')) { var c = $('authCloseBtn'); if (c) c.click(); open(); return; }
     if (!tg.closest('#custOverlay')) return;
     if (tg.closest('#custClose')) { close(); return; }
+    var pb = tg.closest('[data-pin]'); if (pb) { S.pinStep = pb.getAttribute('data-pin') === 'start' ? 1 : 0; S.curPin = ''; S.show = false; S.msg = ''; S.type = ''; render(); var f1 = $('cuCur'); if (f1) f1.focus(); return; }
     var m = tg.closest('[data-mode]'); if (m) { S.mode = m.getAttribute('data-mode'); S.msg = ''; S.type = ''; render(); return; }
     if (tg.closest('[data-eye]')) { keepVals(function () { S.show = !S.show; render(); }); return; }
     if (tg.closest('#custForgot')) { say('forgotMsg', '', { p: SUPPORT_PHONE }); return; }
     if (tg.closest('#custOut')) {
-      Promise.resolve(window.FB.signOut(window.FB.auth)).then(function () { S.user = null; S.mode = 'in'; S.msg = ''; S.type = ''; render(); headerTxt(); });
+      Promise.resolve(window.FB.signOut(window.FB.auth)).then(function () { S.user = null; S.mode = 'in'; S.pinStep = 0; S.curPin = ''; S.msg = ''; S.type = ''; render(); headerTxt(); });
     }
   });
   document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && isOpen()) close(); });
