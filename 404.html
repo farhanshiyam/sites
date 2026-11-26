@@ -2433,7 +2433,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import {
       initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
-      doc, setDoc, getDoc, getDocFromServer, serverTimestamp
+      doc, setDoc, getDoc, getDocFromServer, serverTimestamp, onSnapshot
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -2484,7 +2484,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       auth, db,
       signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail,
       signInWithGoogle, isAllowedUser, OWNER_UID,
-      doc, setDoc, getDoc, getDocFromServer, serverTimestamp
+      doc, setDoc, getDoc, getDocFromServer, serverTimestamp, onSnapshot
     };
     window.dispatchEvent(new Event('firebase-ready'));
   </script>
@@ -2794,6 +2794,8 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
     let lastPushedInvoiceHash = "";
     let lastCloudSeen = null;      /* what the cloud looked like the last time this device read/wrote it */
     let rgceConflictOpen = false;
+    let rgceRowSnap = { c: {}, i: {} };
+    let rgceUnsub = null, rgceLive = false, rgceLatestCloud = null, rgceNoWriter = false;   /* last known content of each row, used to stamp modifiedAt only on rows that really changed */
     let refreshInFlight = false;
 
     function formatMoney(val) {
@@ -3585,91 +3587,292 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
     }
 
 
-    function rgceStable(v) {
-      if (Array.isArray(v)) return '[' + v.map(rgceStable).join(',') + ']';
+    function rgceRowKey(x, i) { return String((x && (x.id || x.invoiceNumber)) || ('idx' + i)); }
+    function rgceStrip(x) { const o = Object.assign({}, x); delete o.modifiedAt; return o; }
+    function rgceSeedRows() {
+      const m = { c: {}, i: {} };
+      (customers || []).forEach(function (x, i) { m.c[rgceRowKey(x, i)] = rgceStableStr(rgceStrip(x)); });
+      (invoices || []).forEach(function (x, i) { m.i[rgceRowKey(x, i)] = rgceStableStr(rgceStrip(x)); });
+      rgceRowSnap = m;
+    }
+    function rgceStampChanges() {
+      const now = Date.now();
+      (customers || []).forEach(function (x, i) {
+        const k = rgceRowKey(x, i), h = rgceStableStr(rgceStrip(x));
+        if (rgceRowSnap.c[k] !== h) { x.modifiedAt = now; rgceRowSnap.c[k] = h; }
+      });
+      (invoices || []).forEach(function (x, i) {
+        const k = rgceRowKey(x, i), h = rgceStableStr(rgceStrip(x));
+        if (rgceRowSnap.i[k] !== h) { x.modifiedAt = now; rgceRowSnap.i[k] = h; }
+      });
+    }
+    /* ===== Live sync between devices (instant updates + "who changed what" toast) ===== */
+    function rgceDeviceInfo() {
+      let id = '';
+      try { id = localStorage.getItem('rgce_device_id') || ''; } catch (e) {}
+      if (!id) {
+        id = Math.random().toString(36).slice(2, 6).toUpperCase();
+        try { localStorage.setItem('rgce_device_id', id); } catch (e) {}
+      }
+      const ua = navigator.userAgent || '';
+      const os = /Android/.test(ua) ? 'Android' : /iPhone|iPad|iPod/.test(ua) ? 'iPhone/iPad' : /Windows/.test(ua) ? 'Windows' : /Mac OS X/.test(ua) ? 'Mac' : /Linux/.test(ua) ? 'Linux' : 'Device';
+      const br = /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /Chrome\//.test(ua) ? 'Chrome' : /Firefox\//.test(ua) ? 'Firefox' : /Safari\//.test(ua) ? 'Safari' : 'Browser';
+      return { id: id, name: br + ' on ' + os + ' #' + id, at: Date.now() };
+    }
+    function rgceNormCust(arr) {
+      return (Array.isArray(arr) ? arr : []).map(function (c) {
+        c.id = c.id || generateId();
+        c.due = Math.round(Number(c.due)) || 0;
+        c.paid = Math.round(Number(c.paid)) || 0;
+        c.note = c.note || "";
+        c.address = c.address || "";
+        c.source = c.source || "";
+        c.phone = c.phone || "";
+        c.dateAdded = c.dateAdded || todayDDMMYYYY();
+        if (!c.transactionHistory) c.transactionHistory = [];
+        return c;
+      });
+    }
+    function rgceNormInv(arr) {
+      return (Array.isArray(arr) ? arr : []).map(function (inv) {
+        inv.items = Array.isArray(inv.items) ? inv.items : [];
+        inv.customer = inv.customer || { name: '', phone: '', address: '' };
+        inv.subtotal = Math.round(Number(inv.subtotal)) || 0;
+        inv.discountValue = Math.round(Number(inv.discountValue)) || 0;
+        inv.discountAmount = Math.round(Number(inv.discountAmount)) || 0;
+        inv.taxPercent = Number(inv.taxPercent) || 0;
+        inv.taxAmount = Math.round(Number(inv.taxAmount)) || 0;
+        inv.total = Math.round(Number(inv.total)) || 0;
+        inv.paid = Math.round(Number(inv.paid)) || 0;
+        inv.due = Math.round(Number(inv.due)) || 0;
+        inv.status = inv.status || 'Unpaid';
+        inv.paymentMethod = inv.paymentMethod || 'Cash';
+        inv.notes = inv.notes || '';
+        inv.dateISO = inv.dateISO || todayISO();
+        inv.dateDisplay = inv.dateDisplay || isoToDDMMYYYY(inv.dateISO);
+        inv.createdAt = inv.createdAt || new Date().toISOString();
+        return inv;
+      });
+    }
+    function rgceDescribe(oc, nc, oi, ni) {
+      const out = [];
+      const idx = function (arr) { const m = {}; (arr || []).forEach(function (x, i) { m[rgceRowKey(x, i)] = x; }); return m; };
+      const same = function (a, b) { return rgceStableStr(rgceStrip(a)) === rgceStableStr(rgceStrip(b)); };
+      const o = idx(oc), n = idx(nc);
+      Object.keys(n).forEach(function (k) {
+        const a = o[k], b = n[k], nm = (b && b.name) || 'Customer';
+        if (!a) { out.push(nm + ' (new)'); return; }
+        if (same(a, b)) return;
+        const bits = [];
+        ['due', 'paid'].forEach(function (f) {
+          const x = Math.round(Number(a[f])) || 0, y = Math.round(Number(b[f])) || 0;
+          if (x !== y) bits.push(f + ' ' + x + ' → ' + y);
+        });
+        out.push(nm + (bits.length ? ': ' + bits.join(', ') : ' updated'));
+      });
+      Object.keys(o).forEach(function (k) { if (!n[k]) out.push(((o[k] && o[k].name) || 'Customer') + ' (deleted)'); });
+      const io = idx(oi), inn = idx(ni);
+      Object.keys(inn).forEach(function (k) {
+        const a = io[k], b = inn[k], nm = 'Invoice ' + ((b && b.invoiceNumber) || '');
+        if (!a) out.push(nm + ' (new)'); else if (!same(a, b)) out.push(nm + ' updated');
+      });
+      Object.keys(io).forEach(function (k) { if (!inn[k]) out.push('Invoice ' + ((io[k] && io[k].invoiceNumber) || '') + ' (deleted)'); });
+      return out;
+    }
+    function rgceOnRemote(cloud) {
+      const cC = Array.isArray(cloud.customers) ? cloud.customers : [];
+      const cI = Array.isArray(cloud.invoices) ? cloud.invoices : [];
+      const cs = rgceStableStr(cC), is = rgceStableStr(cI);
+      const writer = cloud.lastWriter || null;
+      rgceLatestCloud = { c: cC, i: cI, cs: cs, is: is, at: rgceTs(cloud.updatedAt), writer: writer };
+      if (!cloudLoadSucceeded || !cloudReady) return;
+      if (cs === rgceStableStr(customers) && is === rgceStableStr(invoices)) { lastCloudSeen = { c: cs, i: is }; return; }
+      if (writer && writer.id === rgceDeviceInfo().id) return;                       /* our own earlier write arriving late */
+      if (lastCloudSeen && cs === lastCloudSeen.c && is === lastCloudSeen.i) return;  /* nothing new compared with what we know */
+      if (readPendingSync() || cloudSyncInFlight || rgceConflictOpen) return;        /* unsynced local work: both copies are compared before the next upload */
+      const nc = rgceNormCust(JSON.parse(JSON.stringify(cC)));
+      const ni = rgceNormInv(JSON.parse(JSON.stringify(cI)));
+      const desc = rgceDescribe(customers, nc, invoices, ni);
+      customers = nc; invoices = ni;
+      lastPushedHash = JSON.stringify(customers);
+      lastPushedInvoiceHash = JSON.stringify(invoices);
+      lastCloudSeen = { c: cs, i: is };
+      rgceSeedRows();
+      try { rebuildProductIndex(); } catch (e) {}
+      refreshAddressFilter();
+      renderTable();
+      try { renderInvoiceList(); renderInvoiceStats(); } catch (e) {}
+      const who = (writer && writer.name) ? writer.name : 'another device';
+      let msg;
+      if (!desc.length) msg = '🔄 Data updated from ' + who;
+      else if (desc.length > 3) msg = '🔄 ' + who + ' changed ' + desc.slice(0, 3).join(' | ') + ' | +' + (desc.length - 3) + ' more';
+      else msg = '🔄 ' + who + ' changed ' + desc.join(' | ');
+      showToast(msg, 'info', 10000);
+    }
+    function rgceStartLive() {
+      if (rgceUnsub || !currentUser || !window.FB || typeof window.FB.onSnapshot !== 'function') return;
+      try {
+        const ref = window.FB.doc(window.FB.db, 'shops', currentUser.uid);
+        rgceUnsub = window.FB.onSnapshot(ref, function (snap) {
+          if (!snap.exists() || snap.metadata.fromCache || snap.metadata.hasPendingWrites) return;
+          rgceLive = true;
+          try { rgceOnRemote(snap.data()); } catch (e) { console.warn('live update failed:', e); }
+        }, function (err) {
+          rgceLive = false; rgceUnsub = null;
+          console.warn('live sync stopped:', err && err.code);
+        });
+      } catch (e) { rgceUnsub = null; rgceLive = false; }
+    }
+    function rgceStopLive() {
+      if (rgceUnsub) { try { rgceUnsub(); } catch (e) {} }
+      rgceUnsub = null; rgceLive = false; rgceLatestCloud = null;
+    }
+
+    function rgceTs(t) {
+      try { if (t && typeof t.toMillis === 'function') return t.toMillis(); } catch (e) {}
+      return (typeof t === 'number') ? t : null;
+    }
+
+    function rgceStableStr(v) {
+      if (Array.isArray(v)) return '[' + v.map(rgceStableStr).join(',') + ']';
       if (v && typeof v === 'object') {
         return '{' + Object.keys(v).sort().filter(function (k) {
           const x = v[k];
           return x !== undefined && x !== null && x !== '' &&
             !(Array.isArray(x) && x.length === 0) &&
             !(typeof x === 'object' && !Array.isArray(x) && Object.keys(x).length === 0);
-        }).map(function (k) { return JSON.stringify(k) + ':' + rgceStable(v[k]); }).join(',') + '}';
+        }).map(function (k) { return JSON.stringify(k) + ':' + rgceStableStr(v[k]); }).join(',') + '}';
       }
       return JSON.stringify(v);
     }
 
     /* ===== Simple Conflict Review (device copy vs cloud copy) =====
-       Plain default table, no custom design. Resolves with:
-       {mode:'device'} | {mode:'cloud'} | {mode:'later'} | {mode:'merge', customers, invoices} */
-    function rgceConflictReview(cloudC, cloudI, devC, devI) {
+       Plain default table, no custom design. Only REAL differences are listed:
+       rows are matched by id (then by name+phone / invoice number), numbers are compared as numbers,
+       empty values count as missing, and auto-generated defaults (ids, dates) are ignored.
+       If nothing really differs it resolves at once without showing anything.
+       Resolves with: {mode:'device'} | {mode:'cloud'} | {mode:'later'} | {mode:'merge', customers, invoices} */
+    function rgceConflictReview(cloudC, cloudI, devC, devI, info) {
+      info = info || {};
       return new Promise(function (resolve) {
-        const stable = rgceStable;
-        const keyOf = function (x, i) { return String((x && (x.id || x.invoiceNumber)) || ('idx' + i)); };
-        const mapOf = function (arr) { const m = {}; (arr || []).forEach(function (x, i) { m[keyOf(x, i)] = x; }); return m; };
+        const fmt = function (ms) { return ms ? new Date(ms).toLocaleString() : '—'; };
+        const newerSide = function (e) { const a = e.d && e.d.modifiedAt, b = e.c && e.c.modifiedAt; return (a && b && a !== b) ? (a > b ? 'd' : 'c') : ''; };
+        const defPick = function (e) {
+          if (e.status === 'Only on Device') return 'd';
+          if (e.status === 'Only in Cloud') return 'c';
+          const nw = newerSide(e);
+          if (nw) return nw;
+          return (info.devAt && info.cloudAt && info.devAt > info.cloudAt) ? 'd' : 'c';
+        };
+        const NUM = { due: 1, paid: 1, qty: 1, price: 1, discount: 1, total: 1, subtotal: 1, discountValue: 1, discountAmount: 1, taxPercent: 1, taxAmount: 1, amount: 1 };
+        const isEmpty = function (v) {
+          return v === undefined || v === null || v === '' || (Array.isArray(v) && !v.length) ||
+            (typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 0);
+        };
+        const deep = function (v, k) {
+          if (NUM[k]) { const x = Number(v); return (v === undefined || v === null || v === '' || isNaN(x)) ? 0 : Math.round(x * 100) / 100; }
+          if (Array.isArray(v)) return v.map(function (e) { return deep(e, ''); });
+          if (v && typeof v === 'object') { const o = {}; Object.keys(v).forEach(function (kk) { o[kk] = deep(v[kk], kk); }); return o; }
+          return v;
+        };
+        const sv = function (v, k) { const x = deep(v, k); return isEmpty(x) ? '' : rgceStableStr(x); };
+        const diffFields = function (a, b, soft) {
+          const keys = {}, out = [];
+          Object.keys(a).concat(Object.keys(b)).forEach(function (k) { keys[k] = 1; });
+          Object.keys(keys).forEach(function (k) {
+            if (k === 'id' || k === 'modifiedAt') return;
+            if (soft[k] && (isEmpty(a[k]) || isEmpty(b[k]))) return;
+            if (sv(a[k], k) !== sv(b[k], k)) out.push(k);
+          });
+          return out;
+        };
+        const short = function (v) {
+          const t = (v && typeof v === 'object') ? (Array.isArray(v) ? v.length + ' items' : '{…}') : String(v === undefined || v === null ? '' : v);
+          return t.length > 28 ? t.slice(0, 28) + '…' : t;
+        };
         const n = function (v) { return Math.round(Number(v)) || 0; };
-        const custText = function (c) { return c ? ('due ' + n(c.due) + ', paid ' + n(c.paid) + ', txns ' + ((c.transactionHistory || []).length) + (c.note ? ', note: ' + c.note : '') + (c.phone ? ', ph: ' + c.phone : '')) : '—'; };
-        const invText = function (v) { return v ? ('total ' + n(v.total) + ', paid ' + n(v.paid) + ', due ' + n(v.due) + ', ' + (v.status || '')) : '—'; };
+        const custText = function (c) { return c ? ('due ' + n(c.due) + ', paid ' + n(c.paid) + ', txns ' + ((c.transactionHistory || []).length)) : '—'; };
+        const invText = function (v) { return v ? ('total ' + n(v.total) + ', paid ' + n(v.paid) + ', due ' + n(v.due)) : '—'; };
+        const custKey2 = function (x) { return x && x.name ? (String(x.name).trim().toLowerCase() + '|' + String(x.phone || '').trim()) : ''; };
+        const invKey2 = function (x) { return x && x.invoiceNumber ? String(x.invoiceNumber) : ''; };
 
-        function diffRows(devArr, cloudArr, labelFn, textFn) {
-          const d = mapOf(devArr), c = mapOf(cloudArr), rows = [];
-          let same = 0;
-          Object.keys(d).concat(Object.keys(c).filter(function (k) { return !(k in d); })).forEach(function (k) {
-            if (d[k] && c[k]) {
-              if (stable(d[k]) === stable(c[k])) { same++; return; }
-              rows.push({ k: k, label: labelFn(d[k]), status: 'Different', dev: textFn(d[k]), cloud: textFn(c[k]) });
-            } else if (d[k]) {
-              rows.push({ k: k, label: labelFn(d[k]), status: 'Only on Device', dev: textFn(d[k]), cloud: '—' });
-            } else {
-              rows.push({ k: k, label: labelFn(c[k]), status: 'Only in Cloud', dev: '—', cloud: textFn(c[k]) });
+        function pair(devArr, cloudArr, key2) {
+          devArr = devArr || []; cloudArr = cloudArr || [];
+          const byId = {}, usedC = {}, entries = [], by2 = {};
+          cloudArr.forEach(function (x, i) { if (x && x.id && byId[x.id] === undefined) byId[x.id] = i; });
+          devArr.forEach(function (d) {
+            const ci = (d && d.id && byId[d.id] !== undefined) ? byId[d.id] : -1;
+            entries.push({ d: d, ci: ci });
+            if (ci >= 0) usedC[ci] = 1;
+          });
+          cloudArr.forEach(function (x, i) { if (!usedC[i]) { const k = key2(x); if (k && by2[k] === undefined) by2[k] = i; } });
+          entries.forEach(function (e) {
+            if (e.ci < 0) {
+              const k = key2(e.d);
+              if (k && by2[k] !== undefined && !usedC[by2[k]]) { e.ci = by2[k]; usedC[e.ci] = 1; }
             }
           });
-          return { rows: rows, same: same, d: d, c: c };
+          cloudArr.forEach(function (x, i) { if (!usedC[i]) entries.push({ d: null, ci: i }); });
+          entries.forEach(function (e) { e.c = e.ci >= 0 ? cloudArr[e.ci] : null; });
+          return entries;
+        }
+        function analyse(entries, soft) {
+          const rows = []; let same = 0;
+          entries.forEach(function (e) {
+            if (e.d && e.c) {
+              e.f = diffFields(e.d, e.c, soft);
+              if (!e.f.length) { e.same = true; same++; return; }
+              e.status = 'Different';
+            } else e.status = e.d ? 'Only on Device' : 'Only in Cloud';
+            rows.push(e);
+          });
+          return { entries: entries, rows: rows, same: same };
         }
 
-        const cd = diffRows(devC, cloudC, function (x) { return x.name || x.id; }, custText);
-        const id = diffRows(devI, cloudI, function (x) { return (x.invoiceNumber || x.id) + ' — ' + ((x.customer && x.customer.name) || ''); }, invText);
+        const cd = analyse(pair(devC, cloudC, custKey2), { dateAdded: 1, createdAt: 1, updatedAt: 1 });
+        const id = analyse(pair(devI, cloudI, invKey2), { createdAt: 1, dateISO: 1, dateDisplay: 1, updatedAt: 1 });
+        if (!cd.rows.length && !id.rows.length) { resolve({ mode: 'cloud', same: true }); return; }
 
-        function tableHtml(title, diff, prefix) {
+        function tableHtml(title, diff, prefix, label, text) {
           if (!diff.rows.length) return '<p><b>' + title + ':</b> no differences (' + diff.same + ' same)</p>';
           let h = '<p><b>' + title + '</b> — ' + diff.rows.length + ' different, ' + diff.same + ' same</p>' +
-            '<table border="1" cellpadding="4" style="border-collapse:collapse;width:100%"><tr><th>Name</th><th>Status</th><th>Device</th><th>Cloud</th><th>Keep</th></tr>';
-          diff.rows.forEach(function (r, i) {
-            h += '<tr><td>' + escapeHtml(r.label) + '</td><td>' + r.status + '</td><td>' + escapeHtml(r.dev) + '</td><td>' + escapeHtml(r.cloud) +
-              '</td><td><select data-k="' + prefix + i + '"><option value="d">Device</option><option value="c">Cloud</option></select></td></tr>';
+            '<table border="1" cellpadding="4" style="border-collapse:collapse;width:100%"><tr><th>Name</th><th>Status</th><th>Device</th><th>Cloud</th><th>Changed fields</th><th>Device changed</th><th>Cloud changed</th><th>Keep</th></tr>';
+          diff.rows.forEach(function (e, i) {
+            const ch = e.f ? e.f.map(function (k) { return k + ': ' + short(e.d[k]) + ' → ' + short(e.c[k]); }).join('; ') : '';
+            h += '<tr><td>' + escapeHtml(label(e.d || e.c)) + '</td><td>' + e.status + '</td><td>' + escapeHtml(text(e.d)) + '</td><td>' + escapeHtml(text(e.c)) +
+              '</td><td>' + escapeHtml(ch) + '</td><td>' + fmt(e.d && e.d.modifiedAt) + (newerSide(e) === 'd' ? ' <b>(newer)</b>' : '') + '</td><td>' + fmt(e.c && e.c.modifiedAt) + (newerSide(e) === 'c' ? ' <b>(newer)</b>' : '') +
+              '</td><td><select data-k="' + prefix + i + '"><option value="d"' + (defPick(e) === 'd' ? ' selected' : '') + '>Device</option><option value="c"' + (defPick(e) === 'c' ? ' selected' : '') + '>Cloud</option></select></td></tr>';
           });
           return h + '</table>';
         }
 
         const box = document.createElement('div');
         box.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99999;display:flex;align-items:center;justify-content:center;padding:10px';
-        box.innerHTML = '<div style="background:#fff;color:#000;max-width:900px;width:100%;max-height:90vh;overflow:auto;padding:14px">' +
+        box.innerHTML = '<div style="background:#fff;color:#000;max-width:980px;width:100%;max-height:90vh;overflow:auto;padding:14px">' +
           '<h3>Device data and Cloud data are different</h3>' +
+          '<p>Device copy last changed: <b>' + fmt(info.devAt) + '</b> &nbsp;|&nbsp; Cloud copy last updated: <b>' + fmt(info.cloudAt) + '</b></p>' +
           '<p>Device: ' + (devC || []).length + ' customers, ' + (devI || []).length + ' invoices &nbsp;|&nbsp; Cloud: ' + (cloudC || []).length + ' customers, ' + (cloudI || []).length + ' invoices</p>' +
-          tableHtml('Customers', cd, 'c') + tableHtml('Invoices', id, 'i') +
+          tableHtml('Customers', cd, 'c', function (x) { return x.name || x.id; }, custText) +
+          tableHtml('Invoices', id, 'i', function (x) { return (x.invoiceNumber || x.id) + ' — ' + ((x.customer && x.customer.name) || ''); }, invText) +
           '<p><button data-a="merge">Apply my choices (Keep column) &amp; upload</button> ' +
           '<button data-a="device">Use all Device &amp; upload</button> ' +
           '<button data-a="cloud">Use all Cloud</button> ' +
           '<button data-a="later">Decide later</button> ' +
           '<button data-a="dl">Download both copies</button></p>' +
-          '<p><small>Row choices default to Device. A copy of the Device data is kept in this browser before any change.</small></p></div>';
+          '<p><small>Keep defaults to the newer copy (Cloud when the time is unknown). Rows changed before this update show no time. A copy of both versions is kept in this browser before any change.</small></p></div>';
         document.body.appendChild(box);
 
-        function backupDevice() {
+        function backupBoth() {
           try { localStorage.setItem('rgce_conflict_backup_' + (currentUser ? currentUser.uid : ''), JSON.stringify({ at: Date.now(), device: { customers: devC, invoices: devI }, cloud: { customers: cloudC, invoices: cloudI } })); } catch (e) {}
         }
-        function build(diff, devArr, cloudArr, prefix) {
+        function buildList(diff, prefix) {
           const sel = {};
           box.querySelectorAll('select[data-k^="' + prefix + '"]').forEach(function (el) { sel[el.getAttribute('data-k')] = el.value; });
-          const out = [], used = {};
-          diff.rows.forEach(function (r, i) { used[r.k] = sel[prefix + i] === 'c' ? 'c' : 'd'; });
-          const seen = {};
-          (devArr || []).forEach(function (x, i) {
-            const k = keyOf(x, i); seen[k] = 1;
-            if (used[k] === 'c') { if (diff.c[k]) out.push(diff.c[k]); } else out.push(x);
-          });
-          (cloudArr || []).forEach(function (x, i) {
-            const k = keyOf(x, i);
-            if (!seen[k] && used[k] === 'c') out.push(x);
+          diff.rows.forEach(function (e, i) { e.pick = sel[prefix + i] === 'c' ? 'c' : 'd'; });
+          const out = [];
+          diff.entries.forEach(function (e) {
+            const obj = (!e.same && e.pick === 'c') ? e.c : e.d;
+            if (obj) out.push(obj.id ? obj : Object.assign({}, obj, { id: generateId() }));
           });
           return out;
         }
@@ -3684,12 +3887,9 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
           }
           if (a === 'cloud' && !confirm('Replace this device’s unsynced data with the Cloud copy?')) return;
           if (a === 'device' && !confirm('Replace the Cloud data with this device’s copy?')) return;
-          backupDevice();
+          backupBoth();
           const result = { mode: a };
-          if (a === 'merge') {
-            result.customers = build(cd, devC, cloudC, 'c');
-            result.invoices = build(id, devI, cloudI, 'i');
-          }
+          if (a === 'merge') { result.customers = buildList(cd, 'c'); result.invoices = buildList(id, 'i'); }
           box.remove();
           resolve(result);
         });
@@ -3708,6 +3908,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
         if (pending) {
           customers = pending.customers;
           invoices = pending.invoices;
+          rgceSeedRows();
           if (!navigator.onLine) {
             cloudReady = true;
             refreshAddressFilter();
@@ -3731,7 +3932,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
           const cloud = snap.exists() ? snap.data() : {};
           const cloudCustomers = Array.isArray(cloud.customers) ? cloud.customers : [];
           const cloudInvoices = Array.isArray(cloud.invoices) ? cloud.invoices : [];
-          lastCloudSeen = { c: rgceStable(cloudCustomers), i: rgceStable(cloudInvoices) };
+          lastCloudSeen = { c: rgceStableStr(cloudCustomers), i: rgceStableStr(cloudInvoices) };
           const sameAsCloud = JSON.stringify(pending.customers) === JSON.stringify(cloudCustomers) &&
             JSON.stringify(pending.invoices) === JSON.stringify(cloudInvoices);
           if (sameAsCloud) {
@@ -3739,6 +3940,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
           } else {
             customers = pending.customers;
             invoices = pending.invoices;
+            rgceSeedRows();
             lastPushedHash = JSON.stringify(cloudCustomers);
             lastPushedInvoiceHash = JSON.stringify(cloudInvoices);
             cloudReady = true;
@@ -3746,13 +3948,13 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
             refreshAddressFilter();
             renderTable();
             updateCloudBadge('syncing', 'Offline changes recovered');
-            const choice = await rgceConflictReview(cloudCustomers, cloudInvoices, pending.customers, pending.invoices);
+            const choice = await rgceConflictReview(cloudCustomers, cloudInvoices, pending.customers, pending.invoices, { devAt: pending.savedAt, cloudAt: rgceTs(cloud.updatedAt) });
             if (choice.mode === 'cloud') {
               try { localStorage.removeItem(pendingSyncKey()); } catch (e) {}
               return await cloudLoad(silent);
             }
             if (choice.mode === 'merge') {
-              customers = choice.customers; invoices = choice.invoices;
+              customers = choice.customers; invoices = choice.invoices; rgceSeedRows();
               try { rebuildProductIndex(); } catch (e) {}
               refreshAddressFilter(); renderTable();
               persistPendingSync(); holdPendingSync(false);
@@ -3774,7 +3976,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
         }
         if (snap.exists()) {
           const cloud = snap.data();
-          lastCloudSeen = { c: rgceStable(Array.isArray(cloud.customers) ? cloud.customers : []), i: rgceStable(Array.isArray(cloud.invoices) ? cloud.invoices : []) };
+          lastCloudSeen = { c: rgceStableStr(Array.isArray(cloud.customers) ? cloud.customers : []), i: rgceStableStr(Array.isArray(cloud.invoices) ? cloud.invoices : []) };
           customers = Array.isArray(cloud.customers) ? cloud.customers : [];
           customers = customers.map(c => {
             c.id = c.id || generateId();
@@ -3810,10 +4012,11 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
             return inv;
           });
           lastPushedInvoiceHash = JSON.stringify(invoices);
+          rgceSeedRows();
           try { rebuildProductIndex(); } catch (e) {}
           try { ensurePublicShopAsync(); } catch (e) {}
         } else {
-          customers = []; invoices = [];
+          customers = []; invoices = []; rgceSeedRows();
           // Create the first empty document ONLY when the server itself confirmed it does not exist
           if (!fromCache) await cloudPush(true);
         }
@@ -3902,24 +4105,27 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       /* SAFETY: if another device changed the cloud since this device last saw it, show both copies first */
       if (lastCloudSeen) {
         if (rgceConflictOpen) return false;
-        let cloudC = null, cloudI = null;
-        try {
+        let cloudC = null, cloudI = null, cloudAt = null;
+        if (rgceLive && rgceLatestCloud) {
+          cloudC = rgceLatestCloud.c; cloudI = rgceLatestCloud.i; cloudAt = rgceLatestCloud.at;
+        } else try {
           const rs = await window.FB.getDocFromServer(window.FB.doc(window.FB.db, 'shops', currentUser.uid));
           if (rs.exists()) {
             const cd = rs.data();
             cloudC = Array.isArray(cd.customers) ? cd.customers : [];
             cloudI = Array.isArray(cd.invoices) ? cd.invoices : [];
+            cloudAt = rgceTs(cd.updatedAt);
           }
         } catch (e) { cloudC = null; }
         if (cloudC) {
-          const cs = rgceStable(cloudC), is = rgceStable(cloudI);
+          const cs = rgceStableStr(cloudC), is = rgceStableStr(cloudI);
           if (cs !== lastCloudSeen.c || is !== lastCloudSeen.i) {
-            if (cs === rgceStable(customers) && is === rgceStable(invoices)) {
+            if (cs === rgceStableStr(customers) && is === rgceStableStr(invoices)) {
               lastCloudSeen = { c: cs, i: is };
             } else {
               rgceConflictOpen = true;
               let choice;
-              try { choice = await rgceConflictReview(cloudC, cloudI, customers, invoices); }
+              try { const pd = readPendingSync(); choice = await rgceConflictReview(cloudC, cloudI, customers, invoices, { devAt: (pd && pd.savedAt) || Date.now(), cloudAt: cloudAt }); }
               finally { rgceConflictOpen = false; }
               if (choice.mode === 'later') {
                 holdPendingSync(true);
@@ -3932,7 +4138,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
                 return true;
               }
               if (choice.mode === 'merge') {
-                customers = choice.customers; invoices = choice.invoices;
+                customers = choice.customers; invoices = choice.invoices; rgceSeedRows();
                 try { rebuildProductIndex(); } catch (e) {}
                 refreshAddressFilter(); renderTable();
                 persistPendingSync();
@@ -3950,7 +4156,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
         sentCustomers = JSON.parse(JSON.stringify(customers));
         sentInvoices = JSON.parse(JSON.stringify(invoices));
         const ref = window.FB.doc(window.FB.db, 'shops', currentUser.uid);
-        await window.FB.setDoc(ref, {
+        const payload = {
           ownerEmail: currentUser.email,
           customers: sentCustomers,
           invoices: sentInvoices,
@@ -3958,12 +4164,23 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
           invoiceCount: sentInvoices.length,
           updatedAt: window.FB.serverTimestamp(),
           appVersion: '1.10.6-live-reports'
-        }, { merge: true });
+        };
+        const me = rgceDeviceInfo();
+        if (!rgceNoWriter) payload.lastWriter = me;
+        try {
+          await window.FB.setDoc(ref, payload, { merge: true });
+        } catch (we) {
+          if (we && we.code === 'permission-denied' && !rgceNoWriter) {
+            rgceNoWriter = true; delete payload.lastWriter;
+            await window.FB.setDoc(ref, payload, { merge: true });
+          } else throw we;
+        }
+        rgceLatestCloud = { c: sentCustomers, i: sentInvoices, cs: rgceStableStr(sentCustomers), is: rgceStableStr(sentInvoices), at: Date.now(), writer: me };
         lastPushedHash = JSON.stringify(sentCustomers);
         lastPushedInvoiceHash = JSON.stringify(sentInvoices);
-        lastCloudSeen = { c: rgceStable(sentCustomers), i: rgceStable(sentInvoices) };
+        lastCloudSeen = { c: rgceStableStr(sentCustomers), i: rgceStableStr(sentInvoices) };
         clearPendingSyncIfMatches(sentCustomers, sentInvoices);
-        if (sentCustomers.length) await syncConfirmedCustomersToSheet(sentCustomers);
+        if (sentCustomers.length) { Promise.resolve(syncConfirmedCustomersToSheet(sentCustomers)).catch(function () {}); }
         updateCloudBadge('online', 'Cloud: Synced');
         if (!silent) showToast('☁️ Synced to cloud', 'success');
         return true;
@@ -3994,9 +4211,10 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
         showToast('Offline recovery data cannot be read. Do not sync or clear this browser’s site data.', 'error', 9000);
         return;
       }
+      rgceStampChanges();
       persistPendingSync();
       clearTimeout(cloudPushTimer);
-      cloudPushTimer = setTimeout(() => cloudPush(true), 500);
+      cloudPushTimer = setTimeout(() => cloudPush(true), 100);
     }
 
     /* Before the app opens another page in the same tab: push any unsynced changes to the cloud.
@@ -4014,9 +4232,12 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
 
     function cloudStartAutoSync() {
       if (cloudPullTimer) clearInterval(cloudPullTimer);
+      rgceStartLive();
       cloudPullTimer = setInterval(async () => {
         if (!currentUser) return;
         if (document.hidden) return;
+        if (rgceLive) return;   /* live listener is working: no need to poll */
+        rgceStartLive();
         try {
           if (!navigator.onLine || !cloudLoadSucceeded) return;
           const ref = window.FB.doc(window.FB.db, 'shops', currentUser.uid);
@@ -4034,7 +4255,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
           if (cloudJSON !== localJSON && cloudJSON !== lastPushedHash) {
             customers = cloudCustomers;
             lastPushedHash = cloudJSON;
-            lastCloudSeen = { c: rgceStable(cloudCustomers), i: (lastCloudSeen ? lastCloudSeen.i : rgceStable(cloudInvoices)) };
+            lastCloudSeen = { c: rgceStableStr(cloudCustomers), i: (lastCloudSeen ? lastCloudSeen.i : rgceStableStr(cloudInvoices)) };
             refreshAddressFilter();
             renderTable();
             changed = true;
@@ -4042,15 +4263,16 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
           if (cloudInvJSON !== localInvJSON && cloudInvJSON !== lastPushedInvoiceHash) {
             invoices = cloudInvoices;
             lastPushedInvoiceHash = cloudInvJSON;
-            lastCloudSeen = { c: (lastCloudSeen ? lastCloudSeen.c : rgceStable(cloudCustomers)), i: rgceStable(cloudInvoices) };
+            lastCloudSeen = { c: (lastCloudSeen ? lastCloudSeen.c : rgceStableStr(cloudCustomers)), i: rgceStableStr(cloudInvoices) };
             changed = true;
           }
-          if (changed) showToast('🔄 Updated from cloud', 'info');
+          if (changed) { rgceSeedRows(); showToast('🔄 Updated from cloud', 'info'); }
         } catch (e) {}
       }, 30000);
     }
 
     function cloudStopAutoSync() {
+      rgceStopLive();
       clearTimeout(cloudPushTimer);
       if (cloudPullTimer) { clearInterval(cloudPullTimer); cloudPullTimer = null; }
     }
