@@ -1058,7 +1058,7 @@
       flex: 0 0 auto; text-align: center; padding: 0 12px;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
-    .auto-page .ap-header-qr svg { width: 60px; height: 60px; display: block; }
+    .auto-page .ap-header-qr svg { width: 76px; height: 76px; display: block; }
     .auto-page .ap-header-qr .ap-header-qr-label {
       font-size: 7px; font-weight: 800; text-transform: uppercase;
       letter-spacing: 0.4px; margin-top: 2px; color: #333; line-height: 1.15;
@@ -3035,6 +3035,20 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       crypto.getRandomValues(a);
       return Array.from(a, b => 'abcdefghijkmnpqrstuvwxyz23456789'[b % 32]).join('');
     }
+    /* big reports are stored compressed (gzip + base64) so they fit Firestore's 1 MiB document limit */
+    async function rgceGzipB64(str) {
+      const body = new Response(new TextEncoder().encode(str)).body.pipeThrough(new CompressionStream('gzip'));
+      const u = new Uint8Array(await new Response(body).arrayBuffer());
+      let bin = '';
+      for (let i = 0; i < u.length; i += 0x8000) bin += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
+      return btoa(bin);
+    }
+    async function rgceGunzipB64(b64) {
+      const bin = atob(b64), u = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+      const body = new Response(u).body.pipeThrough(new DecompressionStream('gzip'));
+      return await new Response(body).text();
+    }
     // Saves a read-only copy of the printed report into the public 'public_reports' collection
     // (the private 'shops' document cannot be read by QR scanners, which caused "insufficient permission").
     function publishReportSnapshot(cfg) {
@@ -3050,21 +3064,35 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       const json = JSON.stringify(snap);
       (async () => {
         try {
-          if (json.length > 900000) throw new Error('Report too large for online view.');
-          await window.FB.setDoc(window.FB.doc(window.FB.db, 'public_reports', rid), {
+          let payload = json, enc = '';
+          if (new TextEncoder().encode(json).length > 700000) {          // measured in bytes (Bangla letters are 3 bytes each)
+            if (typeof CompressionStream === 'undefined') throw new Error('Report too large for online view in this browser.');
+            payload = await rgceGzipB64(json); enc = 'gz64';
+            if (payload.length > 900000) throw new Error('Report too large for online view. Print a smaller report.');
+          }
+          const docData = {
             ownerUid: currentUser.uid,
             title: snap.title,
-            data: json,
+            data: payload,
             shopName: SHOP_INFO.name,
             shopPhone: SHOP_INFO.phone,
             shopAddress: SHOP_INFO.address,
             createdAtText: new Date().toLocaleString('en-GB'),
             createdAt: window.FB.serverTimestamp()
-          });
+          };
+          if (enc) docData.enc = enc;
+          const ref = window.FB.doc(window.FB.db, 'public_reports', rid);
+          try { await window.FB.setDoc(ref, docData); }
+          catch (e1) {
+            if (e1 && (e1.code === 'permission-denied' || e1.code === 'invalid-argument')) throw e1;
+            await new Promise(r => setTimeout(r, 1500));                   // one quick retry for a weak connection
+            await window.FB.setDoc(ref, docData);
+          }
+          showToast('Online copy saved. The QR code will open this report.', 'success', 3500);
         } catch (e) {
           console.warn('publishReportSnapshot failed:', e);
           const denied = e && e.code === 'permission-denied';
-          showToast(denied ? 'Online QR view not saved: add the public_reports rule in Firebase Firestore Rules.' : ('Online QR view not saved: ' + e.message), 'warning', 9000);
+          showToast(denied ? 'Online QR view NOT saved: add the public_reports rule in Firebase Firestore Rules.' : ('Online QR view NOT saved (the QR on this print will not open): ' + ((e && e.message) || 'error')), 'error', 12000);
         }
       })();
       return url;
@@ -3111,7 +3139,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       if (isFirstPage) {
         let headerQR = '';
         if (cfg.qrUrl) {
-          const qrSvg = printQRSVG(cfg.qrUrl, 60);
+          const qrSvg = printQRSVG(cfg.qrUrl, 76);
           headerQR = `<div class="ap-header-qr">${qrSvg}<div class="ap-header-qr-label">${escapeHtml(cfg.qrLabel || 'Scan')}</div></div>`;
         }
         const meta = cfg.meta.map(m => `<div class="ap-meta">${m[0]}: <strong>${escapeHtml(m[1])}</strong></div>`).join('') +
@@ -7091,7 +7119,8 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
         const snap = await window.FB.getDoc(window.FB.doc(window.FB.db, 'public_reports', rid));
         if (!snap.exists()) { container.innerHTML = box('Report Not Found', 'This report does not exist or has been removed.'); return; }
         const d = snap.data();
-        const cfg = JSON.parse(d.data);
+        const raw = d.enc === 'gz64' ? await rgceGunzipB64(d.data) : d.data;
+        const cfg = JSON.parse(raw);
         cfg.asOf = d.createdAtText || '';
         renderLiveReport(container, cfg, d, cfg.title);
       } catch (e) {
