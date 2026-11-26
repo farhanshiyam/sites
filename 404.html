@@ -2792,6 +2792,8 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
     let cloudPullTimer = null;
     let lastPushedHash = "";
     let lastPushedInvoiceHash = "";
+    let lastCloudSeen = null;      /* what the cloud looked like the last time this device read/wrote it */
+    let rgceConflictOpen = false;
     let refreshInFlight = false;
 
     function formatMoney(val) {
@@ -3525,7 +3527,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
           if (window.__publicInvoiceMode) return;
           try { rgceUnlockInit(); } catch (e) {}
           customers = []; invoices = [];
-          lastPushedHash = ''; lastPushedInvoiceHash = '';
+          lastPushedHash = ''; lastPushedInvoiceHash = ''; lastCloudSeen = null;
           cloudReady = false;
           cloudLoadSucceeded = false;
           refreshAddressFilter();
@@ -3544,7 +3546,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
           try {
             await window.FB.signOut(window.FB.auth);
             customers = []; invoices = [];
-            lastPushedHash = ''; lastPushedInvoiceHash = '';
+            lastPushedHash = ''; lastPushedInvoiceHash = ''; lastCloudSeen = null;
             cloudReady = false;
             refreshAddressFilter();
             renderTable();
@@ -3582,6 +3584,118 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
       `;
     }
 
+
+    function rgceStable(v) {
+      if (Array.isArray(v)) return '[' + v.map(rgceStable).join(',') + ']';
+      if (v && typeof v === 'object') {
+        return '{' + Object.keys(v).sort().filter(function (k) {
+          const x = v[k];
+          return x !== undefined && x !== null && x !== '' &&
+            !(Array.isArray(x) && x.length === 0) &&
+            !(typeof x === 'object' && !Array.isArray(x) && Object.keys(x).length === 0);
+        }).map(function (k) { return JSON.stringify(k) + ':' + rgceStable(v[k]); }).join(',') + '}';
+      }
+      return JSON.stringify(v);
+    }
+
+    /* ===== Simple Conflict Review (device copy vs cloud copy) =====
+       Plain default table, no custom design. Resolves with:
+       {mode:'device'} | {mode:'cloud'} | {mode:'later'} | {mode:'merge', customers, invoices} */
+    function rgceConflictReview(cloudC, cloudI, devC, devI) {
+      return new Promise(function (resolve) {
+        const stable = rgceStable;
+        const keyOf = function (x, i) { return String((x && (x.id || x.invoiceNumber)) || ('idx' + i)); };
+        const mapOf = function (arr) { const m = {}; (arr || []).forEach(function (x, i) { m[keyOf(x, i)] = x; }); return m; };
+        const n = function (v) { return Math.round(Number(v)) || 0; };
+        const custText = function (c) { return c ? ('due ' + n(c.due) + ', paid ' + n(c.paid) + ', txns ' + ((c.transactionHistory || []).length) + (c.note ? ', note: ' + c.note : '') + (c.phone ? ', ph: ' + c.phone : '')) : '—'; };
+        const invText = function (v) { return v ? ('total ' + n(v.total) + ', paid ' + n(v.paid) + ', due ' + n(v.due) + ', ' + (v.status || '')) : '—'; };
+
+        function diffRows(devArr, cloudArr, labelFn, textFn) {
+          const d = mapOf(devArr), c = mapOf(cloudArr), rows = [];
+          let same = 0;
+          Object.keys(d).concat(Object.keys(c).filter(function (k) { return !(k in d); })).forEach(function (k) {
+            if (d[k] && c[k]) {
+              if (stable(d[k]) === stable(c[k])) { same++; return; }
+              rows.push({ k: k, label: labelFn(d[k]), status: 'Different', dev: textFn(d[k]), cloud: textFn(c[k]) });
+            } else if (d[k]) {
+              rows.push({ k: k, label: labelFn(d[k]), status: 'Only on Device', dev: textFn(d[k]), cloud: '—' });
+            } else {
+              rows.push({ k: k, label: labelFn(c[k]), status: 'Only in Cloud', dev: '—', cloud: textFn(c[k]) });
+            }
+          });
+          return { rows: rows, same: same, d: d, c: c };
+        }
+
+        const cd = diffRows(devC, cloudC, function (x) { return x.name || x.id; }, custText);
+        const id = diffRows(devI, cloudI, function (x) { return (x.invoiceNumber || x.id) + ' — ' + ((x.customer && x.customer.name) || ''); }, invText);
+
+        function tableHtml(title, diff, prefix) {
+          if (!diff.rows.length) return '<p><b>' + title + ':</b> no differences (' + diff.same + ' same)</p>';
+          let h = '<p><b>' + title + '</b> — ' + diff.rows.length + ' different, ' + diff.same + ' same</p>' +
+            '<table border="1" cellpadding="4" style="border-collapse:collapse;width:100%"><tr><th>Name</th><th>Status</th><th>Device</th><th>Cloud</th><th>Keep</th></tr>';
+          diff.rows.forEach(function (r, i) {
+            h += '<tr><td>' + escapeHtml(r.label) + '</td><td>' + r.status + '</td><td>' + escapeHtml(r.dev) + '</td><td>' + escapeHtml(r.cloud) +
+              '</td><td><select data-k="' + prefix + i + '"><option value="d">Device</option><option value="c">Cloud</option></select></td></tr>';
+          });
+          return h + '</table>';
+        }
+
+        const box = document.createElement('div');
+        box.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99999;display:flex;align-items:center;justify-content:center;padding:10px';
+        box.innerHTML = '<div style="background:#fff;color:#000;max-width:900px;width:100%;max-height:90vh;overflow:auto;padding:14px">' +
+          '<h3>Device data and Cloud data are different</h3>' +
+          '<p>Device: ' + (devC || []).length + ' customers, ' + (devI || []).length + ' invoices &nbsp;|&nbsp; Cloud: ' + (cloudC || []).length + ' customers, ' + (cloudI || []).length + ' invoices</p>' +
+          tableHtml('Customers', cd, 'c') + tableHtml('Invoices', id, 'i') +
+          '<p><button data-a="merge">Apply my choices (Keep column) &amp; upload</button> ' +
+          '<button data-a="device">Use all Device &amp; upload</button> ' +
+          '<button data-a="cloud">Use all Cloud</button> ' +
+          '<button data-a="later">Decide later</button> ' +
+          '<button data-a="dl">Download both copies</button></p>' +
+          '<p><small>Row choices default to Device. A copy of the Device data is kept in this browser before any change.</small></p></div>';
+        document.body.appendChild(box);
+
+        function backupDevice() {
+          try { localStorage.setItem('rgce_conflict_backup_' + (currentUser ? currentUser.uid : ''), JSON.stringify({ at: Date.now(), device: { customers: devC, invoices: devI }, cloud: { customers: cloudC, invoices: cloudI } })); } catch (e) {}
+        }
+        function build(diff, devArr, cloudArr, prefix) {
+          const sel = {};
+          box.querySelectorAll('select[data-k^="' + prefix + '"]').forEach(function (el) { sel[el.getAttribute('data-k')] = el.value; });
+          const out = [], used = {};
+          diff.rows.forEach(function (r, i) { used[r.k] = sel[prefix + i] === 'c' ? 'c' : 'd'; });
+          const seen = {};
+          (devArr || []).forEach(function (x, i) {
+            const k = keyOf(x, i); seen[k] = 1;
+            if (used[k] === 'c') { if (diff.c[k]) out.push(diff.c[k]); } else out.push(x);
+          });
+          (cloudArr || []).forEach(function (x, i) {
+            const k = keyOf(x, i);
+            if (!seen[k] && used[k] === 'c') out.push(x);
+          });
+          return out;
+        }
+        box.addEventListener('click', function (e) {
+          const a = e.target && e.target.getAttribute && e.target.getAttribute('data-a');
+          if (!a) return;
+          if (a === 'dl') {
+            const blob = new Blob([JSON.stringify({ device: { customers: devC, invoices: devI }, cloud: { customers: cloudC, invoices: cloudI } }, null, 2)], { type: 'application/json' });
+            const u = URL.createObjectURL(blob), l = document.createElement('a');
+            l.href = u; l.download = 'RGCE_conflict_copies_' + new Date().toISOString().slice(0, 10) + '.json'; l.click(); URL.revokeObjectURL(u);
+            return;
+          }
+          if (a === 'cloud' && !confirm('Replace this device’s unsynced data with the Cloud copy?')) return;
+          if (a === 'device' && !confirm('Replace the Cloud data with this device’s copy?')) return;
+          backupDevice();
+          const result = { mode: a };
+          if (a === 'merge') {
+            result.customers = build(cd, devC, cloudC, 'c');
+            result.invoices = build(id, devI, cloudI, 'i');
+          }
+          box.remove();
+          resolve(result);
+        });
+      });
+    }
+
     async function cloudLoad(silent = false) {
       if (!currentUser) return false;
       cloudLoadSucceeded = false;
@@ -3617,6 +3731,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
           const cloud = snap.exists() ? snap.data() : {};
           const cloudCustomers = Array.isArray(cloud.customers) ? cloud.customers : [];
           const cloudInvoices = Array.isArray(cloud.invoices) ? cloud.invoices : [];
+          lastCloudSeen = { c: rgceStable(cloudCustomers), i: rgceStable(cloudInvoices) };
           const sameAsCloud = JSON.stringify(pending.customers) === JSON.stringify(cloudCustomers) &&
             JSON.stringify(pending.invoices) === JSON.stringify(cloudInvoices);
           if (sameAsCloud) {
@@ -3631,11 +3746,21 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
             refreshAddressFilter();
             renderTable();
             updateCloudBadge('syncing', 'Offline changes recovered');
-            const replaceCloud = confirm(
-              'Unsynced changes from this device were recovered. The cloud copy is different.\n\n' +
-              'OK = keep this device’s recovered data and upload it to the cloud and sheet.\n' +
-              'Cancel = keep this device’s data here without overwriting the cloud.'
-            );
+            const choice = await rgceConflictReview(cloudCustomers, cloudInvoices, pending.customers, pending.invoices);
+            if (choice.mode === 'cloud') {
+              try { localStorage.removeItem(pendingSyncKey()); } catch (e) {}
+              return await cloudLoad(silent);
+            }
+            if (choice.mode === 'merge') {
+              customers = choice.customers; invoices = choice.invoices;
+              try { rebuildProductIndex(); } catch (e) {}
+              refreshAddressFilter(); renderTable();
+              persistPendingSync(); holdPendingSync(false);
+              const pushedM = await cloudPush(true);
+              if (!pushedM) showToast('Your choices are saved on this device, but cloud sync did not finish.', 'warning', 9000);
+              return true;
+            }
+            const replaceCloud = choice.mode === 'device';
             if (replaceCloud) {
               holdPendingSync(false);
               const pushed = await cloudPush(true);
@@ -3649,6 +3774,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
         }
         if (snap.exists()) {
           const cloud = snap.data();
+          lastCloudSeen = { c: rgceStable(Array.isArray(cloud.customers) ? cloud.customers : []), i: rgceStable(Array.isArray(cloud.invoices) ? cloud.invoices : []) };
           customers = Array.isArray(cloud.customers) ? cloud.customers : [];
           customers = customers.map(c => {
             c.id = c.id || generateId();
@@ -3773,6 +3899,50 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
           if (!ok) { updateCloudBadge('offline', 'Upload blocked (safety)'); return false; }
         }
       } catch (e) {}
+      /* SAFETY: if another device changed the cloud since this device last saw it, show both copies first */
+      if (lastCloudSeen) {
+        if (rgceConflictOpen) return false;
+        let cloudC = null, cloudI = null;
+        try {
+          const rs = await window.FB.getDocFromServer(window.FB.doc(window.FB.db, 'shops', currentUser.uid));
+          if (rs.exists()) {
+            const cd = rs.data();
+            cloudC = Array.isArray(cd.customers) ? cd.customers : [];
+            cloudI = Array.isArray(cd.invoices) ? cd.invoices : [];
+          }
+        } catch (e) { cloudC = null; }
+        if (cloudC) {
+          const cs = rgceStable(cloudC), is = rgceStable(cloudI);
+          if (cs !== lastCloudSeen.c || is !== lastCloudSeen.i) {
+            if (cs === rgceStable(customers) && is === rgceStable(invoices)) {
+              lastCloudSeen = { c: cs, i: is };
+            } else {
+              rgceConflictOpen = true;
+              let choice;
+              try { choice = await rgceConflictReview(cloudC, cloudI, customers, invoices); }
+              finally { rgceConflictOpen = false; }
+              if (choice.mode === 'later') {
+                holdPendingSync(true);
+                showToast('Not uploaded. Your changes are kept on this device. Use Sync to review again.', 'warning', 9000);
+                return false;
+              }
+              if (choice.mode === 'cloud') {
+                try { localStorage.removeItem(pendingSyncKey()); } catch (e) {}
+                await cloudLoad(true);
+                return true;
+              }
+              if (choice.mode === 'merge') {
+                customers = choice.customers; invoices = choice.invoices;
+                try { rebuildProductIndex(); } catch (e) {}
+                refreshAddressFilter(); renderTable();
+                persistPendingSync();
+              }
+              holdPendingSync(false);
+              lastCloudSeen = { c: cs, i: is };
+            }
+          }
+        }
+      }
       cloudSyncInFlight = true;
       updateCloudBadge('syncing', 'Syncing…');
       let sentCustomers = null, sentInvoices = null;
@@ -3791,6 +3961,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
         }, { merge: true });
         lastPushedHash = JSON.stringify(sentCustomers);
         lastPushedInvoiceHash = JSON.stringify(sentInvoices);
+        lastCloudSeen = { c: rgceStable(sentCustomers), i: rgceStable(sentInvoices) };
         clearPendingSyncIfMatches(sentCustomers, sentInvoices);
         if (sentCustomers.length) await syncConfirmedCustomersToSheet(sentCustomers);
         updateCloudBadge('online', 'Cloud: Synced');
@@ -3863,6 +4034,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
           if (cloudJSON !== localJSON && cloudJSON !== lastPushedHash) {
             customers = cloudCustomers;
             lastPushedHash = cloudJSON;
+            lastCloudSeen = { c: rgceStable(cloudCustomers), i: (lastCloudSeen ? lastCloudSeen.i : rgceStable(cloudInvoices)) };
             refreshAddressFilter();
             renderTable();
             changed = true;
@@ -3870,6 +4042,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
           if (cloudInvJSON !== localInvJSON && cloudInvJSON !== lastPushedInvoiceHash) {
             invoices = cloudInvoices;
             lastPushedInvoiceHash = cloudInvJSON;
+            lastCloudSeen = { c: (lastCloudSeen ? lastCloudSeen.c : rgceStable(cloudCustomers)), i: rgceStable(cloudInvoices) };
             changed = true;
           }
           if (changed) showToast('🔄 Updated from cloud', 'info');
