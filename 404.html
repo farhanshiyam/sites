@@ -1890,20 +1890,7 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
     </table>
     <div hidden><div id="rhDots"></div><p id="rhTyped"></p><p id="rhSub2"></p></div>
   </section>
-  <section class="rv" style="--d:5" id="rhPay" aria-labelledby="rzyTitle" data-no-bn>
-    <span class="rzy-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg></span>
-    <div class="rzy-tx">
-      <span class="rzy-chip" data-dcu="payChip">Payment Portal</span>
-      <h2 id="rzyTitle" data-dcu="payT">Pay by bKash, Nagad, Rocket, Upay or Bank</h2>
-      <p data-dcu="payP">See our payment numbers, pay, then submit your TrxID. We verify and approve it.</p>
-    </div>
-    <button type="button" class="rzy-go nbtn" id="rzpGoPay"><span data-dcu="payBtn">Open Payment Portal</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-    <div class="rzy-qa" role="group" aria-label="Payment shortcuts">
-      <button type="button" data-pay-go="methods"><i class="fas fa-wallet" aria-hidden="true"></i><span data-dcu="payQ1">Payment methods</span></button>
-      <button type="button" data-pay-go="submit"><i class="fas fa-receipt" aria-hidden="true"></i><span data-dcu="payQ2">Submit TrxID</span></button>
-      <button type="button" data-pay-go="status"><i class="fas fa-circle-check" aria-hidden="true"></i><span data-dcu="payQ3">Verify my payment</span></button>
-    </div>
-  </section>
+  <section class="rv" style="--d:5" id="rhPay" aria-labelledby="rzyTitle" data-no-bn></section>
   <section class="rv" style="--d:5" id="rhShop" aria-labelledby="rzsTitle" data-no-bn>
     <span class="rzs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
     <div class="rzs-tx">
@@ -1938,7 +1925,6 @@ html[data-dcu-view="whatsapp"] #rgceHub,html[data-dcu-view="whatsapp"] .official
     </a>
   </section>
   <div id="rzpOv" class="rzp-pg" hidden data-no-bn role="region" aria-label="Polls"></div>
-  <div id="rzPayOv" hidden data-no-bn role="region" aria-label="Payment portal"></div>
   <div class="facts rv" style="--d:7">
     <div class="fact"><small>Address</small><b>Moshjid Market, Naohata Mor, Mohadevpur, Naogaon</b></div>
     <div class="fact"><small>Phone</small><b class="ok"><a href="tel:+8801715986646" style="text-decoration:none">+8801715986646</a></b></div>
@@ -11939,25 +11925,96 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
   setTimeout(announce,3500);
 })();
 </script>
+<style id="rzyCss">
+#rgceHub #rhPay{position:relative;box-sizing:border-box;display:block;overflow:visible;background:var(--panel,#fff);color:var(--text,#0f1f2e);border:1px solid var(--border,#dfe5ec);border-radius:20px;padding:28px 26px;box-shadow:none;-webkit-tap-highlight-color:transparent}
+#rhPay,#rhPay *{box-sizing:border-box}
+#rhPay h2{margin:0;font-size:clamp(22px,5.8vw,30px);font-weight:800;line-height:1.22;letter-spacing:-.2px;color:var(--text,#0f1f2e)}
+#rhPay .rzy-sub{margin:14px 0 16px;font-size:clamp(15px,4.1vw,18px);line-height:1.6;color:var(--rh-muted,#5a6877)}
+#rhPay .rzy-no{display:flex;flex-wrap:wrap;align-items:center;gap:2px 10px;margin:0 0 18px;min-height:26px}
+#rhPay .rzy-n{font-weight:700;font-size:clamp(16px,4.4vw,18px);color:var(--text,#0f1f2e);overflow-wrap:anywhere;-webkit-user-select:all;user-select:all}
+#rhPay .rzy-lk{appearance:none;-webkit-appearance:none;border:0;background:none;margin:0;padding:8px 4px;min-height:40px;font:inherit;font-size:14px;font-weight:700;color:#1f4e79;text-decoration:underline;cursor:pointer;touch-action:manipulation}
+#rhPay .rzy-d{flex:1 1 100%;font-size:14px;line-height:1.5;color:var(--rh-muted,#5a6877);overflow-wrap:anywhere}
+#rhPay .rzy-r1{display:grid;grid-template-columns:minmax(104px,132px) minmax(0,1fr);gap:12px}
+#rhPay .rzy-r2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:12px}
+#rhPay select,#rhPay input{display:block;width:100%;min-width:0;height:54px;margin:0;padding:0 16px;border:1px solid #dde3ea;border-radius:12px;background-color:#f1f4f8;color:#0f1f2e;font:inherit;font-size:17px;line-height:1.2;-webkit-appearance:none;appearance:none;touch-action:manipulation}
+#rhPay select{padding-right:38px;background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f2d3d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;background-size:15px;white-space:nowrap;text-overflow:ellipsis;cursor:pointer}
+#rhPay input::placeholder{color:#6b7886;opacity:1}
+#rhPay input.rzy-up{text-transform:uppercase}#rhPay input.rzy-up::placeholder{text-transform:none}
+#rhPay select:focus,#rhPay input:focus{outline:0;border-color:#e8a317;box-shadow:0 0 0 2px rgba(232,163,23,.6)}
+#rhPay .rzy-er{margin:12px 0 0;min-height:20px;font-size:14.5px;line-height:1.45;font-weight:600;color:#c62828}
+#rhPay .rzy-mu{margin:0;font-size:15px;line-height:1.55;color:var(--rh-muted,#5a6877)}
+#rhPay .rzy-go{appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:12px;background:#1f4e79;color:#fff;font:inherit;font-weight:800;font-size:17px;line-height:1.2;min-height:54px;padding:0 30px;margin:10px 0 0;cursor:pointer;touch-action:manipulation}
+#rhPay .rzy-go[disabled]{opacity:.65;cursor:not-allowed}
+#rhPay .rzy-go.rzy-gh{background:transparent;color:#1f4e79;box-shadow:inset 0 0 0 2px #1f4e79;min-height:46px;padding:0 20px;font-size:15px}
+#rhPay .rzy-ok{text-align:center;padding:6px 0 2px}
+#rhPay .rzy-ck{width:60px;height:60px;border-radius:50%;background:#1b7f3b;color:#fff;display:grid;place-items:center;font-size:32px;margin:0 auto 10px}
+#rhPay .rzy-ok h3{margin:0 0 4px;font-size:20px}
+#rhPay .rzy-rf{display:inline-block;margin:10px 0 4px;padding:6px 14px;border-radius:10px;border:1px solid #dde3ea;background:#f1f4f8;color:#0f1f2e;font:800 19px ui-monospace,Consolas,monospace}
+#rhPay .rzy-hist{margin-top:22px;padding-top:16px;border-top:1px solid var(--border,#dfe5ec)}
+#rhPay .rzy-hist h3{margin:0 0 8px;font-size:15px;font-weight:800}
+#rhPay .rzy-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 10px;padding:8px 0;border-bottom:1px solid var(--border,#e8edf3);font-size:14.5px}
+#rhPay .rzy-row small{display:block;color:var(--rh-muted,#5a6877);font-size:12.5px}
+#rhPay .rzy-st{font-size:12.5px;font-weight:800;border:1px solid currentColor;border-radius:999px;padding:2px 10px;color:#b26a00}
+#rhPay .rzy-st.approved{color:#1b7f3b}#rhPay .rzy-st.rejected{color:#c62828}
+.rzy-lb{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.8);display:grid;place-items:center;padding:20px}.rzy-lb img{max-width:100%;max-height:100%;background:#fff;border-radius:12px;padding:10px}
+#rhPay .rzy-all{flex:1 1 100%;justify-content:flex-start;text-align:left;margin-top:2px}
+html.rzy-lock,html.rzy-lock body{overflow:hidden}
+.rzy-md,.rzy-md *{box-sizing:border-box}
+.rzy-md{position:fixed;inset:0;z-index:99990;background:rgba(10,20,30,.55);display:flex;align-items:center;justify-content:center;padding:14px;overscroll-behavior:contain;font-family:inherit}
+.rzy-mc{display:flex;flex-direction:column;width:100%;max-width:780px;max-height:calc(100vh - 28px);max-height:calc(100dvh - 28px);overflow:hidden;background:#fff;color:#0f1f2e;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.rzy-mh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 12px 12px 18px;border-bottom:1px solid #dfe5ec}
+.rzy-mh h3{margin:0;font-size:19px;font-weight:800;line-height:1.25}
+.rzy-x{appearance:none;-webkit-appearance:none;flex:none;display:grid;place-items:center;width:46px;height:46px;padding:0;border:0;border-radius:12px;background:#f1f4f8;color:#0f1f2e;font:inherit;font-size:28px;line-height:1;cursor:pointer;touch-action:manipulation}
+.rzy-mb{padding:14px 16px 18px;overflow:auto;-webkit-overflow-scrolling:touch}
+.rzy-md .rzy-mu{margin:0 0 12px;font-size:15px;line-height:1.55;color:#5a6877}
+.rzy-md .wtw{overflow-x:auto;-webkit-overflow-scrolling:touch;color-scheme:light;background:#fff!important;border-radius:4px}
+.rzy-md table.wt{border-collapse:collapse!important;width:100%;min-width:560px;background:#fff!important;color:#000!important;font:11pt/1.3 Calibri,"Segoe UI",Carlito,Roboto,Arial,sans-serif!important;color-scheme:light}
+.rzy-md table.wt th,.rzy-md table.wt td{border:1px solid #000!important;padding:6px 9px;text-align:left;vertical-align:top;background:#fff!important;color:#000!important;font:inherit!important}
+.rzy-md table.wt th{font-weight:700!important}
+.rzy-md table.wt td.no{font-weight:700!important;font-size:12pt!important;white-space:nowrap;letter-spacing:.2px;-webkit-user-select:all;user-select:all}
+.rzy-md table.wt td.cc{width:1%;white-space:nowrap;text-align:center}
+.rzy-md table.wt .wd{display:block;font-size:10pt!important}.rzy-md table.wt .wd b{font-weight:700!important}
+.rzy-md table.wt img.qr{display:block;width:72px;height:72px;margin-top:6px;object-fit:contain;background:#fff!important;border:1px solid #000;cursor:zoom-in}
+.rzy-md table.wt button.cp{appearance:none;-webkit-appearance:none;margin:0;min-height:40px;border:1px solid #7a7a7a!important;background:#f0f0f0!important;color:#000!important;border-radius:3px;padding:6px 14px;font:11pt Calibri,"Segoe UI",Roboto,Arial,sans-serif!important;font-weight:400;cursor:pointer;touch-action:manipulation}
+.rzy-md table.wt button.cp:hover{background:#e1e1e1!important}
+body.dark-mode .rzy-mc{background:#16212e;color:#e6edf5}body.dark-mode .rzy-mh{border-bottom-color:#2d3b4d}body.dark-mode .rzy-x{background:#0f1824;color:#e6edf5}body.dark-mode .rzy-md .rzy-mu{color:#a6b4c4}
+@media(max-width:480px){.rzy-md{padding:8px;align-items:flex-end}.rzy-mc{border-radius:16px 16px 12px 12px;max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px)}.rzy-mb{padding:12px}}
+@media(max-width:480px){#rgceHub #rhPay{padding:22px 16px;border-radius:18px}#rhPay .rzy-go{width:100%}}
+@media(max-width:340px){#rhPay .rzy-r2{grid-template-columns:minmax(0,1fr)}}
+body.dark-mode #rhPay select,body.dark-mode #rhPay input{background-color:#0f1824;border-color:#2d3b4d;color:#e6edf5}
+body.dark-mode #rhPay select{background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e6edf5' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")}
+body.dark-mode #rhPay input::placeholder{color:#8a99ab}
+body.dark-mode #rhPay .rzy-lk{color:#8fc3ee}body.dark-mode #rhPay .rzy-er{color:#ff8a8a}body.dark-mode #rhPay .rzy-rf{background:#0f1824;border-color:#2d3b4d;color:#e6edf5}
+body.dark-mode #rhPay .rzy-go.rzy-gh{color:#8fc3ee;box-shadow:inset 0 0 0 2px #8fc3ee}
+</style>
 <script id="rz-pay-portal">
-/* Payment Portal: shows the shop's payment methods (managed in the admin panel > Payments) and lets a customer
-   submit a Transaction ID (TrxID). The submission reaches the admin panel as "Pending" and the shop approves it after checking.
-   Needs the Firestore rules shown in the admin panel (Payments > Firestore rules). */
+/* Payment card (home page): the shop's payment numbers are managed in the admin panel > Payments. A customer picks the
+   method, sends the money, then submits the TrxID here. The submission reaches the admin panel as "Pending" and the
+   shop approves it after checking. Needs the Firestore rules shown in the admin panel (Payments > Firestore rules). */
 (function () {
   var KEY = 'AIzaSyCZOUCY2_19d6g5pnuVmEi1prfc-wBeN9w', PROJ = 'rgce-sparkdesk-2';
   var FSB = 'https://firestore.googleapis.com/v1/projects/' + PROJ + '/databases/(default)/documents';
-  var COL = { bkash: '#e2136e', nagad: '#f6921e', rocket: '#8c3494', upay: '#d9a400', bank: '#1f4e79', other: '#546e7a' };
   var TXT = {
-    en: { h: 'Payment Portal', sub: 'Pay the shop by bKash, Nagad, Rocket, Upay or bank, then submit your TrxID.', back: 'Back', load: 'Loading payment details...', err: 'Payment details could not be loaded right now. Please try again later.', retry: 'Try again', off: 'Online payment submission is not open right now. Please contact the shop.', none: 'No payment method is available yet. Please contact the shop.',
-      s1: '1. Send your payment', s2: '2. Submit your TrxID', s3: 'My submitted payments', copy: 'Copy', copied: 'Copied', tMethod: 'Method', tNumber: 'Payment number', tName: 'Account name', tDetails: 'Details', tCopy: 'Copy', holder: 'Account name', bank: 'Bank', branch: 'Branch', routing: 'Routing', acc: 'Account number', num: 'Number', qr: 'Tap the QR to enlarge',
-      method: 'Paid with', choose: 'Select payment method', amount: 'Amount (৳)', trx: 'Transaction ID (TrxID)', sender: 'Number you paid from', senderOpt: 'Number you paid from', name: 'Your name', phone: 'Your mobile number', note: 'Note', submit: 'Submit payment', sending: 'Sending...',
-      eMethod: 'Choose how you paid.', eAmt: 'Enter the amount you paid.', eMin: 'Minimum amount is ৳{n}.', eTrx: 'Enter a valid TrxID (6 to 30 letters or numbers).', eSender: 'Enter the number you paid from.', eName: 'Enter your name.', ePhone: 'Enter a valid mobile number (01XXXXXXXXX).', eDup: 'You already submitted this TrxID.', eRate: 'Too many submissions. Please try again later.', eNet: 'Could not send. Check your connection and try again.', ePerm: 'Sending is not allowed right now. Please contact the shop.',
-      okH: 'Payment submitted', okP: 'Your payment is waiting for verification. The shop will approve it after checking your TrxID.', ref: 'Reference', another: 'Submit another payment', pending: 'Pending', approved: 'Approved', rejected: 'Rejected', refresh: 'Refresh status', checking: 'Checking...', sOk: 'Status updated.', sErr: 'Could not check the status right now. Please try again.', none2: 'No payment submitted from this device yet.', adm: 'Shop note' },
-    bn: { h: 'পেমেন্ট পোর্টাল', sub: 'বিকাশ, নগদ, রকেট, উপায় বা ব্যাংকে টাকা পাঠিয়ে আপনার TrxID জমা দিন।', back: 'ফিরে যান', load: 'পেমেন্টের তথ্য লোড হচ্ছে...', err: 'এখন পেমেন্টের তথ্য লোড করা যাচ্ছে না। একটু পরে আবার চেষ্টা করুন।', retry: 'আবার চেষ্টা করুন', off: 'অনলাইন পেমেন্ট জমা এখন বন্ধ আছে। দোকানে যোগাযোগ করুন।', none: 'এখনো কোনো পেমেন্ট মেথড দেওয়া হয়নি। দোকানে যোগাযোগ করুন।',
-      s1: '১. পেমেন্ট পাঠান', s2: '২. TrxID জমা দিন', s3: 'আমার জমা দেওয়া পেমেন্ট', copy: 'কপি', copied: 'কপি হয়েছে', tMethod: 'মেথড', tNumber: 'পেমেন্ট নম্বর', tName: 'অ্যাকাউন্টের নাম', tDetails: 'বিবরণ', tCopy: 'কপি', holder: 'অ্যাকাউন্টের নাম', bank: 'ব্যাংক', branch: 'শাখা', routing: 'রাউটিং', acc: 'অ্যাকাউন্ট নম্বর', num: 'নম্বর', qr: 'বড় করতে QR এ ট্যাপ করুন',
-      method: 'যেভাবে পেমেন্ট করেছেন', choose: 'পেমেন্ট মেথড বেছে নিন', amount: 'টাকার পরিমাণ (৳)', trx: 'ট্রানজ্যাকশন আইডি (TrxID)', sender: 'যে নম্বর থেকে পাঠিয়েছেন', senderOpt: 'যে নম্বর থেকে পাঠিয়েছেন', name: 'আপনার নাম', phone: 'আপনার মোবাইল নম্বর', note: 'নোট', submit: 'পেমেন্ট জমা দিন', sending: 'পাঠানো হচ্ছে...',
-      eMethod: 'কীভাবে পেমেন্ট করেছেন তা বেছে নিন।', eAmt: 'কত টাকা পাঠিয়েছেন তা লিখুন।', eMin: 'সর্বনিম্ন পরিমাণ ৳{n}।', eTrx: 'সঠিক TrxID লিখুন (৬ থেকে ৩০টি অক্ষর বা সংখ্যা)।', eSender: 'যে নম্বর থেকে পাঠিয়েছেন তা লিখুন।', eName: 'আপনার নাম লিখুন।', ePhone: 'সঠিক মোবাইল নম্বর লিখুন (01XXXXXXXXX)।', eDup: 'এই TrxID আপনি আগেই জমা দিয়েছেন।', eRate: 'অনেকবার জমা দেওয়া হয়েছে। পরে আবার চেষ্টা করুন।', eNet: 'পাঠানো যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।', ePerm: 'এখন জমা নেওয়া যাচ্ছে না। দোকানে যোগাযোগ করুন।',
-      okH: 'পেমেন্ট জমা হয়েছে', okP: 'আপনার পেমেন্ট যাচাইয়ের অপেক্ষায় আছে। TrxID মিলিয়ে দোকান অ্যাপ্রুভ করবে।', ref: 'রেফারেন্স', another: 'আরেকটি পেমেন্ট জমা দিন', pending: 'পেন্ডিং', approved: 'অ্যাপ্রুভড', rejected: 'বাতিল', refresh: 'স্ট্যাটাস রিফ্রেশ', checking: 'চেক করা হচ্ছে...', sOk: 'স্ট্যাটাস আপডেট হয়েছে।', sErr: 'এখন স্ট্যাটাস চেক করা যাচ্ছে না। আবার চেষ্টা করুন।', none2: 'এই ডিভাইস থেকে এখনো কোনো পেমেন্ট জমা হয়নি।', adm: 'দোকানের নোট' }
+    en: { t: 'Pay by bKash, Nagad, Rocket or Upay', sub: 'Send money to the shop number, then submit your TrxID. We verify and approve it.',
+      method: 'Payment method', trx: 'TrxID', phone: 'Your mobile number', amount: 'Amount (৳)', submit: 'Submit TrxID', sending: 'Sending...', copy: 'Copy', copied: 'Copied', qr: 'Show QR',
+      load: 'Loading payment details...', err: 'Payment details could not be loaded right now. Please try again later.', retry: 'Try again',
+      off: 'Online payment submission is not open right now. Please contact the shop.', none: 'No payment method is available yet. Please contact the shop.',
+      bank: 'Bank', branch: 'Branch', routing: 'Routing', holder: 'Account name',
+      all: 'View all payment accounts', accT: 'Payment accounts', accP: 'Send money to any account below, then submit your TrxID.', tMethod: 'Method', tNumber: 'Payment number', tName: 'Account name', tDetails: 'Details', tCopy: 'Copy', close: 'Close',
+      eMethod: 'Choose how you paid.', eTrx: 'Enter a valid TrxID (6 to 30 letters or numbers).', ePhone: 'Enter a valid mobile number (01XXXXXXXXX).', eAmt: 'Enter the amount you paid.', eMin: 'Minimum amount is ৳{n}.',
+      eDup: 'You already submitted this TrxID.', eRate: 'Too many submissions. Please try again later.', eNet: 'Could not send. Check your internet and try again.', ePerm: 'Could not send. Check that your phone date and time are correct, then try again.',
+      okH: 'Payment submitted', okP: 'Your payment is waiting for verification. The shop will approve it after checking your TrxID.', ref: 'Reference', another: 'Submit another payment',
+      mine: 'My submitted payments', refresh: 'Refresh status', checking: 'Checking...', sOk: 'Status updated.', sErr: 'Could not check the status right now. Please try again.', pending: 'Pending', approved: 'Approved', rejected: 'Rejected' },
+    bn: { t: 'বিকাশ, নগদ, রকেট বা উপায়ে পেমেন্ট করুন', sub: 'দোকানের নম্বরে টাকা পাঠিয়ে আপনার TrxID জমা দিন। আমরা যাচাই করে অ্যাপ্রুভ করব।',
+      method: 'পেমেন্ট মেথড', trx: 'TrxID', phone: 'আপনার মোবাইল নম্বর', amount: 'টাকার পরিমাণ (৳)', submit: 'TrxID জমা দিন', sending: 'পাঠানো হচ্ছে...', copy: 'কপি', copied: 'কপি হয়েছে', qr: 'QR দেখুন',
+      load: 'পেমেন্টের তথ্য লোড হচ্ছে...', err: 'এখন পেমেন্টের তথ্য লোড করা যাচ্ছে না। একটু পরে আবার চেষ্টা করুন।', retry: 'আবার চেষ্টা করুন',
+      off: 'অনলাইন পেমেন্ট জমা এখন বন্ধ আছে। দোকানে যোগাযোগ করুন।', none: 'এখনো কোনো পেমেন্ট মেথড দেওয়া হয়নি। দোকানে যোগাযোগ করুন।',
+      bank: 'ব্যাংক', branch: 'শাখা', routing: 'রাউটিং', holder: 'অ্যাকাউন্টের নাম',
+      all: 'সব পেমেন্ট অ্যাকাউন্ট দেখুন', accT: 'পেমেন্ট অ্যাকাউন্ট', accP: 'নিচের যেকোনো অ্যাকাউন্টে টাকা পাঠিয়ে আপনার TrxID জমা দিন।', tMethod: 'মেথড', tNumber: 'পেমেন্ট নম্বর', tName: 'অ্যাকাউন্টের নাম', tDetails: 'বিবরণ', tCopy: 'কপি', close: 'বন্ধ করুন',
+      eMethod: 'কীভাবে পেমেন্ট করেছেন তা বেছে নিন।', eTrx: 'সঠিক TrxID লিখুন (৬ থেকে ৩০টি অক্ষর বা সংখ্যা)।', ePhone: 'সঠিক মোবাইল নম্বর লিখুন (01XXXXXXXXX)।', eAmt: 'কত টাকা পাঠিয়েছেন তা লিখুন।', eMin: 'সর্বনিম্ন পরিমাণ ৳{n}।',
+      eDup: 'এই TrxID আপনি আগেই জমা দিয়েছেন।', eRate: 'অনেকবার জমা দেওয়া হয়েছে। পরে আবার চেষ্টা করুন।', eNet: 'পাঠানো যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।', ePerm: 'পাঠানো যায়নি। ফোনের তারিখ ও সময় ঠিক আছে কিনা দেখে আবার চেষ্টা করুন।',
+      okH: 'পেমেন্ট জমা হয়েছে', okP: 'আপনার পেমেন্ট যাচাইয়ের অপেক্ষায় আছে। TrxID মিলিয়ে দোকান অ্যাপ্রুভ করবে।', ref: 'রেফারেন্স', another: 'আরেকটি পেমেন্ট জমা দিন',
+      mine: 'আমার জমা দেওয়া পেমেন্ট', refresh: 'স্ট্যাটাস রিফ্রেশ', checking: 'চেক করা হচ্ছে...', sOk: 'স্ট্যাটাস আপডেট হয়েছে।', sErr: 'এখন স্ট্যাটাস চেক করা যাচ্ছে না। আবার চেষ্টা করুন।', pending: 'পেন্ডিং', approved: 'অ্যাপ্রুভড', rejected: 'বাতিল' }
   };
   function cur() { try { return localStorage.getItem('rgce_lang') === 'bn' ? 'bn' : 'en'; } catch (e) { return document.documentElement.lang === 'bn' ? 'bn' : 'en'; } }
   function tx(k, r) { var s = (TXT[cur()][k] != null ? TXT[cur()][k] : TXT.en[k]) || k; if (r) for (var x in r) s = s.split('{' + x + '}').join(r[x]); return s; }
@@ -11979,98 +12036,133 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
   function money(n) { return Number(n || 0).toLocaleString('en-US', { maximumFractionDigits: 2 }); }
   function mine() { try { var a = JSON.parse(ls('rgce_pay_mine') || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } }
 
-  var ov = null, S = { st: null, loading: false, err: false, method: '', busy: false, msg: '', done: null, f: { amount: '', trx: '', sender: '', name: '', phone: '', note: '' }, stat: {} };
-  try { var last = JSON.parse(ls('rgce_pay_last') || 'null'); if (last) { S.f.name = last.name || ''; S.f.phone = last.phone || ''; } } catch (e) {}
+  var S = { st: null, loading: false, err: false, method: '', busy: false, done: null, chk: false, sm: '', stat: {}, f: { trx: '', phone: '', amount: '' }, msg: '', name: '' };
+  try { var last = JSON.parse(ls('rgce_pay_last') || 'null'); if (last) { S.f.phone = last.phone || ''; S.name = last.name || ''; } } catch (e) {}
 
-  function css() {
-    if ($('rzPayCss')) return;
-    var s = document.createElement('style'); s.id = 'rzPayCss';
-    s.textContent = [
-      '#rgceHub.rzpay-open .hero,#rgceHub.rzpay-open .rh-grid>*:not(#rzPayOv){display:none!important}',
-      '#rzPayOv[hidden]{display:none!important}#rzPayOv,#rzPayOv *{box-sizing:border-box}',
-      '#rzPayOv{--pb:var(--panel,#fff);--pt:var(--text,#142234);--pm:#5b6776;--pl:#e3e8ef;--pi:#f5f7fb;--ac:#b0123f;display:block;width:100%;font-family:inherit;animation:rzPayIn .3s ease both}',
-      'body.dark-mode #rzPayOv{--pb:#16212e;--pt:#e6edf5;--pm:#a6b4c4;--pl:#2d3b4d;--pi:#0f1824;--ac:#e0507c}',
-      '#rzPayOv .sh{max-width:900px;margin:0 auto;background:var(--pb);color:var(--pt);border:1px solid var(--pl);border-radius:20px;box-shadow:0 10px 30px rgba(20,34,52,.08);min-height:calc(100dvh - 190px)}',
-      '#rzPayOv .hd{display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:19px 19px 0 0;color:#fff;background:linear-gradient(120deg,#7d0b2b,var(--ac))}',
-      '#rzPayOv .hd .ht{flex:1;min-width:0}#rzPayOv .hd h2{margin:0;font-size:20px;font-weight:800;color:#fff}#rzPayOv .hd p{margin:2px 0 0;font-size:12.5px;opacity:.92}',
-      '#rzPayOv .bk{appearance:none;border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:11px;min-height:38px;padding:0 14px;font:inherit;font-weight:700;cursor:pointer}#rzPayOv .bk:hover{background:rgba(255,255,255,.34)}',
-      '#rzPayOv .bd{padding:18px 20px 28px}#rzPayOv h3{margin:22px 0 10px;font-size:16px}#rzPayOv h3:first-child{margin-top:0}',
-      '#rzPayOv .mu{color:var(--pm);font-size:14px;line-height:1.5}#rzPayOv .nt{background:var(--pi);border:1px solid var(--pl);border-radius:12px;padding:12px 14px;margin:0 0 14px;line-height:1.55;font-size:14.5px;white-space:pre-wrap}',
-      '#rzPayOv .gr{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}',
-      '#rzPayOv .mc{border:1px solid var(--pl);border-top:5px solid var(--c);border-radius:14px;padding:14px;background:var(--pb);display:flex;flex-direction:column;gap:6px}',
-      '#rzPayOv .mc .tp{display:flex;align-items:center;gap:10px}#rzPayOv .mc .bg{background:var(--c);color:#fff;border-radius:9px;font-weight:800;font-size:12px;padding:4px 10px}',
-      '#rzPayOv .mc .no{font-size:21px;font-weight:800;letter-spacing:.3px;overflow-wrap:anywhere}#rzPayOv .mc .kv{font-size:13.5px;color:var(--pm)}#rzPayOv .mc .kv b{color:var(--pt)}',
-      '#rzPayOv .mc img.qr{width:140px;height:140px;object-fit:contain;background:#fff;border:1px solid var(--pl);border-radius:10px;cursor:zoom-in;align-self:flex-start}',
-      '#rzPayOv .cp{appearance:none;border:2px solid var(--c);background:transparent;color:var(--c);border-radius:9px;padding:5px 12px;font:inherit;font-weight:700;font-size:13px;cursor:pointer;margin-left:auto}#rzPayOv .cp.ok{background:var(--c);color:#fff}',
-      '#rzPayOv .wtw{overflow-x:auto;-webkit-overflow-scrolling:touch;color-scheme:light;background:#fff!important;border-radius:4px}',
-      '#rzPayOv table.wt{border-collapse:collapse!important;width:100%;min-width:620px;background:#fff!important;color:#000!important;font:11pt/1.25 Calibri,"Segoe UI",Carlito,Arial,sans-serif!important;color-scheme:light}',
-      '#rzPayOv table.wt th,#rzPayOv table.wt td{border:1px solid #000!important;padding:5px 8px;text-align:left;vertical-align:top;background:#fff!important;color:#000!important;font:inherit!important}',
-      '#rzPayOv table.wt th{font-weight:700!important}',
-      '#rzPayOv table.wt td.no{font-weight:700!important;font-size:12pt!important;white-space:nowrap;letter-spacing:.2px}',
-      '#rzPayOv table.wt td.cc{width:1%;white-space:nowrap;text-align:center}',
-      '#rzPayOv table.wt .wd{display:block;font-size:10pt!important}#rzPayOv table.wt .wd b{font-weight:700!important}',
-      '#rzPayOv table.wt img.qr{display:block;width:72px;height:72px;margin-top:6px;object-fit:contain;background:#fff!important;border:1px solid #000;cursor:zoom-in}',
-      '#rzPayOv table.wt button.cp{appearance:none;margin:0;border:1px solid #7a7a7a!important;background:#f0f0f0!important;color:#000!important;border-radius:2px;padding:3px 12px;font:10.5pt Calibri,"Segoe UI",Arial,sans-serif!important;font-weight:400;cursor:pointer}',
-      '#rzPayOv table.wt button.cp:hover{background:#e1e1e1!important}#rzPayOv table.wt button.cp.ok{background:#c6efce!important;border-color:#2e7d32!important;color:#006100!important}',
-      '#rzPayOv select.t{width:100%;padding:12px 13px;border:2px solid var(--pl);border-radius:12px;background:var(--pi);color:var(--pt);font:inherit;font-size:16px;cursor:pointer}#rzPayOv select.t:focus{outline:none;border-color:var(--ac)}',
-      '#rzPayOv label.f{display:block;font-weight:700;font-size:14px;margin:12px 0 4px}#rzPayOv .two{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}',
-      '#rzPayOv input.t,#rzPayOv textarea.t{width:100%;padding:12px 13px;border:2px solid var(--pl);border-radius:12px;background:var(--pi);color:var(--pt);font:inherit;font-size:16px}#rzPayOv input.t:focus,#rzPayOv textarea.t:focus{outline:none;border-color:var(--ac)}',
-      '#rzPayOv .seg{display:flex;flex-wrap:wrap;gap:8px}#rzPayOv .seg button{appearance:none;flex:1 1 120px;border:2px solid var(--pl);background:var(--pi);color:var(--pt);border-radius:12px;padding:10px 12px;font:inherit;font-weight:700;cursor:pointer}#rzPayOv .seg button.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--pi))}',
-      '#rzPayOv .er{color:#c62828;font-weight:600;font-size:14px;min-height:20px;margin:10px 0 0}body.dark-mode #rzPayOv .er{color:#ff8a8a}',
-      '#rzPayOv .go{appearance:none;border:0;border-radius:999px;padding:13px 22px;font:inherit;font-weight:800;font-size:15px;cursor:pointer;background:var(--ac);color:#fff;width:100%;margin-top:10px}#rzPayOv .go[disabled]{opacity:.6;cursor:not-allowed}',
-      '#rzPayOv .go.ghost{background:transparent;color:var(--ac);box-shadow:inset 0 0 0 2px var(--ac);width:auto;padding:9px 18px;font-size:14px}',
-      '#rzPayOv .pr{border:1px solid var(--pl);border-left:5px solid var(--c,var(--ac));border-radius:12px;padding:10px 14px;margin:0 0 8px;background:var(--pb)}#rzPayOv .pr .a{font-weight:800;font-size:17px}',
-      '#rzPayOv .st{display:inline-block;font-size:12px;font-weight:800;border:1px solid var(--pl);border-radius:999px;padding:2px 10px;color:var(--pm)}#rzPayOv .st.approved{color:#1b7f3b;border-color:#1b7f3b}#rzPayOv .st.rejected{color:#c62828;border-color:#c62828}#rzPayOv .st.pending{color:#b26a00;border-color:#b26a00}',
-      '#rzPayOv .ok-box{text-align:center;padding:20px 8px}#rzPayOv .ok-box .ck{width:64px;height:64px;border-radius:50%;background:#1b7f3b;color:#fff;display:grid;place-items:center;font-size:34px;margin:0 auto 10px}',
-      '#rzPayOv .ok-box .rf{display:inline-block;font:800 20px ui-monospace,Consolas,monospace;background:var(--pi);border:1px solid var(--pl);border-radius:10px;padding:6px 14px;margin:8px 0}',
-      '.rzpay-lb{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.8);display:grid;place-items:center;padding:20px}.rzpay-lb img{max-width:100%;max-height:100%;background:#fff;border-radius:12px;padding:10px}',
-      '#rhPay{--rc:#b0123f}body.dark-mode #rhPay{--rc:#ff8fb3}',
-      '#rgceHub #rhPay{position:relative;overflow:hidden;background:var(--panel,#fff);color:var(--text,#142234);border:2px solid var(--rc);border-radius:14px;padding:22px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;box-shadow:none}',
-      '#rhPay .rzy-ic{width:56px;height:56px;border-radius:50%;background:transparent;color:var(--rc);border:2px solid var(--rc);display:grid;place-items:center;flex:none}',
-      '#rhPay .rzy-tx{flex:1;min-width:220px}#rhPay .rzy-chip{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--rc);margin-bottom:4px}',
-      '#rhPay h2{margin:0 0 4px;font-size:clamp(19px,3.2vw,24px);font-weight:800;line-height:1.25;color:var(--text,#142234)}#rhPay p{margin:0;font-size:14.5px;line-height:1.5;color:var(--rh-muted,#5b6776)}body.dark-mode #rhPay p{color:#b3bec9}',
-      '#rgceHub #rhPay .nbtn{appearance:none;display:inline-flex;align-items:stretch;gap:0;padding:0;margin:0;font:inherit;font-weight:700;font-size:14.5px;line-height:1.2;white-space:nowrap;cursor:pointer;color:var(--rc);background:transparent;border:2px solid var(--rc);border-radius:10px;overflow:hidden;transition:background .15s,color .15s}',
-      '#rgceHub #rhPay .nbtn span{display:inline-flex;align-items:center;padding:9px 16px}#rgceHub #rhPay .nbtn svg{box-sizing:content-box;width:18px;height:auto;align-self:stretch;padding:0 12px;background:var(--rc);fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}',
-      '#rgceHub #rhPay .nbtn:hover{background:var(--rc);color:#fff}#rgceHub #rhPay .nbtn:hover svg{background:rgba(0,0,0,.28)}body.dark-mode #rgceHub #rhPay .nbtn svg{stroke:#0b1117}',
-      '#rhPay .rzy-qa{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:8px;padding-top:14px;border-top:1px solid var(--border,#e3e8ef)}#rhPay .rzy-qa button{appearance:none;display:inline-flex;align-items:center;gap:8px;border:2px solid var(--rc);background:transparent;color:var(--rc);border-radius:999px;padding:8px 14px;font:inherit;font-weight:700;font-size:13.5px;cursor:pointer}#rhPay .rzy-qa button:hover{background:var(--rc);color:#fff}body.dark-mode #rhPay .rzy-qa button:hover{color:#0b1117}','@keyframes rzPayIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}',
-      '@media(max-width:600px){#rhPay .rzy-qa button{flex:1 1 100%;justify-content:center}#rzPayOv .sh{border-radius:16px}#rzPayOv .hd{padding:14px;border-radius:15px 15px 0 0}#rzPayOv .bd{padding:14px}#rzPayOv .two{grid-template-columns:1fr}#rgceHub #rhPay{padding:20px 18px}#rgceHub #rhPay .nbtn{width:100%;justify-content:space-between}}'
-    ].join('\n');
-    document.head.appendChild(s);
+  function methods() { return (S.st && S.st.methods) || []; }
+  function curMethod() { var l = methods(); for (var i = 0; i < l.length; i++) if (l[i].id === S.method) return l[i]; return l[0] || null; }
+  function numHtml() {
+    var m = curMethod(); if (!m) return '';
+    var d = '', kv = function (l, v) { return v ? esc(l) + ': <b>' + esc(v) + '</b>' : ''; };
+    var parts = [];
+    if (m.type === 'bank') { parts.push(kv(tx('holder'), m.holder), kv(tx('bank'), m.bank), kv(tx('branch'), m.branch), kv(tx('routing'), m.routing)); }
+    else if (m.holder) parts.push(kv(tx('holder'), m.holder));
+    if (m.note) parts.push(esc(m.note));
+    parts = parts.filter(Boolean);
+    if (parts.length) d = '<span class="rzy-d">' + parts.join(' &middot; ') + '</span>';
+    return '<span class="rzy-n">' + esc(m.number) + '</span><button type="button" class="rzy-lk" data-cp="' + esc(m.number) + '">' + esc(tx('copy')) + '</button>'
+      + (m.qr && /^data:image\//.test(m.qr) ? '<button type="button" class="rzy-lk" data-qr="' + esc(m.qr) + '">' + esc(tx('qr')) + '</button>' : '') + d
+      + '<button type="button" class="rzy-lk rzy-all" data-x="acc">' + esc(tx('all')) + '</button>';
   }
+  function statLabel(s) { return tx(s === 'approved' || s === 'rejected' ? s : 'pending'); }
+  function mineHtml() {
+    var m = mine().slice(0, 3); if (!m.length) return '';
+    return '<div class="rzy-hist"><h3>' + esc(tx('mine')) + '</h3>' + m.map(function (x) {
+      var s = (S.stat[x.id] || { s: 'pending' }).s;
+      return '<div class="rzy-row"><span>' + (x.amt ? '৳' + esc(money(x.amt)) + ' ' : '') + '<small>PAY-' + esc(String(x.id).slice(0, 6).toUpperCase()) + ' &middot; TrxID ' + esc(x.trx) + '</small></span><span class="rzy-st ' + esc(s) + '">' + esc(statLabel(s)) + '</span></div>';
+    }).join('') + '<button type="button" class="rzy-lk" data-x="refresh"' + (S.chk ? ' disabled' : '') + '>' + esc(S.chk ? tx('checking') : tx('refresh')) + '</button>'
+      + (S.sm ? '<p class="' + (S.sm === 'sErr' ? 'rzy-er' : 'rzy-mu') + '" role="status" style="min-height:0;margin-top:4px">' + esc(tx(S.sm)) + '</p>' : '') + '</div>';
+  }
+  function formHtml() {
+    var f = S.f, cm = curMethod();
+    return '<div class="rzy-no" id="rzyNo">' + numHtml() + '</div>'
+      + '<form id="rzyForm" novalidate autocomplete="off">'
+      + '<div class="rzy-r1"><select id="rzyM" aria-label="' + esc(tx('method')) + '">' + methods().map(function (m) { return '<option value="' + esc(m.id) + '"' + (cm && cm.id === m.id ? ' selected' : '') + '>' + esc(m.label || m.type) + '</option>'; }).join('') + '</select>'
+      + '<input id="rzyT" class="rzy-up" data-f="trx" type="text" inputmode="text" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="30" enterkeyhint="next" placeholder="' + esc(tx('trx')) + '" aria-label="' + esc(tx('trx')) + '" value="' + esc(f.trx) + '"></div>'
+      + '<div class="rzy-r2"><input id="rzyP" data-f="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="16" enterkeyhint="next" placeholder="' + esc(tx('phone')) + '" aria-label="' + esc(tx('phone')) + '" value="' + esc(f.phone) + '">'
+      + '<input id="rzyA" data-f="amount" type="text" inputmode="decimal" autocomplete="off" maxlength="12" enterkeyhint="done" placeholder="' + esc(tx('amount')) + '" aria-label="' + esc(tx('amount')) + '" value="' + esc(f.amount) + '"></div>'
+      + '<p class="rzy-er" id="rzyE" role="alert">' + esc(S.msg) + '</p>'
+      + '<button type="submit" class="rzy-go" id="rzyGo"' + (S.busy ? ' disabled' : '') + '>' + esc(S.busy ? tx('sending') : tx('submit')) + '</button></form>';
+  }
+  function doneHtml() {
+    var d = S.done;
+    return '<div class="rzy-ok"><div class="rzy-ck" aria-hidden="true">&#10003;</div><h3>' + esc(tx('okH')) + '</h3><p class="rzy-mu">' + esc(tx('okP')) + '</p><div class="rzy-rf">' + esc(d.ref) + '</div>'
+      + '<p class="rzy-mu">' + (d.amt ? '৳' + esc(money(d.amt)) + ' &middot; ' : '') + 'TrxID ' + esc(d.trx) + '</p>'
+      + '<button type="button" class="rzy-go rzy-gh" data-x="another">' + esc(tx('another')) + '</button></div>';
+  }
+  function html() {
+    var st = S.st, h = '<h2 id="rzyTitle">' + esc(tx('t')) + '</h2><p class="rzy-sub">' + esc(tx('sub')) + '</p>';
+    if (S.loading || (!st && !S.err)) return h + '<p class="rzy-mu">' + esc(tx('load')) + '</p>';
+    if (S.err) return h + '<p class="rzy-er" role="alert">' + esc(tx('err')) + '</p><button type="button" class="rzy-go rzy-gh" data-x="retry">' + esc(tx('retry')) + '</button>';
+    if (!st.methods.length) return h + '<p class="rzy-mu">' + esc(tx('none')) + '</p>' + mineHtml();
+    if (S.done) return h + doneHtml() + mineHtml();
+    if (!st.manualOn) return h + '<div class="rzy-no" id="rzyNo">' + numHtml() + '</div><p class="rzy-mu">' + esc(tx('off')) + '</p>' + mineHtml();
+    return h + formHtml() + mineHtml();
+  }
+  function render() { var el = $('rhPay'); if (el) el.innerHTML = html(); }
+  function setErr(k, r) { S.msg = tx(k, r); var e = $('rzyE'); if (e) e.textContent = S.msg; }
 
   async function loadSettings() {
-    S.loading = true; S.err = false; draw();
+    S.loading = true; S.err = false; render();
     try {
       var r = await fetch(FSB + '/payment_settings/main?key=' + KEY, { cache: 'no-store' });
       if (r.status === 404) S.st = { manualOn: false, methods: [] };
       else if (!r.ok) throw new Error('http ' + r.status);
-      else { var o = toObj(await r.json()); S.st = { manualOn: o.manualOn !== false, notice: o.notice || '', needSender: o.needSender !== false, minAmount: Number(o.minAmount) || 0, methods: (Array.isArray(o.methods) ? o.methods : []).filter(function (m) { return m && m.on !== false && String(m.number || '').trim(); }) }; }
+      else { var o = toObj(await r.json()); S.st = { manualOn: o.manualOn !== false, minAmount: Number(o.minAmount) || 0, methods: (Array.isArray(o.methods) ? o.methods : []).filter(function (m) { return m && m.on !== false && String(m.number || '').trim(); }) }; }
+      if (!curMethod() || S.method !== curMethod().id) S.method = curMethod() ? curMethod().id : '';
     } catch (e) { S.err = true; }
-    S.loading = false; draw();
+    S.loading = false; render(); renderAcc();
   }
-  function stLabel(s) { return tx(s === 'approved' || s === 'rejected' ? s : 'pending'); }
   async function loadStatus(manual) {
     var m = mine().slice(0, 10); if (!m.length || S.chk) return;
-    S.chk = true; S.sm = ''; if (manual && ov) draw();
+    S.chk = true; S.sm = ''; if (manual) render();
     var ok = 0, fail = 0;
     await Promise.all(m.map(async function (x) {
       try {
         var r = await fetch(FSB + '/payments/' + encodeURIComponent(x.id) + '?key=' + KEY, { cache: 'no-store' });
-        if (r.ok) { var o = toObj(await r.json()); S.stat[x.id] = { s: o.status || 'pending', n: o.adminNote || '' }; ok++; }
+        if (r.ok) { var o = toObj(await r.json()); S.stat[x.id] = { s: o.status || 'pending' }; ok++; }
         else if (r.status === 404) ok++; else fail++;
       } catch (e) { fail++; }
     }));
     S.chk = false;
     if (manual) S.sm = (fail && !ok) ? 'sErr' : 'sOk';
-    if (ov) draw();
+    if (!S.busy && !document.activeElement.matches('#rhPay input,#rhPay select')) render();
   }
-  function methodTable(list) {
+  async function submit() {
+    if (S.busy) return;
+    var m = curMethod(), st = S.st;
+    var trx = String(($('rzyT') || {}).value || '').toUpperCase().replace(/\s+/g, '');
+    var phone = bnDigits(($('rzyP') || {}).value).replace(/[\s-]/g, '').replace(/^\+?88(?=01)/, '');
+    var rawAmt = bnDigits(($('rzyA') || {}).value).replace(/[,\s]/g, ''), amt = parseFloat(rawAmt);
+    S.f.trx = ($('rzyT') || {}).value || ''; S.f.phone = ($('rzyP') || {}).value || ''; S.f.amount = ($('rzyA') || {}).value || '';
+    if (!m) return setErr('eMethod');
+    if (!/^[A-Z0-9]{6,30}$/.test(trx)) return setErr('eTrx');
+    if (!/^01[0-9]{9}$/.test(phone)) return setErr('ePhone');
+    if (!(amt > 0) || amt > 10000000) return setErr('eAmt');
+    if (st.minAmount && amt < st.minAmount) return setErr('eMin', { n: st.minAmount });
+    var list = mine();
+    if (list.some(function (x) { return String(x.trx).toUpperCase() === trx; })) return setErr('eDup');
+    var rl = []; try { rl = JSON.parse(ls('rgce_pay_rl') || '[]').filter(function (t) { return Date.now() - t < 3600000; }); } catch (e) {}
+    if (rl.length >= 5) return setErr('eRate');
+    S.msg = ''; S.busy = true; var go = $('rzyGo'); if (go) { go.disabled = true; go.textContent = tx('sending'); } var er = $('rzyE'); if (er) er.textContent = '';
+    var id = rnd(20), dev = ls('rgce_pay_dev'); if (!dev) { dev = rnd(12); ls('rgce_pay_dev', dev); }
+    var name = (S.name || phone).slice(0, 80);
+    var fields = { name: sv(name), phone: sv(phone), amount: Number.isInteger(amt) ? { integerValue: String(amt) } : { doubleValue: amt }, method: sv(m.type), methodLabel: sv(String(m.label || m.type).slice(0, 60)), trxId: sv(trx), sender: sv(phone), status: sv('pending'), at: { timestampValue: new Date().toISOString() }, dev: sv(dev) };
+    var fail = function (k) { S.busy = false; var g = $('rzyGo'); if (g) { g.disabled = false; g.textContent = tx('submit'); } setErr(k); };
+    try {
+      var r = await fetch(FSB + '/payments?documentId=' + encodeURIComponent(id) + '&key=' + KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fields: fields }) });
+      if (!r.ok) return fail(r.status === 403 ? 'ePerm' : 'eNet');
+      list.unshift({ id: id, amt: amt, trx: trx, at: Date.now() }); ls('rgce_pay_mine', JSON.stringify(list.slice(0, 20)));
+      rl.push(Date.now()); ls('rgce_pay_rl', JSON.stringify(rl)); ls('rgce_pay_last', JSON.stringify({ name: S.name || '', phone: phone }));
+      S.stat[id] = { s: 'pending' }; S.done = { ref: 'PAY-' + id.slice(0, 6).toUpperCase(), amt: amt, trx: trx };
+      S.f.trx = ''; S.f.amount = ''; S.busy = false; render();
+      var el = $('rhPay'); if (el && el.scrollIntoView) { try { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { el.scrollIntoView(); } }
+    } catch (e) { fail('eNet'); }
+  }
+  function copyTxt(t, btn) {
+    var ok = function () { if (btn) { btn.textContent = tx('copied'); setTimeout(function () { btn.textContent = tx('copy'); }, 1400); } };
+    function fb() { var a = document.createElement('textarea'); a.value = t; a.setAttribute('readonly', ''); a.style.cssText = 'position:fixed;top:0;left:0;opacity:0'; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); ok(); } catch (e) {} a.remove(); }
+    try { navigator.clipboard.writeText(t).then(ok, fb); } catch (e) { fb(); }
+  }
+  /* ---- all payment accounts: the same table as before, shown in a popup ---- */
+  var accOpen = false, accBack = null;
+  function accTable(list) {
     var rows = list.map(function (m) {
       var bank = m.type === 'bank', d = '';
       var kv = function (l, v) { return v ? '<span class="wd">' + esc(l) + ': <b>' + esc(v) + '</b></span>' : ''; };
       if (bank) d += kv(tx('bank'), m.bank) + kv(tx('branch'), m.branch) + kv(tx('routing'), m.routing);
       if (m.note) d += '<span class="wd">' + esc(m.note) + '</span>';
-      if (m.qr && /^data:image\//.test(m.qr)) d += '<img class="qr" alt="QR" data-qr="1" src="' + esc(m.qr) + '" title="' + esc(tx('qr')) + '">';
+      if (m.qr && /^data:image\//.test(m.qr)) d += '<img class="qr" alt="QR" data-qr="' + esc(m.qr) + '" title="' + esc(tx('qr')) + '">';
       return '<tr><td>' + esc(m.label || m.type) + (!bank && m.kind ? ' <span class="wd">' + esc(m.kind) + '</span>' : '') + '</td>'
         + '<td class="no">' + esc(m.number) + '</td>'
         + '<td>' + esc(m.holder || '') + '</td>'
@@ -12079,109 +12171,52 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     }).join('');
     return '<div class="wtw"><table class="wt"><thead><tr><th>' + esc(tx('tMethod')) + '</th><th>' + esc(tx('tNumber')) + '</th><th>' + esc(tx('tName')) + '</th><th>' + esc(tx('tDetails')) + '</th><th>' + esc(tx('tCopy')) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
   }
-  function draw() {
-    if (!ov) return;
-    var h = '<div class="sh"><div class="hd"><div class="ht"><h2>' + esc(tx('h')) + '</h2><p>' + esc(tx('sub')) + '</p></div><button type="button" class="bk" data-x="close">' + esc(tx('back')) + '</button></div><div class="bd">';
-    var st = S.st;
-    if (S.loading || (!st && !S.err)) h += '<p class="mu">' + esc(tx('load')) + '</p>';
-    else if (S.err) h += '<p class="er">' + esc(tx('err')) + '</p><button type="button" class="go ghost" data-x="retry">' + esc(tx('retry')) + '</button>';
-    else if (S.done) h += doneView();
-    else {
-      if (st.notice) h += '<div class="nt">' + esc(st.notice) + '</div>';
-      h += '<h3 id="pyS1">' + esc(tx('s1')) + '</h3>';
-      h += st.methods.length ? methodTable(st.methods) : '<p class="mu">' + esc(tx('none')) + '</p>';
-      if (st.manualOn && st.methods.length) h += formView();
-      else if (!st.manualOn) h += '<p class="mu" style="margin-top:16px">' + esc(tx('off')) + '</p>';
-      h += mineView();
+  function accInner() {
+    return '<div class="rzy-mh"><h3 id="rzyAccT">' + esc(tx('accT')) + '</h3><button type="button" class="rzy-x" data-x="accx" aria-label="' + esc(tx('close')) + '">&times;</button></div>'
+      + '<div class="rzy-mb"><p class="rzy-mu">' + esc(tx('accP')) + '</p>' + accTable(methods()) + '</div>';
+  }
+  function renderAcc() { var d = $('rzyAcc'); if (!d) return; if (!methods().length) { closeAcc(); return; } d.firstChild.innerHTML = accInner(); }
+  function openAcc() {
+    if (accOpen || !methods().length) return;
+    accBack = document.activeElement;
+    var d = document.createElement('div'); d.id = 'rzyAcc'; d.className = 'rzy-md';
+    d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.setAttribute('aria-labelledby', 'rzyAccT');
+    d.innerHTML = '<div class="rzy-mc">' + accInner() + '</div>';
+    d.addEventListener('click', function (e) { if (e.target === d) closeAcc(); else onClick(e); });
+    document.body.appendChild(d); document.documentElement.classList.add('rzy-lock'); accOpen = true;
+    var x = d.querySelector('.rzy-x'); if (x) x.focus();
+    document.addEventListener('keydown', onKey);
+    if (ON) { try { history.pushState({ rzyAcc: 1 }, '', BASE + 'payment'); } catch (e) {} }   /* the phone's Back button closes the popup */
+  }
+  function closeAcc(fromPop) {
+    var d = $('rzyAcc'); if (d) d.remove();
+    var was = accOpen; accOpen = false; document.documentElement.classList.remove('rzy-lock'); document.removeEventListener('keydown', onKey);
+    if (accBack && accBack.focus) { try { accBack.focus({ preventScroll: true }); } catch (e) {} } accBack = null;
+    if (was && !fromPop && ON && history.state && history.state.rzyAcc) { try { history.back(); } catch (e) {} }
+  }
+  function onKey(e) {
+    var d = $('rzyAcc'); if (!d) return;
+    if (e.key === 'Escape' && !document.querySelector('.rzy-lb')) { closeAcc(); return; }
+    if (e.key === 'Tab') {
+      var f = d.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])'); if (!f.length) return;
+      var a = f[0], z = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); } else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
     }
-    ov.innerHTML = h + '</div></div>';
-    if (S.go && !S.loading && (S.st || S.err)) { var gid = S.go === 'methods' ? 'pyS1' : S.go === 'status' ? 'pyS3' : 'pyS2'; var gel = $(gid) || $('pyS2') || $('pyS1'); S.go = ''; if (gel) setTimeout(function () { try { gel.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { gel.scrollIntoView(); } }, 60); }
   }
-  function formView() {
-    var st = S.st, f = S.f, cur0 = st.methods.filter(function (m) { return m.id === S.method; })[0], bank = cur0 && cur0.type === 'bank';
-    var h = '<h3 id="pyS2">' + esc(tx('s2')) + '</h3><label class="f" for="pyM">' + esc(tx('method')) + '</label><select class="t sel" id="pyM" data-sel="method"><option value="">' + esc(tx('choose')) + '</option>' + st.methods.map(function (m) { return '<option value="' + esc(m.id) + '"' + (S.method === m.id ? ' selected' : '') + '>' + esc((m.label || m.type) + (m.number ? ' - ' + m.number : '')) + '</option>'; }).join('') + '</select>'
-      + '<div class="two"><div><label class="f" for="pyA">' + esc(tx('amount')) + '</label><input class="t" id="pyA" data-f="amount" type="text" inputmode="decimal" autocomplete="off" value="' + esc(f.amount) + '"></div>'
-      + '<div><label class="f" for="pyT">' + esc(tx('trx')) + '</label><input class="t" id="pyT" data-f="trx" type="text" autocapitalize="characters" autocomplete="off" maxlength="30" value="' + esc(f.trx) + '"></div></div>'
-      + '<label class="f" for="pyS">' + esc(tx('sender')) + '</label><input class="t" id="pyS" data-f="sender" type="text" inputmode="tel" autocomplete="off" maxlength="30" value="' + esc(f.sender) + '">'
-      + '<div class="two"><div><label class="f" for="pyN">' + esc(tx('name')) + '</label><input class="t" id="pyN" data-f="name" type="text" autocomplete="name" maxlength="80" value="' + esc(f.name) + '"></div>'
-      + '<div><label class="f" for="pyP">' + esc(tx('phone')) + '</label><input class="t" id="pyP" data-f="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="14" placeholder="01XXXXXXXXX" value="' + esc(f.phone) + '"></div></div>'
-      + '<label class="f" for="pyO">' + esc(tx('note')) + '</label><input class="t" id="pyO" data-f="note" type="text" maxlength="200" value="' + esc(f.note) + '">'
-      + '<p class="er" id="pyE" role="alert">' + esc(S.msg) + '</p><button type="button" class="go" data-x="submit"' + (S.busy ? ' disabled' : '') + '>' + esc(S.busy ? tx('sending') : tx('submit')) + '</button>';
-    return h;
-  }
-  function mineView() {
-    var m = mine(); if (!m.length) return '';
-    return '<h3 id="pyS3">' + esc(tx('s3')) + '</h3>' + m.slice(0, 10).map(function (x) {
-      var s = S.stat[x.id] || { s: 'pending', n: '' };
-      return '<div class="pr"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><span class="a">' + (x.amt ? '৳' + esc(money(x.amt)) : '') + '</span><span class="st ' + esc(s.s) + '">' + esc(stLabel(s.s)) + '</span></div><div class="mu">PAY-' + esc(String(x.id).slice(0, 6).toUpperCase()) + ' • TrxID ' + esc(x.trx) + (s.n ? '<br>' + esc(tx('adm')) + ': ' + esc(s.n) : '') + '</div></div>';
-    }).join('') + '<button type="button" class="go ghost" data-x="refresh"' + (S.chk ? ' disabled' : '') + '>' + esc(S.chk ? tx('checking') : tx('refresh')) + '</button>' + (S.sm ? '<p class="' + (S.sm === 'sErr' ? 'er' : 'mu') + '" role="status" style="margin-top:8px">' + esc(tx(S.sm)) + '</p>' : '');
-  }
-  function doneView() {
-    var d = S.done;
-    return '<div class="ok-box"><div class="ck">✓</div><h3 style="margin:0">' + esc(tx('okH')) + '</h3><p class="mu">' + esc(tx('okP')) + '</p><div class="mu">' + esc(tx('ref')) + '</div><div class="rf">' + esc(d.ref) + '</div><div class="mu">' + (d.amt ? '৳' + esc(money(d.amt)) + ' • ' : '') + 'TrxID ' + esc(d.trx) + '</div>'
-      + '<button type="button" class="go" data-x="another">' + esc(tx('another')) + '</button></div>' + mineView();
-  }
-  function showErr(k, r) { S.msg = tx(k, r); var e = $('pyE'); if (e) e.textContent = S.msg; }
-  async function submit() {
-    if (S.busy) return;
-    var st = S.st, f = S.f, m = st.methods.filter(function (x) { return x.id === S.method; })[0];
-    var amt = parseFloat(bnDigits(f.amount).replace(/[,\s]/g, '')), trx = String(f.trx || '').toUpperCase().replace(/\s+/g, ''), phone = bnDigits(f.phone).replace(/[\s-]/g, '').replace(/^\+?88/, ''), name = String(f.name || '').trim(), sender = bnDigits(f.sender).trim();
-    if (!m) return showErr('eMethod');
-    if (String(f.amount || '').trim() !== '') { if (!(amt > 0) || amt > 10000000) return showErr('eAmt'); if (st.minAmount && amt < st.minAmount) return showErr('eMin', { n: st.minAmount }); } else amt = 0;
-    if (!/^[A-Z0-9]{6,30}$/.test(trx)) return showErr('eTrx');
-    if (phone && !/^01[0-9]{9}$/.test(phone)) return showErr('ePhone');
-    var list = mine();
-    if (list.some(function (x) { return String(x.trx).toUpperCase() === trx; })) return showErr('eDup');
-    var rl = []; try { rl = JSON.parse(ls('rgce_pay_rl') || '[]').filter(function (t) { return Date.now() - t < 3600000; }); } catch (e) {}
-    if (rl.length >= 5) return showErr('eRate');
-    S.msg = ''; S.busy = true; draw();
-    var id = rnd(20), dev = ls('rgce_pay_dev'); if (!dev) { dev = rnd(12); ls('rgce_pay_dev', dev); }
-    var fields = { name: sv(name.slice(0, 80)), phone: sv(phone), amount: Number.isInteger(amt) ? { integerValue: String(amt) } : { doubleValue: amt }, method: sv(m.type), methodLabel: sv(String(m.label || m.type).slice(0, 60)), trxId: sv(trx), status: sv('pending'), at: { timestampValue: new Date().toISOString() }, dev: sv(dev) };
-    if (sender) fields.sender = sv(sender.slice(0, 30)); if (f.note && f.note.trim()) fields.note = sv(f.note.trim().slice(0, 200));
-    try {
-      var r = await fetch(FSB + '/payments?documentId=' + encodeURIComponent(id) + '&key=' + KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fields: fields }) });
-      if (!r.ok) { S.busy = false; draw(); return showErr(r.status === 403 ? 'ePerm' : 'eNet'); }
-      list.unshift({ id: id, amt: amt, trx: trx, at: Date.now() }); ls('rgce_pay_mine', JSON.stringify(list.slice(0, 20)));
-      rl.push(Date.now()); ls('rgce_pay_rl', JSON.stringify(rl)); ls('rgce_pay_last', JSON.stringify({ name: name, phone: phone }));
-      S.stat[id] = { s: 'pending', n: '' }; S.done = { ref: 'PAY-' + id.slice(0, 6).toUpperCase(), amt: amt, trx: trx };
-      S.f.amount = ''; S.f.trx = ''; S.f.sender = ''; S.f.note = ''; S.busy = false; draw(); try { window.scrollTo(0, 0); } catch (e) {}
-    } catch (e) { S.busy = false; draw(); showErr('eNet'); }
-  }
-  function copyTxt(t, btn) {
-    var ok = function () { if (btn) { var o = btn.textContent; btn.textContent = tx('copied'); btn.classList.add('ok'); setTimeout(function () { btn.textContent = tx('copy'); btn.classList.remove('ok'); }, 1400); } };
-    try { navigator.clipboard.writeText(t).then(ok, fb); } catch (e) { fb(); }
-    function fb() { var a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); ok(); } catch (e) {} a.remove(); }
-  }
+  window.addEventListener('popstate', function () { if (accOpen) closeAcc(true); });
+
   function onClick(e) {
     var t = e.target; if (!t.closest) return;
     var b = t.closest('[data-cp]'); if (b) return copyTxt(b.getAttribute('data-cp'), b);
-    if (t.closest('[data-qr]')) { var lb = document.createElement('div'); lb.className = 'rzpay-lb'; lb.innerHTML = '<img alt="QR" src="' + esc(t.closest('[data-qr]').getAttribute('src')) + '">'; lb.addEventListener('click', function () { lb.remove(); }); document.body.appendChild(lb); return; }
-    b = t.closest('[data-m]'); if (b) { S.method = b.getAttribute('data-m'); S.msg = ''; draw(); return; }
+    b = t.closest('[data-qr]'); if (b) { var lb = document.createElement('div'); lb.className = 'rzy-lb'; lb.innerHTML = '<img alt="QR" src="' + esc(b.getAttribute('data-qr')) + '">'; lb.addEventListener('click', function () { lb.remove(); }); document.body.appendChild(lb); return; }
     b = t.closest('[data-x]'); if (!b) return;
     var x = b.getAttribute('data-x');
-    if (x === 'close') close(); else if (x === 'retry') loadSettings(); else if (x === 'submit') submit();
-    else if (x === 'another') { S.done = null; draw(); } else if (x === 'refresh') loadStatus(true);
+    if (x === 'acc') openAcc(); else if (x === 'accx') closeAcc(); else if (x === 'retry') loadSettings(); else if (x === 'another') { S.done = null; S.msg = ''; render(); } else if (x === 'refresh') loadStatus(true);
   }
-  function onChange(e) { var s = e.target && e.target.getAttribute && e.target.getAttribute('data-sel'); if (s === 'method') { S.method = e.target.value; S.msg = ''; draw(); } }
+  function onChange(e) { if (e.target && e.target.id === 'rzyM') { S.method = e.target.value; var n = $('rzyNo'); if (n) n.innerHTML = numHtml(); S.msg = ''; var er = $('rzyE'); if (er) er.textContent = ''; } }
   function onInput(e) { var k = e.target && e.target.getAttribute && e.target.getAttribute('data-f'); if (k) S.f[k] = e.target.value; }
-  function onKey(e) { if (e.key === 'Escape' && !document.querySelector('.rzpay-lb')) close(); }
+  function onSubmit(e) { if (e.target && e.target.id === 'rzyForm') { e.preventDefault(); submit(); } }
 
-  function mount() {
-    css(); if (ov) return;
-    var el = $('rzPayOv'), hub = $('rgceHub'); if (!el || !hub) return;
-    ov = el; ov.hidden = false; hub.classList.add('rzpay-open');
-    if (!ov.__b) { ov.__b = 1; ov.addEventListener('click', onClick); ov.addEventListener('input', onInput); ov.addEventListener('change', onChange); }
-    document.addEventListener('keydown', onKey);
-    S.done = null; S.msg = ''; draw();
-    if (!S.st || S.err) loadSettings();
-    loadStatus();
-    try { window.scrollTo(0, 0); } catch (e) {}
-  }
-  function closeDom() {
-    if (!ov) return; document.removeEventListener('keydown', onKey);
-    var hub = $('rgceHub'); ov.hidden = true; ov.innerHTML = ''; ov = null; if (hub) hub.classList.remove('rzpay-open');
-    try { window.scrollTo(0, 0); } catch (e) {}
-  }
   var ON = !!(window.history && history.pushState) && /^https?:$/.test(location.protocol);
   var BASE = (typeof window.__APP_BASE === 'string' && window.__APP_BASE) ? window.__APP_BASE : '/';
   function isPayPath() {
@@ -12189,34 +12224,22 @@ body.dark-mode #rzpOv .er{color:#ff8a8a}
     if (p.indexOf(BASE) === 0) p = p.slice(BASE.length); else p = p.replace(/^\/+/, '');
     return /^payment\/?$/.test(p);
   }
-  function open(sec) {
-    S.go = typeof sec === 'string' ? sec : '';
+  function open() {
     if (window.__rzPollsClose) { try { window.__rzPollsClose(); } catch (e) {} }
     if (window.__rgceGoView) { try { window.__rgceGoView(''); } catch (e) {} }
-    mount();
-    if (ON && !isPayPath()) { try { history.pushState({ rzpay: 1 }, '', BASE + 'payment'); } catch (e) {} }
+    setTimeout(function () { var el = $('rhPay'); if (el && el.scrollIntoView) { try { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { el.scrollIntoView(); } } }, 80);
   }
-  function close() {
-    if (!ov) return; closeDom();
-    if (ON && isPayPath()) { if (history.state && history.state.rzpay) { try { history.back(); return; } catch (e) {} } try { history.replaceState(null, '', BASE); } catch (e) {} }
+  window.__rzPayOpen = open;
+
+  function mount() {
+    var el = $('rhPay'); if (!el) return;
+    el.addEventListener('click', onClick); el.addEventListener('input', onInput); el.addEventListener('change', onChange); el.addEventListener('submit', onSubmit);
+    render(); loadSettings().then(function () { loadStatus(); });
+    try { new MutationObserver(function () { if (!document.activeElement || !document.activeElement.matches || !document.activeElement.matches('#rhPay input,#rhPay select')) render(); renderAcc(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] }); } catch (e) {}
+    window.addEventListener('storage', function (ev) { if (ev.key === 'rgce_lang') { render(); renderAcc(); } });
+    if (isPayPath()) { open(); if (ON) { try { history.replaceState(null, '', BASE); } catch (e) {} } }
   }
-  window.__rzPayOpen = function () { open(); };
-  function sync() { if (isPayPath()) { if (!ov) mount(); } else if (ov) closeDom(); }
-  window.addEventListener('popstate', sync);
-  document.addEventListener('click', function (e) {
-    var a = e.target && e.target.closest ? e.target.closest('#rzpGoPay,[data-pay-go]') : null;
-    if (a) { e.preventDefault(); open(a.getAttribute('data-pay-go') || ''); }
-  });
-  document.addEventListener('click', function (e) {
-    if (!(e.target && e.target.closest && e.target.closest('.dcu-brand'))) return;
-    if (window.__rzPollsClose) { try { window.__rzPollsClose(); } catch (x) {} }
-    if (ov) { closeDom(); if (ON && isPayPath()) { try { history.replaceState(null, '', BASE); } catch (x) {} } }
-    try { window.scrollTo(0, 0); } catch (x) {}
-  }, true);
-  try { new MutationObserver(function () { if (ov) draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] }); } catch (e) {}
-  window.addEventListener('storage', function (e) { if (e.key === 'rgce_lang' && ov) draw(); });
-  css();
-  if (document.readyState === 'complete') setTimeout(sync, 300); else window.addEventListener('load', function () { setTimeout(sync, 300); });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount); else mount();
 })();
 </script>
 </body>
